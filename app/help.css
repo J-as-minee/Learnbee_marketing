@@ -1,0 +1,72 @@
+/* Help Centre page — dark grid hero (independent of the homepage scroll bg-morph). */
+.help-hero {
+  position: relative;
+  background: #0F1729;
+  padding: 120px 24px 140px;
+  overflow: hidden;
+  text-align: center;
+}
+.help-grid {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='90' viewBox='0 0 52 90'%3E%3Cpath d='M26 0L52 15L52 45L26 60L0 45L0 15ZM26 60L26 90' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 52px 90px;
+  pointer-events: none;
+}
+.help-glow {
+  position: absolute;
+  left: 50%;
+  top: -10%;
+  width: 720px;
+  height: 480px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(147, 51, 234, 0.22), transparent 70%);
+  pointer-events: none;
+}
+.help-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.help-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(147, 51, 234, 0.4);
+  background: rgba(147, 51, 234, 0.12);
+  color: #c4b5fd;
+  padding: 7px 18px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+.help-eyebrow svg { display: block; }
+.help-hero h1 {
+  font-size: 3.3rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 26px;
+}
+.help-hero h1 .accent { color: #9333EA; }
+.help-body {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: rgba(255, 255, 255, 0.6);
+  max-width: 580px;
+  margin: 0 auto 34px;
+}
+.help-body a { color: #c4b5fd; font-weight: 600; }
+
+@media (max-width: 700px) {
+  .help-hero { padding: 80px 20px 96px; }
+  .help-hero h1 { font-size: 2.2rem; }
+}

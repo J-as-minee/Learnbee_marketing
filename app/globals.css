@@ -1,0 +1,39 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@tailwindcss/typography";
+@source "../app/**/*.{js,jsx,ts,tsx,mdx}";
+@source "../components/**/*.{js,jsx,ts,tsx,mdx}";
+
+:root {
+  --background: #ffffff;
+  --foreground: #181426;
+
+  /* Learnbee brand tokens */
+  --brand: #9333EA;        /* primary purple (editor chrome) */
+  --brand-dark: #7e22ce;   /* hover / pressed */
+  --amber: #F0A500;        /* slide / accent amber */
+  --radius: 0.625rem;
+  --secondary: #f4f4f5;
+}
+
+/* Map CSS variables into Tailwind v4's theme so utilities like
+   `bg-brand`, `text-brand-dark`, `font-sans` resolve to these. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-dark: var(--brand-dark);
+  --color-amber: var(--amber);
+  --color-secondary: var(--secondary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* House reveal animation (matches Bsharp) */
+.reveal-up {
+  animation: reveal-up 0.7s ease-out both;
+}
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
