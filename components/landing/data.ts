@@ -189,7 +189,7 @@ export const featData: Feature[] = [
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12l2 2 4-4"/></svg>`, ic: "#7c3aed", ib: "#ede9fe", tint: "#f5f0ff", size: "sm",
     title: "Assessments That Auto-Grade", sub: "Gated, scored, and SCORM-ready",
     desc: "Quiz/MCQ, True/False, Fill in the Blanks, Scenario Challenge, Image Match — formats that gate the next slide and report lesson_status + score back to your LMS.",
-    checks: ["SCORM 1.2 lesson_status + score", "Configurable pass mark and min questions", "Per-module or end-of-course placement", "Basic / intermediate / advanced difficulty"],
+    checks: ["SCORM 2004 lesson_status + score", "Configurable pass mark and min questions", "Per-module or end-of-course placement", "Basic / intermediate / advanced difficulty"],
     mock: `<div class="fm-quiz">
       <div class="fmq-q">Which formats are gated by default?</div>
       <div class="fmq-opt"><span class="fmq-radio"></span>Title Slide</div>
@@ -200,7 +200,7 @@ export const featData: Feature[] = [
   },
   {
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`, ic: "#22c55e", ib: "#dcfce7", tint: "#f0fdf4", size: "lg",
-    title: "SCORM 1.2 Export", sub: "Self-contained .zip, any LMS",
+    title: "SCORM 2004 Export", sub: "Self-contained .zip, any LMS",
     desc: "Every export packages images and audio into the zip. Drop it into Moodle, Cornerstone, SAP SuccessFactors, or Docebo — no plugin, no CDN dependency, no vendor lock-in.",
     checks: ["Images bundled via sharp pipeline", "React components rendered via SSR", "lesson_status, score, lesson_location", "No publish step required to export"],
     mock: `<div class="fm-scorm">

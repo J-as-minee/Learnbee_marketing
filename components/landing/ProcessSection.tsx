@@ -33,8 +33,6 @@ export default function ProcessSection() {
               <div className="wiz-steps-row" id="wiz-steps">
                 {wizData.map((step, i) => {
                   const ai = i <= 1;
-                  const lineL = i === 0 ? "hidden" : i === 2 ? "handoff" : "";
-                  const lineR = i === 3 ? "hidden" : i === 1 ? "handoff" : "";
                   const isActive = i === active ? " is-active" : "";
                   const grp = ai ? " is-ai" : " is-you";
                   return (
@@ -46,9 +44,7 @@ export default function ProcessSection() {
                       onClick={() => setActive(i)}
                     >
                       <div className="wiz-step-top">
-                        <div className={`wiz-line${lineL ? " " + lineL : ""}`}></div>
                         <button className="wiz-circle" aria-label={step.label}>{i + 1}</button>
-                        <div className={`wiz-line${lineR ? " " + lineR : ""}`}></div>
                       </div>
                       <span className="wiz-step-label">{step.label}</span>
                     </div>
