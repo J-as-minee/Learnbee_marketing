@@ -21,6 +21,9 @@ export default function SiteNav() {
           <li className="nav-item">
             <a href="/#features" className="nav-btn">Features</a>
           </li>
+          <li className="nav-item">
+            <a href="/blog" className="nav-btn">Blog</a>
+          </li>
         </ul>
 
         <div className="nav-actions">
