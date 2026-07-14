@@ -4,6 +4,7 @@ import { join } from "path";
 const ANTHROPIC_API = "https://api.anthropic.com/v1/messages";
 
 // Load the knowledge base at module initialisation (stays in memory between hot requests).
+// Note: edit this file to force a reload after changing HELP_KNOWLEDGE_BASE.md in dev (v2).
 let KB_CONTENT = "";
 try {
   KB_CONTENT = readFileSync(

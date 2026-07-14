@@ -39,7 +39,7 @@ Two control modes a course author can set per slide (or as a course-wide default
 
 ## Publishing & export
 Two ways to get a course in front of learners:
-- **SCORM 1.2 export** — a self-contained zip (images and audio bundled in) that drops into any LMS — Moodle, Cornerstone, SAP SuccessFactors, etc.
+- **SCORM 2004 export** — a self-contained zip (images and audio bundled in) that drops into any LMS — Moodle, Cornerstone, SAP SuccessFactors, etc.
 - **Publish & share** — instant hosted link with a 6-character access code, QR code, and embeddable iframe — no LMS required. Republishing reuses the same code/link.
 
 ## Brand

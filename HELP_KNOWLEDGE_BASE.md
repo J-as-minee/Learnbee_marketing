@@ -42,7 +42,7 @@ Learnbee is a **training-content authoring tool** for creating modern, animated,
 editorial-quality online courses. Creators generate a course outline with AI, fill
 it with text, images, video, PDFs and interactive slides, add AI voice narration,
 and then either publish the course as a shareable online player or export it as a
-**SCORM 1.2 package** for a Learning Management System (LMS).
+**SCORM 2004 package** for a Learning Management System (LMS).
 
 **Keywords / synonyms:** course builder, e-learning authoring tool, training
 creator, course maker, Rise 360 alternative, Articulate alternative, LMS content
@@ -488,7 +488,7 @@ stay the same.
 
 **Purpose.** Deliver a course through an LMS.
 
-**How it works.** Export any course as a **SCORM 1.2** package (a `.zip`). Key
+**How it works.** Export any course as a **SCORM 2004** package (a `.zip`). Key
 points:
 - **Always available** — you do **not** need to publish first.
 - The file is **date-stamped** (e.g. `coursename_YYYY-MM-DD_scorm.zip`).
@@ -500,12 +500,12 @@ points:
 **Steps.** Use the **Export SCORM** action. Packaging takes about **30–40 seconds**
 (a "Packaging…" spinner shows while it builds); then the `.zip` downloads.
 
-**Best practices.** Upload the `.zip` to your LMS as a SCORM 1.2 course.
+**Best practices.** Upload the `.zip` to your LMS as a SCORM 2004 course.
 
 **Common mistakes.** Double-clicking Export during packaging (the button is disabled
 while building).
 
-**Limitations.** SCORM 1.2 (not 2004/xAPI) — other standards are **TBD**.
+**Limitations.** SCORM 2004 (not 1.2 or xAPI) — other standards are **TBD**.
 
 **Related.** [Publishing & sharing](#410-publishing--sharing),
 [Integrations](#11-integrations).
@@ -586,7 +586,7 @@ code.
 1. Create and refine the course (as above).
 2. Choose **Export SCORM** (available without publishing).
 3. Wait ~30–40 seconds for packaging; download the `.zip`.
-4. Upload the `.zip` to your LMS as a SCORM 1.2 course.
+4. Upload the `.zip` to your LMS as a SCORM 2004 course.
 
 **Expected outcome.** A self-contained SCORM course in the LMS that tracks completion
 and quiz scores.
@@ -790,7 +790,7 @@ learner.
 | **Slide formats** | 24 (see [Appendix A](#appendix-a--slide-format-registry)). |
 | **Narration voices** | Female or male per course; per-segment override available. |
 | **Access code** | 6 characters, unambiguous alphabet. |
-| **SCORM** | SCORM **1.2**; packaging ~30–40 seconds; self-contained zip. |
+| **SCORM** | SCORM **2004**; packaging ~30–40 seconds; self-contained zip. |
 | **Videos per course** | Up to **6 uploaded video files**. YouTube links are unlimited and don't count. |
 | **Video file size** | **25 MB** max per uploaded file (MP4 or WebM). |
 | **Title Slide layouts** | **7** shuffleable layouts (with a logo size control). |
@@ -809,7 +809,7 @@ learner.
 
 | Integration | Purpose | Setup | Requirements | Known limitations |
 |---|---|---|---|---|
-| **LMS via SCORM 1.2** | Deliver courses in an LMS with completion/score tracking. | Export SCORM → upload the `.zip` to the LMS. | An LMS that accepts SCORM 1.2. | SCORM 1.2 only; 2004/xAPI **TBD**. |
+| **LMS via SCORM 2004** | Deliver courses in an LMS with completion/score tracking. | Export SCORM → upload the `.zip` to the LMS. | An LMS that accepts SCORM 2004. | SCORM 2004 only; 1.2/xAPI **TBD**. |
 | **YouTube** | Embed a YouTube video in a Big Statement (video mode). | Paste the YouTube link on a video-mode slide. | A public/embeddable YouTube video. | Playback uses YouTube's own player; narration disabled on video slides. |
 | **Pexels (stock images)** | Search free stock photos in the image picker. | Use the **Pexels** tab in the image picker. | None (built in). | Pexels images are used as remote images and aren't added to your library. |
 | **Embed (iframe)** | Put a published course into another website. | Copy the embed code from Publish. | A site where you can paste HTML. | Uses the compact embedded player. |
@@ -842,7 +842,7 @@ documented and suggest contacting support.
   disabled on video slides.
 - **Display modes (Cover/Contain) are not available** on Image Explore, Image Match,
   Sticky Scroll, Sticky Slide, Insight Cards, and Scenario Challenge.
-- **SCORM is 1.2 only** (2004/xAPI: TBD).
+- **SCORM is 2004 only** (1.2/xAPI: TBD).
 - **Per-course video limit** exists (exact value TBD).
 - **No documented public API** (TBD).
 - **Right-to-left (RTL) / Arabic** support: not available (planned/parked).
@@ -968,7 +968,7 @@ documented and suggest contacting support.
 | Share link | Open the URL | No account needed |
 | Access code | Enter 6-char code on home screen | No account needed |
 | Embed (iframe) | Course embedded in a website | Compact player (`?embed=true`) |
-| SCORM 1.2 zip | Uploaded to an LMS | Tracks completion + score |
+| SCORM 2004 zip | Uploaded to an LMS | Tracks completion + score |
 
 ### Appendix D — Key reference values
 
@@ -977,7 +977,7 @@ documented and suggest contacting support.
 | Slide formats | 24 |
 | Languages | 14 (1 global + 9 Indian + 4 European) |
 | Access code length | 6 characters (unambiguous alphabet) |
-| SCORM version | 1.2 |
+| SCORM version | 2004 |
 | SCORM packaging time | ~30–40 seconds |
 | Auto-save | Automatic (~1.5s debounce) |
 | Narration voices | Female / Male (per course; per-segment override) |

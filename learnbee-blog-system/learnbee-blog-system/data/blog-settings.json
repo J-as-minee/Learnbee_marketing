@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "sidePanel": {
+    "postListMode": "related",
+    "customSlugs": []
+  },
+  "social": {
+    "twitter": "",
+    "linkedin": "",
+    "youtube": "",
+    "facebook": "",
+    "instagram": ""
+  },
+  "newsletter": {
+    "heading": "Subscribe to our newsletter",
+    "description": "Get occasional updates and resources from Learnbee."
+  }
+}
