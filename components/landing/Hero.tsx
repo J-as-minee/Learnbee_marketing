@@ -79,8 +79,8 @@ export default function Hero() {
           Create <span className="hero-pill" id="rotating-word" ref={wordRef}>interactive</span> training effortlessly.
         </h1>
         <p className="reveal reveal-d2">
-          Most platforms stop at generating slides. Learnbee turns a document or a topic into a
-          narrated, multilingual course — then exports it anywhere, no LMS required.
+          Most platforms stop at generating slides. Learnbee turns a document or topic into a
+          narrated course — in any of 12+ languages — then exports it anywhere, no LMS required.
         </p>
         <div className="hero-actions reveal reveal-d3">
           <a href={SIGN_IN} className="btn btn-white btn-lg">Get Started for Free</a>

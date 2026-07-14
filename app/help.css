@@ -2,7 +2,12 @@
 .help-hero {
   position: relative;
   background: #0F1729;
-  padding: 120px 24px 140px;
+  min-height: calc(100vh - 62px); /* fill the viewport below the sticky nav */
+  display: flex;
+  flex-direction: column; /* column, so the wide no-wrap H1 doesn't stretch the inner past its max-width */
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
   overflow: hidden;
   text-align: center;
 }
@@ -15,13 +20,10 @@
 }
 .help-glow {
   position: absolute;
-  left: 50%;
-  top: -10%;
-  width: 720px;
-  height: 480px;
-  transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(147, 51, 234, 0.22), transparent 70%);
+  inset: 0;
+  background: radial-gradient(560px circle at 50% 0%, rgba(147, 51, 234, 0.22), transparent 70%);
   pointer-events: none;
+  transition: background 0.2s ease;
 }
 .help-inner {
   position: relative;
@@ -45,7 +47,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  margin-bottom: 30px;
+  margin-bottom: 18px;
 }
 .help-eyebrow svg { display: block; }
 .help-hero h1 {
@@ -54,19 +56,431 @@
   letter-spacing: -0.03em;
   font-weight: 800;
   color: #fff;
-  margin: 0 0 26px;
+  margin: 0 0 16px;
+  white-space: nowrap;
 }
 .help-hero h1 .accent { color: #9333EA; }
 .help-body {
   font-size: 1.05rem;
-  line-height: 1.75;
+  line-height: 1.7;
   color: rgba(255, 255, 255, 0.6);
   max-width: 580px;
-  margin: 0 auto 34px;
+  margin: 0 auto 22px;
 }
 .help-body a { color: #c4b5fd; font-weight: 600; }
 
+/* Chat box embedded in the hero */
+.help-hero-chat {
+  width: 100%;
+  max-width: 640px;
+  margin: 8px auto 0;
+  text-align: left;
+}
+.help-hero-chat .help-chat-wrap { margin-top: 0; }
+/* Two explicit rows: first row = 4 pills on one line (may overflow the box) */
+.help-hero-chat .help-suggestions {
+  /* Size to the widest row and centre it on the page, so the first row can
+     overflow the search box symmetrically instead of pinning to the left. */
+  width: max-content;
+  max-width: 94vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.help-suggestions-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+}
+.help-hero-chat .help-suggestions-row:first-child { flex-wrap: nowrap; }
+.help-hero-chat .help-suggestion-pill {
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.75);
+}
+.help-hero-chat .help-suggestion-pill:hover:not(:disabled) {
+  border-color: #9333EA;
+  color: #fff;
+  background: rgba(147, 51, 234, 0.25);
+}
+
 @media (max-width: 700px) {
-  .help-hero { padding: 80px 20px 96px; }
-  .help-hero h1 { font-size: 2.2rem; }
+  .help-hero { padding: 80px 20px 72px; }
+  .help-hero h1 { font-size: 2.2rem; white-space: normal; }
+  .help-hero-chat .help-suggestions-row:first-child { flex-wrap: wrap; }
+}
+
+/* ══════════════════════════════════════
+   AI CHAT SECTION
+══════════════════════════════════════ */
+.help-ask-section {
+  background: var(--bg);
+  padding: 80px 24px 72px;
+  border-bottom: 1px solid var(--border);
+}
+.help-ask-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.help-ask-headline {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 10px 0 8px;
+}
+
+/* Search form */
+.help-chat-wrap { margin-top: 32px; }
+
+.help-search-form { width: 100%; }
+.help-search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px 10px 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.help-search-box:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(147,51,234,0.12);
+}
+.help-search-icon { color: var(--text-muted); flex-shrink: 0; }
+.help-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: var(--text);
+  background: transparent;
+  min-width: 0;
+}
+.help-search-input::placeholder { color: var(--text-muted); }
+.help-search-input:disabled { opacity: 0.6; }
+.help-search-btn {
+  flex-shrink: 0;
+  padding: 7px 18px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  background: var(--accent);
+  color: #fff;
+  transition: background 0.15s, opacity 0.15s;
+}
+.help-search-btn:hover:not(:disabled) { background: var(--accent-h); }
+.help-search-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.help-search-btn.stop { background: #6b7280; }
+.help-search-btn.stop:hover { background: #4b5563; }
+
+/* Suggested pills */
+.help-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.help-suggestion-pill {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg-muted);
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.12s, color 0.12s, background 0.12s;
+}
+.help-suggestion-pill:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+.help-suggestion-pill:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Response area */
+.help-response-wrap {
+  margin-top: 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+}
+.help-response-q {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 14px 18px;
+  background: var(--bg-muted);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+}
+.help-response-q svg { flex-shrink: 0; margin-top: 2px; color: var(--accent); }
+.help-response-body { padding: 18px 20px; }
+.help-response-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.help-response-badge svg { color: var(--amber); }
+.help-response-text {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+.help-response-text > *:first-child { margin-top: 0; }
+.help-response-text > *:last-child { margin-bottom: 0; }
+.help-response-text p { margin: 0 0 12px; }
+.help-response-text strong { font-weight: 700; color: var(--text); }
+.help-response-text em { font-style: italic; }
+.help-response-text ul,
+.help-response-text ol { margin: 0 0 12px; padding-left: 22px; }
+.help-response-text li { margin: 4px 0; }
+.help-response-text li::marker { color: var(--accent); }
+.help-response-text h1,
+.help-response-text h2,
+.help-response-text h3,
+.help-response-text h4 { font-weight: 800; line-height: 1.3; margin: 16px 0 8px; }
+.help-response-text h1 { font-size: 1.2rem; }
+.help-response-text h2 { font-size: 1.1rem; }
+.help-response-text h3 { font-size: 1rem; }
+.help-response-text h4 { font-size: 0.95rem; }
+.help-response-text a { color: var(--accent); font-weight: 600; text-decoration: underline; }
+.help-response-text code {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.86em;
+  background: var(--bg-muted);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 1px 5px;
+}
+.help-response-text pre {
+  background: var(--bg-muted);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  overflow-x: auto;
+  margin: 0 0 12px;
+}
+.help-response-text pre code { background: none; border: none; padding: 0; }
+.help-response-text blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 12px;
+  margin: 0 0 12px;
+  color: var(--text-muted);
+}
+.help-response-text table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 12px;
+  font-size: 0.9rem;
+}
+.help-response-text th,
+.help-response-text td {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: left;
+}
+.help-response-text th { background: var(--bg-muted); font-weight: 700; }
+.help-typing { color: var(--text-muted); font-style: italic; }
+.help-response-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+.help-followup-btn,
+.help-reset-btn {
+  padding: 6px 14px;
+  border-radius: 7px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-muted);
+}
+.help-followup-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+.help-reset-btn:hover { background: var(--bg-muted); color: var(--text); }
+
+.help-chat-error {
+  margin-top: 10px;
+  font-size: 0.88rem;
+  color: #dc2626;
+}
+
+/* ══════════════════════════════════════
+   WIKI SECTION
+══════════════════════════════════════ */
+.help-wiki-section {
+  background: var(--bg-muted);
+  padding: 80px 24px 96px;
+}
+.help-wiki-header {
+  margin-bottom: 44px;
+}
+.help-wiki-headline {
+  font-size: 1.9rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin: 10px 0 0;
+}
+.help-wiki-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.help-wiki-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+.help-wiki-card:hover {
+  border-color: rgba(147, 51, 234, 0.5);
+  box-shadow: 0 0 0 1px rgba(147, 51, 234, 0.25), 0 12px 40px rgba(147, 51, 234, 0.28);
+  transform: translateY(-3px);
+}
+.help-wiki-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--border);
+}
+.help-wiki-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--accent-light);
+  border-radius: 7px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.help-wiki-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+}
+.help-wiki-items { padding: 6px 0; }
+.help-wiki-detail {
+  border-bottom: 1px solid var(--border);
+}
+.help-wiki-detail:last-child { border-bottom: none; }
+.help-wiki-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 20px;
+  font-size: 0.87rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+  line-height: 1.45;
+  transition: color 0.12s;
+}
+.help-wiki-q::-webkit-details-marker { display: none; }
+.help-wiki-q::after {
+  content: "+";
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+details[open] .help-wiki-q { color: var(--accent); }
+details[open] .help-wiki-q::after {
+  content: "−";
+  color: var(--accent);
+}
+.help-wiki-q:hover { color: var(--accent); }
+.help-wiki-a {
+  padding: 0 20px 14px;
+  font-size: 0.87rem;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ══════════════════════════════════════
+   CONTACT BAND
+══════════════════════════════════════ */
+.help-contact-band {
+  position: relative;
+  background: var(--dark);
+  padding: 56px 24px;
+  overflow: hidden;
+}
+.help-contact-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='90' viewBox='0 0 52 90'%3E%3Cpath d='M26 0L52 15L52 45L26 60L0 45L0 15ZM26 60L26 90' fill='none' stroke='rgba(255,255,255,0.07)' stroke-width='1'/%3E%3C/svg%3E");
+  background-size: 52px 90px;
+  pointer-events: none;
+}
+.help-contact-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 24px;
+}
+.help-contact-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 4px;
+}
+.help-contact-sub {
+  font-size: 0.93rem;
+  color: rgba(255,255,255,0.55);
+  margin: 0;
+}
+.help-contact-sub a { color: #c4b5fd; font-weight: 600; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .help-wiki-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .help-ask-section { padding: 56px 20px 52px; }
+  .help-ask-headline { font-size: 1.6rem; }
+  .help-wiki-section { padding: 56px 20px 72px; }
+  .help-wiki-grid { grid-template-columns: 1fr; }
+  .help-contact-inner { flex-direction: column; align-items: center; }
+  .help-search-btn { padding: 7px 12px; font-size: 0.82rem; }
 }

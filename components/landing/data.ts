@@ -211,7 +211,6 @@ export const featData: Feature[] = [
     mock: `<div class="fm-scorm">
       <div class="fms-file"><span class="fms-ico">📦</span><div><div class="fms-name">course_export.zip</div><div class="fms-meta">Images + audio bundled</div></div></div>
       <div class="fms-prog"><div class="fms-bar"></div></div>
-      <div class="fms-tags"><span>Moodle</span><span>Cornerstone</span><span>SAP SF</span></div>
     </div>`,
   },
   {
