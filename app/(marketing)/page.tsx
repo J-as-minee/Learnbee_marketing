@@ -6,7 +6,6 @@ import ValueSection from "@/components/landing/ValueSection";
 import ProcessSection from "@/components/landing/ProcessSection";
 import CoursePreview from "@/components/landing/CoursePreview";
 import FeaturesSection from "@/components/landing/FeaturesSection";
-import CourseLibrary from "@/components/landing/CourseLibrary";
 import FaqSection from "@/components/landing/FaqSection";
 import CtaSection from "@/components/landing/CtaSection";
 import SiteFooter from "@/components/landing/SiteFooter";
@@ -24,7 +23,6 @@ export default function Home() {
         <ProcessSection />
         <CoursePreview />
         <FeaturesSection />
-        <CourseLibrary />
         <FaqSection />
         <CtaSection />
       </main>

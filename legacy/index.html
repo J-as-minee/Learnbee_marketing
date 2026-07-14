@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learnbee — Course authoring that reads like an editorial</title>
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="bg-morph"></div>
+
+  <!-- NAV — dark sticky -->
+  <header class="site-header">
+    <nav class="nav container">
+      <a href="#" class="logo"><img src="logo.png" alt="Learnbee" class="logo-img" /></a>
+
+      <ul class="nav-links" id="nav-links">
+
+        <li class="nav-item">
+          <a href="#philosophy" class="nav-btn">About</a>
+        </li>
+
+        <li class="nav-item">
+          <a href="#features" class="nav-btn">Features</a>
+        </li>
+
+        <li class="nav-item has-dropdown">
+          <button class="nav-btn" aria-expanded="false">Resources</button>
+          <div class="dropdown">
+            <a href="#" class="dropdown-item">Help Centre</a>
+          </div>
+        </li>
+
+      </ul>
+
+      <div class="nav-actions">
+        <a href="https://creator.learnbee.ai/sign-in" class="nav-login">Log in</a>
+        <a href="https://creator.learnbee.ai/sign-in" class="btn btn-accent">Get Started</a>
+      </div>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO — dark + grid texture -->
+    <section class="hero">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <span class="section-label on-dark reveal">BUILT FOR L&amp;D TEAMS</span>
+        <h1 class="reveal reveal-d1">Create <span class="hero-pill" id="rotating-word">interactive</span> training effortlessly.</h1>
+        <p class="reveal reveal-d2">
+          Most platforms stop at generating slides. Learnbee turns a document or a topic into a
+          narrated, multilingual course — then exports it anywhere, no LMS required.
+        </p>
+        <div class="hero-actions reveal reveal-d3">
+          <a href="https://creator.learnbee.ai/sign-in" class="btn btn-white btn-lg">Get Started for Free</a>
+          <a href="#philosophy" class="btn btn-outline-light btn-lg">See How It Works</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSE DEMO — live embed -->
+    <section class="demo-section">
+      <div class="container">
+        <span class="section-label reveal">LIVE PREVIEW</span>
+        <h2 class="reveal reveal-d1" style="white-space:nowrap;max-width:none">See what a Learnbee course feels like.</h2>
+        <p class="section-sub reveal reveal-d2">This is a real course, running live. Click through the slides, listen to the narration, answer the quiz.</p>
+        <div class="demo-frame-wrap reveal reveal-d3">
+          <iframe
+            src="https://dev.learnbee.ai/play/GXH26L?embed=true"
+            width="900"
+            height="560"
+            frameborder="0"
+            allowfullscreen
+            style="border-radius:12px;border:none;width:100%;max-width:900px;height:560px;display:block;"
+            title="Learnbee course demo"
+          ></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUE — outcomes reframe -->
+    <section id="value" class="value-section">
+      <div class="container">
+        <div class="value-header">
+          <span class="section-label on-dark reveal">WHAT THIS MEANS FOR YOU</span>
+          <h2 class="value-headline reveal reveal-d1">Less time building. More training that works.</h2>
+          <p class="value-subhead reveal reveal-d2">Why teams switch, and the capabilities that make it happen.</p>
+        </div>
+        <div class="value-grid" id="value-grid"></div>
+      </div>
+    </section>
+
+    <!-- THE LEARNBEE APPROACH — wizard step rail -->
+    <section id="philosophy" class="philosophy">
+      <div class="container">
+        <span class="section-label reveal">THE LEARNBEE PROCESS</span>
+        <h2 class="reveal reveal-d1" style="white-space:nowrap;max-width:none">Generate it. Then make it yours.</h2>
+        <p class="section-sub reveal reveal-d2">Learnbee hands you a complete course, not just a starting point. Tweak every slide to your liking, then export when you think it's ready.</p>
+        <div class="wiz-card reveal reveal-d3">
+          <div class="wiz-chrome-bar" aria-hidden="true">
+            <span class="wiz-dot"></span>
+            <span class="wiz-dot"></span>
+            <span class="wiz-dot"></span>
+          </div>
+          <div class="wiz-body">
+            <div class="wiz-rail-outer">
+              <div class="wiz-steps-row" id="wiz-steps"></div>
+              <div class="wiz-groups-row">
+                <div class="wiz-grp wiz-grp-ai">
+                  <div class="wiz-grp-line"></div>
+                  <span class="wiz-grp-label">the AI Wizard</span>
+                </div>
+                <div class="wiz-grp wiz-grp-you">
+                  <div class="wiz-grp-line"></div>
+                  <span class="wiz-grp-label">your editor, your call</span>
+                </div>
+              </div>
+            </div>
+            <div class="wiz-panel" id="wiz-panel"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES — bento grid with expand modals -->
+    <section id="features" class="features">
+      <div class="container">
+        <span class="section-label reveal">PLATFORM FEATURES</span>
+        <h2 class="reveal reveal-d1">Everything your L&amp;D team needs to perform.</h2>
+        <p class="section-sub reveal reveal-d2">Eight integrated capabilities that work together to close the gap between writing a course and shipping one that works.</p>
+        <div class="feat-bento" id="feat-bento"></div>
+      </div>
+      <div class="feat-overlay" id="feat-overlay" aria-hidden="true">
+        <div class="feat-modal" id="feat-modal" role="dialog" aria-modal="true">
+          <div class="feat-handle"></div>
+          <button class="feat-close" id="feat-close" aria-label="Close">✕</button>
+          <div id="feat-modal-inner"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq-section">
+      <div class="container faq-inner">
+        <div class="faq-left">
+          <span class="section-label">FAQS</span>
+          <h2 class="faq-headline">You've likely got a few questions</h2>
+        </div>
+        <div class="faq-list" id="faq-list"></div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA — dark + grid -->
+    <section class="cta-band">
+      <div class="cta-grid" aria-hidden="true"></div>
+      <div class="container cta-band-inner">
+        <div class="cta-text reveal">
+          <span class="section-label on-dark">GET STARTED</span>
+          <h2>Ready to make training your team will actually finish?</h2>
+          <p>Start from a document, a topic, or a blank page — your first course can be live today.</p>
+        </div>
+        <div class="cta-actions reveal reveal-d2">
+          <a href="https://creator.learnbee.ai/sign-in" class="btn btn-white btn-lg">Get Started for Free</a>
+          <a href="#philosophy" class="btn btn-outline-light btn-lg">See How It Works</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER — deep dark -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo footer-logo"><img src="logo.png" alt="Learnbee" class="logo-img logo-img-footer" /></a>
+        <p class="footer-mission">We believe training people actually finish is training that actually works.</p>
+      </div>
+      <div class="footer-col">
+        <strong>Platform</strong>
+        <a href="#philosophy">How It Works</a>
+        <a href="#features">Platform Features</a>
+        <a href="#value">Why Learnbee</a>
+        <a href="#faq">FAQs</a>
+      </div>
+      <div class="footer-col">
+        <strong>Features</strong>
+        <a href="#features">AI Course Wizard</a>
+        <a href="#features">AI Narration</a>
+        <a href="#features">Slide Formats</a>
+        <a href="#features">SCORM Export</a>
+        <a href="#features">Publish &amp; Share</a>
+      </div>
+      <div class="footer-col">
+        <strong>Company</strong>
+        <a href="#">Help Centre</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms &amp; Conditions</a>
+      </div>
+    </div>
+    <div class="footer-bottom container">
+      <span>&copy; 2026 Learnbee. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

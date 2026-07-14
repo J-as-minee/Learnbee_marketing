@@ -163,9 +163,9 @@ export const featData: Feature[] = [
   },
   {
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10c0 3.866 3.134 7 7 7s7-3.134 7-7"/><line x1="12" y1="19" x2="12" y2="17"/><line x1="9" y1="21" x2="15" y2="21"/></svg>`, ic: "#ec4899", ib: "#fce7f3", tint: "#fdf4f9", size: "sm",
-    title: "Translate & Narrate, 14 Languages", sub: "The whole course — content and voiceover",
-    desc: "Translate the entire course — every slide's text, not just the audio — into any of 14 languages: English, 9 Indian, and 4 European. Then generate studio-quality narration to match, male or female, set per course or overridden per slide.",
-    checks: ["Full content translation, not just the voiceover", "14 languages — English, 9 Indian, 4 European", "OpenAI + Sarvam Bulbul v3 studio voices", "Set per course, override per slide"],
+    title: "AI Narration, 14 Languages", sub: "Studio-quality voiceover, one click",
+    desc: "Generate voiceover per segment — English, 9 Indian languages, 4 European — male or female voice, set per course or overridden per slide.",
+    checks: ["OpenAI TTS for English + European", "Sarvam Bulbul v3 for Indian languages", "Audio cached in IndexedDB", "Per-segment gender override"],
     mock: `<div class="fm-narration">
       <div class="fmn-lang-grid">
         <span class="fmn-ltag" style="background:#dbeafe;color:#3b82f6">🇬🇧 English</span>
@@ -181,13 +181,8 @@ export const featData: Feature[] = [
         <span class="fmn-ltag" style="background:#fdf4ff;color:#a21caf">🇵🇹 Portuguese</span>
         <span class="fmn-ltag" style="background:#ede9fe;color:#7c3aed">🇮🇳 Marathi</span>
       </div>
-      <div class="fmn-content">
-        <div class="fmn-cline"></div>
-        <div class="fmn-cline w80"></div>
-        <div class="fmn-cline w60"></div>
-      </div>
       <div class="fmn-wave"><div class="fmn-bar" style="height:6px"></div><div class="fmn-bar" style="height:14px"></div><div class="fmn-bar" style="height:20px"></div><div class="fmn-bar" style="height:10px"></div><div class="fmn-bar" style="height:22px"></div><div class="fmn-bar" style="height:16px"></div><div class="fmn-bar" style="height:8px"></div><div class="fmn-bar" style="height:18px"></div></div>
-      <div class="fmn-tags"><span class="fmn-tag">🌐 Translating content</span><span class="fmn-tag">▶ Narrating</span></div>
+      <div class="fmn-tag">▶ Narrating…</div>
     </div>`,
   },
   {
@@ -225,41 +220,18 @@ export const featData: Feature[] = [
       <div class="fmp-row"><div class="fmp-qr">⊞</div><div class="fmp-links"><div class="fmp-lnk"></div><div class="fmp-lnk s"></div></div></div>
     </div>`,
   },
-  {
-    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`, ic: "#e11d48", ib: "#ffe4e6", tint: "#fff1f2", size: "lg",
-    title: "Collaborate in Real Time", sub: "Invite others to view, comment, or edit",
-    desc: "Bring the whole team onto one course instead of trading files over email. Share with teammates and set exactly what each person can do — view-only for stakeholders, comment for reviewers, or full edit access for co-authors. Reviewers leave comments right on the slide they mean, authors read them in context and make the edit on the spot, and everyone works from the same up-to-date version — no more merging feedback from five different documents.",
-    checks: ["Invite by email, set view / comment / edit per person", "Comments pinned to the exact slide they're about", "Feedback stays in context — no separate review doc", "Authors edit on the same course the comment sits on", "One shared version — no file-shuffling or merge conflicts"],
-    mock: `<div class="fm-collab">
-      <div class="fmc-lbl">People with access</div>
-      <div class="fmc-input"><span class="fmc-add-ico">+</span>Add people</div>
-      <div class="fmc-row">
-        <div class="fmc-avatars">
-          <span class="fmc-av">P</span>
-          <span class="fmc-av-add">+</span>
-        </div>
-        <div class="fmc-perms">
-          <span class="fmc-perm">View</span>
-          <span class="fmc-perm hi">Comment</span>
-          <span class="fmc-perm">Edit</span>
-        </div>
-      </div>
-    </div>`,
-  },
 ];
 
-// 12-col grid: row1=[Wizard(6),Formats(6)], row2=[ImgLib(3),Click(3),Narration(6)],
-// row3=[Assess(6),Collaborate(6)], row4=[Publish(6),SCORM(6)]
+// 12-col grid: row1=[Wizard(6),Formats(6)], row2=[ImgLib(3),Click(3),Narration(6)], row3=[Assess(4),SCORM(4),Publish(4)]
 export const featureLayout = [
   { col: "1 / 7",  row: "1" },
   { col: "7 / 13", row: "1" },
   { col: "1 / 4",  row: "2" },
   { col: "4 / 7",  row: "2" },
   { col: "7 / 13", row: "2" },
-  { col: "1 / 7",  row: "3" },  // Assessments
-  { col: "7 / 13", row: "4" },  // SCORM
-  { col: "1 / 7",  row: "4" },  // Publish & Share
-  { col: "7 / 13", row: "3" },  // Collaborate
+  { col: "1 / 5",  row: "3" },
+  { col: "5 / 9",  row: "3" },
+  { col: "9 / 13", row: "3" },
 ];
 
 /* ── FAQ ── */

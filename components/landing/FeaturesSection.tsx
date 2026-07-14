@@ -42,9 +42,9 @@ export default function FeaturesSection() {
     <section id="features" className="features">
       <div className="container">
         <span className="section-label reveal">PLATFORM FEATURES</span>
-        <h2 className="reveal reveal-d1">Built to turn any idea into a course learners finish.</h2>
+        <h2 className="reveal reveal-d1">Built for training that actually gets finished.</h2>
         <p className="section-sub reveal reveal-d2">
-          Nine integrated capabilities that work together to close the gap between writing a course
+          Eight integrated capabilities that work together to close the gap between writing a course
           and shipping one that works.
         </p>
         <div className="feat-bento" id="feat-bento">

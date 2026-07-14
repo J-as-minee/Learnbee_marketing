@@ -10,7 +10,7 @@ export default function ValueSection() {
             Less time building. More training that works.
           </h2>
           <p className="value-subhead reveal reveal-d2">
-            See what shifts when you build courses the Learnbee way.
+            Why teams switch, and the capabilities that make it happen.
           </p>
         </div>
         <div className="value-grid" id="value-grid">
