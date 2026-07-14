@@ -1,7 +1,0 @@
-{
-  "functions": {
-    "app/blog/[slug]/images/[...imagePath]/route.js": {
-      "includeFiles": "content/blog-clean/**/images/**"
-    }
-  }
-}
