@@ -12,3 +12,8 @@ next-env.d.ts
 
 # Local Claude Code settings
 /.claude/settings.local.json
+
+# Blog install bundle (source materials — code was copied into the repo proper)
+/learnbee-blog-system
+/learnbee-blog-system.zip
+/blog-migration-handoff-learnbee.md
