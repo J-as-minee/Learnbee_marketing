@@ -1,3 +1,4 @@
+import "./blog-chrome.css";
 import { Suspense } from "react";
 import { getSortedPosts } from "@/lib/blog";
 import { buildPageMetadata } from "@/lib/seo/metadata-builder";
@@ -12,12 +13,12 @@ export default async function BlogIndexPage() {
   const posts = await getSortedPosts();
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-white">
       <SiteNav />
-      <main className="mx-auto min-h-screen max-w-7xl px-6 py-12">
+      <main className="mx-auto w-full max-w-6xl flex-1 px-6 py-12">
         <header className="mb-10">
           <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">Blog</h1>
-          <p className="mt-2 text-slate-600">
+          <p className="mt-3 text-lg text-slate-600">
             Insights, guides, and product updates from Learnbee.
           </p>
         </header>
@@ -26,6 +27,6 @@ export default async function BlogIndexPage() {
         </Suspense>
       </main>
       <SiteFooter />
-    </>
+    </div>
   );
 }

@@ -1,3 +1,4 @@
+import "../blog-chrome.css";
 import { notFound } from "next/navigation";
 import SiteNav from "@/components/landing/SiteNav";
 import SiteFooter from "@/components/landing/SiteFooter";
@@ -165,7 +166,7 @@ export default async function BlogPostPage({ params, searchParams }) {
   ) : null;
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-white">
       <SiteNav />
       <BlogLayout sidebar={sidebar}>
       <JsonLd data={articleSchema} />
@@ -199,7 +200,7 @@ export default async function BlogPostPage({ params, searchParams }) {
       />
       </BlogLayout>
       <SiteFooter />
-    </>
+    </div>
   );
 }
 

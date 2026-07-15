@@ -47,7 +47,7 @@ export async function POST(request) {
     source = "staging",
   } = body;
 
-  const VALID_PRODUCTS = ["converse", "vantage"];
+  const VALID_PRODUCTS = ["learnbee"];
 
   const target = source === "live" ? "live" : "staging";
   const root = target === "live" ? LIVE_ROOT : STAGING_ROOT;
@@ -82,14 +82,14 @@ export async function POST(request) {
     .map((t) => `  - ${yamlQuote(t)}`)
     .join("\n");
 
-  // Stored bare + lowercase (e.g. `product: converse`), matching the backfill and
-  // the validation gate in lib/blog.js. Falls back to the existing value, then to
-  // the Converse default, so a save can never strip a post's product.
+  // Stored bare + lowercase (e.g. `product: learnbee`), matching the validation
+  // gate in lib/blog.js. Falls back to the existing value, then to the Learnbee
+  // default, so a save can never strip a post's product.
   const productValue = VALID_PRODUCTS.includes(product)
     ? product
     : VALID_PRODUCTS.includes(existing?.product)
       ? existing.product
-      : "converse";
+      : "learnbee";
 
   const thumbnail =
     "thumbnail" in body
