@@ -8,9 +8,19 @@
   "scripts": {
     "dev": "next dev --webpack",
     "dev:turbo": "next dev",
+    "prebuild": "npm run blog:validate",
     "build": "next build",
+    "postbuild": "npm run blog:verify-image-trace",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "blog:validate": "node scripts/validate-blog-frontmatter.js",
+    "blog:validate:staging": "node scripts/validate-blog-frontmatter.js --source=staging",
+    "blog:verify-image-trace": "node scripts/verify-blog-image-trace.js",
+    "blog:repair-images": "node scripts/repair-missing-local-images.js",
+    "blog:prune-missing-images": "node scripts/prune-missing-local-image-links.js",
+    "blog:stage:new": "node scripts/create-staged-blog.js",
+    "blog:stage:publish": "node scripts/publish-staged-blog.js",
+    "backfill:blog-product": "node scripts/backfill-blog-product.mjs"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.6",
@@ -69,6 +79,7 @@
     "tailwind-merge": "^3.6.0",
     "three": "^0.184.0",
     "tw-animate-css": "^1.4.0",
+    "unist-util-visit": "^5.1.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {

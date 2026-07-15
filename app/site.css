@@ -132,6 +132,12 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   padding: 5px; opacity: 0; pointer-events: none;
   transform: translateY(-6px); transition: opacity 0.15s ease, transform 0.15s ease;
 }
+/* Invisible bridge over the 10px gap so the cursor can reach the dropdown
+   without leaving the nav-item and triggering mouseleave. */
+.dropdown::before {
+  content: ""; position: absolute; left: 0; right: 0;
+  top: -12px; height: 12px;
+}
 .nav-item.open .dropdown { opacity: 1; pointer-events: auto; transform: translateY(0); }
 
 .dropdown-item {

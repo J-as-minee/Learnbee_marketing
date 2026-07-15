@@ -3,37 +3,58 @@ import "../site.css";
 import "../help.css";
 import SiteNav from "@/components/landing/SiteNav";
 import SiteFooter from "@/components/landing/SiteFooter";
+import HelpChat from "@/components/landing/HelpChat";
+import HelpHeroBg from "@/components/landing/HelpHeroBg";
+import HelpWiki from "@/components/landing/HelpWiki";
+import HelpGuides from "@/components/landing/HelpGuides";
 
 export const metadata: Metadata = {
   title: "Help Centre — Learnbee",
-  description: "Need a hand with Learnbee? Our team is here to help.",
+  description: "Answers to common questions about Learnbee, plus an AI assistant ready to help.",
 };
 
 export default function HelpPage() {
   return (
     <>
       <SiteNav />
+
+      {/* Hero */}
       <section className="help-hero">
-        <div className="help-grid" aria-hidden="true" />
-        <div className="help-glow" aria-hidden="true" />
+        <HelpHeroBg />
         <div className="help-inner">
-          <span className="help-eyebrow">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z" />
-            </svg>
-            We&apos;re here to help
-          </span>
+          <span className="section-label on-dark">Help Centre</span>
           <h1>
-            Welcome to the <span className="accent">Help Centre</span>
+            Got a question?{" "}
+            <span className="accent">We&apos;ve got answers.</span>
           </h1>
           <p className="help-body">
-            Whether you&apos;re exploring Learnbee for the first time or deep into building your
-            courses, our team is ready to help. Run into a problem or have a question? Email us at{" "}
-            <a href="mailto:gopal@bsharpcorp.com">gopal@bsharpcorp.com</a> and we&apos;ll get you
-            sorted.
+            Ask the AI assistant below or browse the help topics.
           </p>
+          <div className="help-hero-chat">
+            <HelpChat />
+          </div>
         </div>
       </section>
+
+      {/* Quick guides — task-based journeys for people who don't know what to search */}
+      <HelpGuides />
+
+      {/* Wiki — sticky sidebar + topic stack */}
+      <HelpWiki />
+
+      {/* Still stuck */}
+      <section className="help-contact-band">
+        <div className="container help-contact-inner">
+          <div>
+            <h3 className="help-contact-title">Still need help?</h3>
+            <p className="help-contact-sub">
+              Our team usually replies within a few hours. Email us at{" "}
+              <a href="mailto:admin@learnbee.ai">admin@learnbee.ai</a>.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <SiteFooter />
     </>
   );

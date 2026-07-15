@@ -1,7 +1,7 @@
 # Learnbee — Claude Code Project Brief
 
 ## What is Learnbee
-A modern training content authoring tool — standalone product (extracted from Bsharp Converse). Replaces Articulate Rise 360. Produces editorial-quality, animated courses with SCORM 1.2 export, AI narration, and shareable online player.
+A modern training content authoring tool — standalone product (extracted from Bsharp Converse). Replaces Articulate Rise 360. Produces editorial-quality, animated courses with SCORM 2004 export, AI narration, and shareable online player.
 
 The core insight: most corporate training looks like 2005 PowerPoint. Learnbee produces courses that feel like NYT interactive editorials — alive, readable, memorable.
 
@@ -171,7 +171,7 @@ When in doubt: if a user reads it, write "Role Play". If only a developer reads 
 **SCORM Export** (`src/lib/scorm.ts` + `src/lib/scormSsr.ts`)
 - Filename: `coursename_2026-05-02_scorm.zip` (date-stamped)
 - Always available — no publish gate
-- SCORM 1.2: lesson_status, score, session_time, lesson_location
+- SCORM 2004: lesson_status, score, session_time, lesson_location
 - **Single-source SSR renderer (22 / 22 formats — migration complete, 10 May 2026)**:
   - Every slide format renders through its React component via `renderToStaticMarkup(<FormatComponent .../>)`. `attachSsrHtml()` walks slides and attaches the result as `slide._ssrHtml`. The embedded SCORM player consumes `_ssrHtml` directly. App CSS is extracted from the live document at build time and inlined into the zip's `<style>` block so the React component's Tailwind classes resolve in the LMS.
   - **Phase 4 cleanup done:** ~1200 lines of legacy vanilla `rXX()` renderers and their handlers (`rBS`, `rIC`, `rSBS`, `rAcc`, `rSS`, `rSSH`, `rQZ`, `rFC`, `rIO`, `rIE`, `rIM`, `rTF`, `rFeatBen`, `rSC`, `rFB`, `rTS`, `rAS`, `rCSBS`, `rCM`, `rCPC`, plus `toggleAcc`, `ssNav`, `flipCard`, etc.) deleted from `scorm.ts`. React components are the single source of truth.
