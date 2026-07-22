@@ -29,6 +29,21 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Prevent horizontal page scroll on mobile from any single wide element.
+   `clip` (unlike `hidden`) does not create a scroll container, so it never
+   breaks the sticky nav. `hidden` is kept as a fallback for old browsers. */
+html {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+/* Media never forces the page wider than the viewport. */
+img,
+svg,
+video,
+iframe {
+  max-width: 100%;
+}
+
 /* House reveal animation (matches Bsharp) */
 .reveal-up {
   animation: reveal-up 0.7s ease-out both;

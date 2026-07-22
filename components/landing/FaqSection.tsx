@@ -10,7 +10,7 @@ export default function FaqSection() {
         </div>
         <div className="faq-list" id="faq-list">
           {faqData.map((item, i) => (
-            <div className="faq-item" data-faq={i} key={i}>
+            <div className="faq-item" data-faq={i} key={i} tabIndex={0}>
               <div className="faq-q">
                 <span>{item.q}</span>
                 <span className="faq-arrow">→</span>

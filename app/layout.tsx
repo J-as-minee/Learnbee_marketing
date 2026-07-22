@@ -23,6 +23,28 @@ export const metadata: Metadata = {
     icon: "/favicon.png",
     apple: "/favicon.png",
   },
+  openGraph: {
+    type: "website",
+    siteName: "Learnbee",
+    title: "Learnbee — Course authoring that reads like an editorial",
+    description:
+      "Most platforms stop at generating slides. Learnbee turns a document or a topic into a narrated, multilingual course — then exports it anywhere, no LMS required.",
+    images: [
+      {
+        url: "/learnbee-og.png",
+        width: 1200,
+        height: 630,
+        alt: "Learnbee",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Learnbee — Course authoring that reads like an editorial",
+    description:
+      "Most platforms stop at generating slides. Learnbee turns a document or a topic into a narrated, multilingual course — then exports it anywhere, no LMS required.",
+    images: ["/learnbee-og.png"],
+  },
 };
 
 export default function RootLayout({
