@@ -8,7 +8,7 @@ categories:
 product: learnbee
 tags:
   - "general"
-thumbnail: ""
+thumbnail: "https://jj7sq5e8idqw3b1c.public.blob.vercel-storage.com/blog/hi/images/learnbee_blog_cover.jpg"
 thumbnail_alt: ""
 image: ""
 coverImage: ""
