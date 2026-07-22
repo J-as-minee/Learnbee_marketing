@@ -216,12 +216,19 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   display: flex; justify-content: center;
   background: var(--dark); border-radius: 16px;
   padding: 20px; box-shadow: 0 28px 64px rgba(0,0,0,0.18);
-  max-width: 940px; margin: 0 auto;
+  max-width: 940px; width: 100%; margin: 0 auto;
 }
+.demo-frame-wrap iframe { width: 100%; max-width: 900px; }
+
+/* Fluid headlines: use the full width so they sit on one line on wide screens,
+   but wrap automatically as soon as they no longer fit (any width, not just
+   at the mobile breakpoint). Used by the Demo / Course Preview / Process h2s. */
+.headline-nowrap { white-space: normal; max-width: none; }
 
 @media (max-width: 700px) {
   .demo-frame-wrap { padding: 10px; }
   .demo-frame-wrap iframe { height: 380px !important; }
+  .headline-nowrap { font-size: 1.9rem; }
 }
 
 
@@ -429,7 +436,7 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
    FREE COURSE LIBRARY
 ══════════════════════════════════════ */
 .course-library { padding: 100px 0; text-align: center; }
-.course-library h2 { font-size: 2.9rem; letter-spacing: -0.03em; margin-top: 4px; max-width: none; white-space: nowrap; margin-inline: auto; }
+.course-library h2 { font-size: 2.9rem; letter-spacing: -0.03em; margin-top: 4px; max-width: none; margin-inline: auto; }
 .course-library .section-sub { max-width: 780px; margin-inline: auto; margin-bottom: 46px; }
 
 .lib-grid {
@@ -720,20 +727,21 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .value-headline {
   font-size: 3rem; font-weight: 800; color: #fff;
   letter-spacing: -0.04em; margin: 10px 0 18px; line-height: 1.12;
-  white-space: nowrap;
 }
 .value-subhead { font-size: 1.05rem; color: var(--on-dark); line-height: 1.65; }
 
 .value-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
 /* ── Flip card ── */
-.value-card { height: 218px; perspective: 1100px; cursor: pointer; }
+.value-card { height: 218px; perspective: 1100px; cursor: pointer; outline: none; }
 .value-card-inner {
   width: 100%; height: 100%; position: relative;
   transform-style: preserve-3d;
   transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
 }
-.value-card:hover .value-card-inner { transform: rotateY(180deg); }
+.value-card:hover .value-card-inner,
+.value-card:focus-within .value-card-inner,
+.value-card:focus .value-card-inner { transform: rotateY(180deg); }
 
 .value-card-front,
 .value-card-back {
@@ -803,7 +811,9 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   background: #ebebf4; border-radius: 12px; padding: 18px 22px;
   cursor: default; transition: background 0.18s, box-shadow 0.22s;
 }
-.faq-item:hover {
+.faq-item { outline: none; }
+.faq-item:hover,
+.faq-item:focus-within {
   background: #e2dffa;
   box-shadow: 0 10px 32px rgba(109,40,217,0.13);
 }
@@ -815,13 +825,15 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   color: #6d28d9; font-size: 1.05rem; flex-shrink: 0;
   display: inline-block; transition: transform 0.22s;
 }
-.faq-item:hover .faq-arrow { transform: rotate(90deg); }
+.faq-item:hover .faq-arrow,
+.faq-item:focus-within .faq-arrow { transform: rotate(90deg); }
 .faq-a {
   font-size: 0.875rem; color: #5F5E5A; line-height: 1.7;
   max-height: 0; overflow: hidden;
   transition: max-height 0.35s ease, margin-top 0.22s; margin-top: 0;
 }
-.faq-item:hover .faq-a { max-height: 160px; margin-top: 10px; }
+.faq-item:hover .faq-a,
+.faq-item:focus-within .faq-a { max-height: 260px; margin-top: 10px; }
 
 @media (max-width: 760px) {
   .faq-inner { grid-template-columns: 1fr; gap: 36px; }
@@ -966,7 +978,10 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 }
 
 @media (max-width: 700px) {
-  .nav-links, .nav-actions { display: none; }
+  .nav-links { display: none; }
+  .nav-login { display: none; }               /* moves into the hamburger context; keep the CTA visible */
+  .nav-actions { gap: 10px; }
+  .nav-actions .btn { padding: 8px 15px; font-size: 0.85rem; }
   .nav-toggle { display: flex; }
   .nav-links.open {
     display: flex; flex-direction: column; position: fixed;

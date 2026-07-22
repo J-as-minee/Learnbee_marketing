@@ -3,7 +3,7 @@ export default function DemoSection() {
     <section className="demo-section">
       <div className="container">
         <span className="section-label reveal">LIVE PREVIEW</span>
-        <h2 className="reveal reveal-d1" style={{ whiteSpace: "nowrap", maxWidth: "none" }}>
+        <h2 className="reveal reveal-d1 headline-nowrap">
           See what a Learnbee course feels like.
         </h2>
         <p className="section-sub reveal reveal-d2">

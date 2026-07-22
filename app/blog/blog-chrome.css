@@ -89,3 +89,21 @@
 @media (max-width: 760px) {
   .footer-inner { grid-template-columns: 1fr 1fr; gap: 32px; }
 }
+
+/* Mobile nav — collapse to a hamburger (mirrors site.css) */
+@media (max-width: 700px) {
+  .nav-links { display: none; }
+  .nav-login { display: none; }
+  .nav-actions { gap: 10px; }
+  .nav-actions .btn { padding: 8px 15px; font-size: 0.85rem; }
+  .nav-toggle { display: flex; }
+  .nav-links.open {
+    display: flex; flex-direction: column; position: fixed;
+    top: 62px; left: 0; right: 0; bottom: 0; background: var(--dark);
+    padding: 10px 20px 40px; overflow-y: auto; z-index: 199; gap: 0;
+    border-top: 1px solid var(--border-dark);
+  }
+  .nav-links.open .nav-item { border-bottom: 1px solid var(--border-dark); }
+  .nav-links.open .nav-btn { width: 100%; padding: 16px 0; font-size: 1rem; color: #fff; justify-content: space-between; }
+  .nav-links.open .dropdown { position: static; opacity: 1; pointer-events: auto; transform: none; box-shadow: none; background: transparent; border: none; padding: 0 0 10px 20px; }
+}

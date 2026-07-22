@@ -19,6 +19,7 @@ export default function ValueSection() {
               key={i}
               className="value-card reveal"
               data-val={i}
+              tabIndex={0}
               style={{ transitionDelay: `${i * 0.1}s` }}
             >
               <div className="value-card-inner">
@@ -28,7 +29,7 @@ export default function ValueSection() {
                       className="value-card-icon"
                       dangerouslySetInnerHTML={{ __html: valSvg(c.icon, 18) }}
                     />
-                    <span className="value-card-flip-hint">hover to flip</span>
+                    <span className="value-card-flip-hint">tap to flip</span>
                   </div>
                   <div className="value-card-title">{c.title}</div>
                   <div className="value-card-desc">{c.desc}</div>

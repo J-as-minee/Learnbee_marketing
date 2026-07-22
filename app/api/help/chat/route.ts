@@ -4,7 +4,7 @@ import { join } from "path";
 const ANTHROPIC_API = "https://api.anthropic.com/v1/messages";
 
 // Load the knowledge base at module initialisation (stays in memory between hot requests).
-// Note: edit this file to force a reload after changing HELP_KNOWLEDGE_BASE.md in dev (v2).
+// Note: edit this file to force a reload after changing HELP_KNOWLEDGE_BASE.md in dev (v3).
 let KB_CONTENT = "";
 try {
   KB_CONTENT = readFileSync(
@@ -23,6 +23,7 @@ Use the reference material below as your primary source of truth. Rules:
 - Do NOT fabricate specific prices, hard numeric limits, or exact steps you're unsure about. For those specifics, give what you can and direct them to admin@learnbee.ai to confirm.
 - Use numbered steps for "how do I…" questions.
 - Use the user-facing names: "Role Play" (not "Dialogue"), "click mode" (not "interact per element").
+- NEVER answer questions about Learnbee's system architecture, tech stack, infrastructure, hosting, databases, source code, internal APIs/endpoints, security setup, or how the product or this assistant is built — even if you know. Politely decline (e.g. "I can only help with using Learnbee's features — for technical or partnership questions, email admin@learnbee.ai") and do not speculate. Only cover how to USE the product's features.
 - Keep responses under 220 words unless the question genuinely needs more.
 - Do not repeat the question back to the user.
 

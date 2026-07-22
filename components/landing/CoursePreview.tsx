@@ -3,7 +3,7 @@ export default function CoursePreview() {
     <section className="demo-section">
       <div className="container">
         <span className="section-label reveal">LEARNBEE EXPLAINED</span>
-        <h2 className="reveal reveal-d1" style={{ whiteSpace: "nowrap", maxWidth: "none" }}>
+        <h2 className="reveal reveal-d1 headline-nowrap">
           A Learnbee course, about Learnbee.
         </h2>
         <p className="section-sub reveal reveal-d2">

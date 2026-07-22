@@ -14,7 +14,7 @@ export default function ProcessSection() {
     <section id="philosophy" className="philosophy">
       <div className="container">
         <span className="section-label reveal">THE LEARNBEE PROCESS</span>
-        <h2 className="reveal reveal-d1" style={{ whiteSpace: "nowrap", maxWidth: "none" }}>
+        <h2 className="reveal reveal-d1 headline-nowrap">
           Generate it. Then make it yours.
         </h2>
         <p className="section-sub reveal reveal-d2">
