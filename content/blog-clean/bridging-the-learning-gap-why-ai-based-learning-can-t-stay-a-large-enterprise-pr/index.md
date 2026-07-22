@@ -8,7 +8,7 @@ categories:
 product: learnbee
 tags:
   - "general"
-thumbnail: ""
+thumbnail: "https://jj7sq5e8idqw3b1c.public.blob.vercel-storage.com/blog/bridging-the-learning-gap-why-ai-based-learning-can-t-stay-a-large-enterprise-pr/images/learnbee_blog_cover.jpg"
 thumbnail_alt: ""
 image: ""
 coverImage: ""
