@@ -190,7 +190,11 @@ export default function HelpChat() {
               />
             ) : (
               <div className="help-response-text">
-                <span className="help-typing">…</span>
+                <span className="help-typing">
+                  <span className="help-typing-dot"></span>
+                  <span className="help-typing-dot"></span>
+                  <span className="help-typing-dot"></span>
+                </span>
               </div>
             )}
             {!streaming && lastPair.a && (

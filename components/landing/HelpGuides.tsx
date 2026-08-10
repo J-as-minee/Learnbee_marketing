@@ -35,7 +35,7 @@ const GUIDES: Guide[] = [
       "Sign in, then click New on the Home screen to launch the 6-step Course Wizard.",
       "Fill in Basics (title, audience, objective, language + voice), add reference content or a topic, upload any media, then set structure and quiz options.",
       "Click Generate — the AI drafts a complete, narrated outline and drops you into the editor.",
-      "Refine any of the 24 slide formats inline, tune narration per slide, then preview it as a learner.",
+      "Refine any of the 25 slide formats inline, tune narration per slide, then preview it as a learner.",
     ],
   },
   {
@@ -77,6 +77,7 @@ export default function HelpGuides() {
   const [open, setOpen] = useState<number | null>(null);
 
   useEffect(() => {
+    document.documentElement.style.overflow = open !== null ? "hidden" : "";
     document.body.style.overflow = open !== null ? "hidden" : "";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(null);
@@ -84,6 +85,7 @@ export default function HelpGuides() {
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [open]);
@@ -104,7 +106,6 @@ export default function HelpGuides() {
         <div className="help-guides-grid">
           {GUIDES.map((guide, i) => (
             <button key={guide.title} className="help-guide-card" onClick={() => setOpen(i)}>
-              <span className="help-guide-expand" aria-hidden="true">↗</span>
               <span className="help-guide-icon" aria-hidden="true">
                 <GuideIcon icon={guide.icon} />
               </span>

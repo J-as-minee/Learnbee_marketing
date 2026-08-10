@@ -16,7 +16,7 @@ export interface WizStep {
 export const wizData: WizStep[] = [
   { label: "Brief",     fields: ["Course title · language · default voice", "Drop files — DOCX, PPTX, PDF, TXT", "Search the web or paste text — optional"], caption: "Name it, pick a voice and language, then feed it a document or topic — or let the AI build from scratch." },
   { label: "Blueprint", fields: ["Course images, videos & PDFs", "Modules · duration · depth", "Quiz — questions, difficulty, placement"], caption: "Set the shape — visuals, how many modules, how long, how deep, and the quiz logic — before a single word is written." },
-  { label: "Customize", fields: ["Generate the full outline in one click", "Edit any of 24 slide formats inline", "Tune copy, images & narration per slide"], caption: "The AI hands you a complete, narrated course — every slide fully editable before anyone else sees it." },
+  { label: "Customize", fields: ["Generate the full outline in one click", "Edit any of 25 slide formats inline", "Tune copy, images & narration per slide"], caption: "The AI hands you a complete, narrated course — every slide fully editable before anyone else sees it." },
   { label: "Share",     fields: ["Publish — access code, QR, share link, embed", "SCORM export — LMS-ready .zip", "Republish anytime — same link, updated content"], caption: "Two ways out: a shareable link for anyone, or a SCORM zip for your LMS." },
 ];
 
@@ -80,12 +80,12 @@ export function wizRightPanel(idx: number): string {
     /* 3 — Share */
     `<div class="wrp-export-lbl">share &amp; export</div>
      <div class="wrp-export-row">
-       <span class="wrp-export-ico">🌐</span>
-       <span class="wrp-export-row-lbl">publish to get a link</span>
+       <span class="wrp-export-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></span>
+       <span class="wrp-export-row-lbl">Publish to get a link</span>
      </div>
      <div class="wrp-export-row">
-       <span class="wrp-export-ico">⬇</span>
-       <span class="wrp-export-row-lbl">export SCORM</span>
+       <span class="wrp-export-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></span>
+       <span class="wrp-export-row-lbl">Export SCORM</span>
      </div>`,
   ];
   return panels[idx] || "";
@@ -110,7 +110,7 @@ export const featData: Feature[] = [
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/><path d="M18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/><path d="M16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z"/></svg>`, ic: "#9333EA", ib: "#f3e8ff", tint: "#f5f0ff", size: "lg",
     title: "AI Course Wizard", sub: "Create training in minutes, not months",
     desc: "Tell Learnbee who you're training and what the goal is. A 6-step wizard turns a blank page, an uploaded document, or a raw topic into a complete, narrated course — drafted by AI.",
-    checks: ["Upload DOCX, PPTX, PDF, or paste text", "AI drafts modules, slides, and quiz logic", "Narration in 14 languages, one click", "Review the outline before generating"],
+    checks: ["Upload DOCX, PPTX, PDF, or paste text", "AI drafts modules, slides, and quiz logic", "Narration in 16 languages, one click", "Review the outline before generating"],
     mock: `<div class="fm-wizard">
       <div class="fmw-steps"><div class="fmw-dot done"></div><div class="fmw-conn"></div><div class="fmw-dot done"></div><div class="fmw-conn"></div><div class="fmw-dot active"></div><div class="fmw-conn"></div><div class="fmw-dot"></div><div class="fmw-conn"></div><div class="fmw-dot"></div><div class="fmw-conn"></div><div class="fmw-dot"></div></div>
       <div class="fmw-field"><div class="fmw-lbl"></div><div class="fmw-inp"></div></div>
@@ -120,8 +120,8 @@ export const featData: Feature[] = [
   },
   {
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`, ic: "#F0A500", ib: "#fff3cc", tint: "#fffbeb", size: "lg",
-    title: "24 Editorial Slide Formats", sub: "Not templates — editorial-grade layouts",
-    desc: "Big Statement, Sticky Scroll, Scenario Challenge, Flip Cards, Accordion and 19 more — every format SSR'd to SCORM and the public player, pixel-perfect across every surface.",
+    title: "25 Editorial Slide Formats", sub: "Not templates — editorial-grade layouts",
+    desc: "Big Statement, Sticky Scroll, Scenario Challenge, Flip Cards, Accordion and 20 more — every format SSR'd to SCORM and the public player, pixel-perfect across every surface.",
     checks: ["Inline-editable, no separate tool needed", "Click-mode gating per format", "Cover or contain image modes, per slide", "Consistent across editor, /play, and SCORM"],
     mock: `<div class="fm-formats">
       <div class="fmf-row">
@@ -135,9 +135,9 @@ export const featData: Feature[] = [
   },
   {
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`, ic: "#0ea5e9", ib: "#e0f2fe", tint: "#f0f9ff", size: "sm",
-    title: "Built-In Image Library", sub: "Search, upload, reuse — all in one picker",
-    desc: "Search Pexels inline, upload your own, or pick from any past course. Every image runs through sharp — WebP, 1280px max, blur-fill thumbnail auto-generated for contain mode.",
-    checks: ["Pexels search, no separate account needed", "Org-scoped library with course tags", "Cover and contain display modes", "URL import with SSRF guard"],
+    title: "Media Library", sub: "Images, video, and PDFs — search, upload, reuse",
+    desc: "Search Pexels inline, upload your own, or pick from any past course. Every image runs through sharp — WebP, 1280px max, blur-fill thumbnail auto-generated for contain mode. Video and PDFs get their own pickers with the same reuse model.",
+    checks: ["Pexels search, no separate account needed", "Org-scoped library with course tags", "Cover and contain display modes", "Dedicated pickers for video and PDF, too"],
     mock: `<div class="fm-images">
       <div class="fmimg-tabs"><span class="on">Pexels</span><span>My Library</span><span>Upload</span></div>
       <div class="fmimg-grid">
@@ -148,6 +148,7 @@ export const featData: Feature[] = [
         <div class="fmimg-photo" style="background:linear-gradient(135deg,#fecaca,#f87171)"></div>
         <div class="fmimg-photo fmimg-sel" style="background:linear-gradient(135deg,#ddd6fe,#7c3aed)"><div class="fmimg-chk">✓</div></div>
       </div>
+      <div class="fmimg-more">+ video &amp; PDF pickers</div>
     </div>`,
   },
   {
@@ -163,9 +164,9 @@ export const featData: Feature[] = [
   },
   {
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10c0 3.866 3.134 7 7 7s7-3.134 7-7"/><line x1="12" y1="19" x2="12" y2="17"/><line x1="9" y1="21" x2="15" y2="21"/></svg>`, ic: "#ec4899", ib: "#fce7f3", tint: "#fdf4f9", size: "sm",
-    title: "Translate & Narrate, 14 Languages", sub: "The whole course — content and voiceover",
-    desc: "Translate the entire course — every slide's text, not just the audio — into any of 14 languages: English, 9 Indian, and 4 European. Then generate studio-quality narration to match, male or female, set per course or overridden per slide.",
-    checks: ["Full content translation, not just the voiceover", "14 languages — English, 9 Indian, 4 European", "OpenAI + Sarvam Bulbul v3 studio voices", "Set per course, override per slide"],
+    title: "Translate & Narrate, 16 Languages", sub: "The whole course — content and voiceover",
+    desc: "Translate the entire course — every slide's text, not just the audio — into any of 16 languages: English, English (India), 9 Indian languages, 4 European languages, and Japanese. Then generate studio-quality narration to match, male or female, set per course or overridden per slide.",
+    checks: ["Full content translation, not just the voiceover", "16 languages — English, English (India), 9 Indian, 4 European, Japanese", "OpenAI + Sarvam Bulbul v3 studio voices", "Set per course, override per slide"],
     mock: `<div class="fm-narration">
       <div class="fmn-lang-grid">
         <span class="fmn-ltag" style="background:#dbeafe;color:#3b82f6">🇬🇧 English</span>
@@ -193,8 +194,8 @@ export const featData: Feature[] = [
   {
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12l2 2 4-4"/></svg>`, ic: "#7c3aed", ib: "#ede9fe", tint: "#f5f0ff", size: "sm",
     title: "Assessments That Auto-Grade", sub: "Gated, scored, and SCORM-ready",
-    desc: "Quiz/MCQ, True/False, Fill in the Blanks, Scenario Challenge, Image Match — formats that gate the next slide and report lesson_status + score back to your LMS.",
-    checks: ["SCORM 2004 lesson_status + score", "Configurable pass mark and min questions", "Per-module or end-of-course placement", "Basic / intermediate / advanced difficulty"],
+    desc: "Quiz/MCQ, True/False, Fill in the Blanks, Scenario Challenge, Image Match — formats that gate the next slide. Quiz/MCQ, True/False, and Fill in the Blanks report completion status and score back to your LMS.",
+    checks: ["SCORM 2004 completion_status + score", "Configurable pass mark and min questions", "Per-module or end-of-course placement", "Basic / intermediate / advanced difficulty"],
     mock: `<div class="fm-quiz">
       <div class="fmq-q">Which formats are gated by default?</div>
       <div class="fmq-opt"><span class="fmq-radio"></span>Title Slide</div>
@@ -207,7 +208,7 @@ export const featData: Feature[] = [
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`, ic: "#22c55e", ib: "#dcfce7", tint: "#f0fdf4", size: "lg",
     title: "SCORM 2004 Export", sub: "Self-contained .zip, any LMS",
     desc: "Every export packages images and audio into the zip. Drop it into Moodle, Cornerstone, SAP SuccessFactors, or Docebo — no plugin, no CDN dependency, no vendor lock-in.",
-    checks: ["Images bundled via sharp pipeline", "React components rendered via SSR", "lesson_status, score, lesson_location", "No publish step required to export"],
+    checks: ["Images bundled via sharp pipeline", "React components rendered via SSR", "Completion status, score, resume location", "No publish step required to export"],
     mock: `<div class="fm-scorm">
       <div class="fms-file"><span class="fms-ico">📦</span><div><div class="fms-name">course_export.zip</div><div class="fms-meta">Images + audio bundled</div></div></div>
       <div class="fms-prog"><div class="fms-bar"></div></div>
@@ -245,20 +246,37 @@ export const featData: Feature[] = [
       </div>
     </div>`,
   },
+  {
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>`, ic: "#14b8a6", ib: "#ccfbf1", tint: "#f0fdfa", size: "lg",
+    title: "Custom Slide & Templates", sub: "When no format fits, describe it",
+    desc: "Need a layout none of the other 24 formats cover? Describe it and AI builds a bespoke Custom Slide from your prompt. Templates are curated, ready-made Custom Slide designs — Hero, Comparison, Timeline, and more — you insert and adapt instead of starting from a blank prompt.",
+    checks: ["Generate a bespoke slide from a text prompt", "Templates = curated, ready-made Custom Slide designs", "Filter templates by kind, or search by name", "Insert a template, then edit it freely"],
+    mock: `<div class="fm-custom">
+      <div class="fcs-prompt">"3 pricing tiers as cards"</div>
+      <div class="fcs-cards">
+        <div class="fcs-card" style="background:#f3e8ff"></div>
+        <div class="fcs-card" style="background:#fef3c7"></div>
+        <div class="fcs-card" style="background:#d1fae5"></div>
+      </div>
+      <div class="fcs-tpl-lbl">Or start from a template</div>
+      <div class="fcs-tpl-chips"><span class="fcs-chip">Hero</span><span class="fcs-chip hi">Comparison ✓</span><span class="fcs-chip">Timeline</span></div>
+    </div>`,
+  },
 ];
 
-// 12-col grid: row1=[Wizard(6),Formats(6)], row2=[ImgLib(3),Click(3),Narration(6)],
-// row3=[Assess(6),Collaborate(6)], row4=[Publish(6),SCORM(6)]
+// 12-col grid: row1=[Wizard(6),Formats(6)], row2=[CustomSlide(12)],
+// row3=[ImgLib(3),Click(3),Narration(6)], row4=[Assess(6),Collaborate(6)], row5=[Publish(6),SCORM(6)]
 export const featureLayout = [
   { col: "1 / 7",  row: "1" },
   { col: "7 / 13", row: "1" },
-  { col: "1 / 4",  row: "2" },
-  { col: "4 / 7",  row: "2" },
-  { col: "7 / 13", row: "2" },
-  { col: "1 / 7",  row: "3" },  // Assessments
-  { col: "7 / 13", row: "4" },  // SCORM
-  { col: "1 / 7",  row: "4" },  // Publish & Share
-  { col: "7 / 13", row: "3" },  // Collaborate
+  { col: "1 / 4",  row: "3" },
+  { col: "4 / 7",  row: "3" },
+  { col: "7 / 13", row: "3" },
+  { col: "1 / 7",  row: "4" },  // Assessments
+  { col: "7 / 13", row: "5" },  // SCORM
+  { col: "1 / 7",  row: "5" },  // Publish & Share
+  { col: "7 / 13", row: "4" },  // Collaborate
+  { col: "1 / 13", row: "2" },  // Custom Slide & Templates
 ];
 
 /* ── FAQ ── */
@@ -283,7 +301,7 @@ export const valueCards = [
     icon: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
     title: "Built to be finished",
     desc: "Interactive formats keep learners clicking, not skimming",
-    tags: ["24 Formats", "Quizzes"],
+    tags: ["25 Formats", "Quizzes"],
     details: ["Formats matched to the content, not generic templates", "Quizzes and interactive checks built in"],
   },
   {
@@ -297,8 +315,8 @@ export const valueCards = [
     icon: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
     title: "Any language, any LMS",
     desc: "One course, every market, no rebuild required",
-    tags: ["10+ Languages", "SCORM Export"],
-    details: ["Export to SCORM — works in any LMS", "Translate to 10+ languages without re-authoring"],
+    tags: ["16 Languages", "SCORM Export"],
+    details: ["Export to SCORM — works in any LMS", "Translate to 16 languages without re-authoring"],
   },
 ];
 

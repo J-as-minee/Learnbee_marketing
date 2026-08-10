@@ -67,7 +67,7 @@ const WIKI: WikiCategory[] = [
     items: [
       {
         q: "How many slide formats are there?",
-        a: "24 formats across 4 categories: Narrative (Title Slide, Agenda, Big Statement), Content (Key Points, Insight Cards, Image + Content, Image Overlay, PDF Viewer, Step by Step, Accordion, Sticky Scroll, Sticky Slide), Comparison (Side by Side, Feature Matrix, Pros & Cons), and Interactive (Scenario Challenge, Quiz/MCQ, True/False, Flip Cards, Image Explore, Image Match, Fill in the Blanks).",
+        a: "25 formats across 6 categories: Opening (Title Slide, Agenda), Content (Big Statement, Image + Content, Image Overlay, Step by Step, PDF Viewer), Comparison (Side by Side, Feature Matrix, Pros & Cons), Interactive (Key Points, Insight Cards, Accordion, Sticky Scroll, Sticky Slide, Flip Cards, Image Explore, Scenario Challenge), Quiz (Quiz/MCQ, True/False, Image Match, Fill in the Blanks), and AI (Custom Slide).",
       },
       {
         q: "Which formats are gated?",
@@ -80,6 +80,29 @@ const WIKI: WikiCategory[] = [
       {
         q: "Can I embed a PDF inside a course?",
         a: "Yes — add a PDF Viewer slide and choose a PDF from your Course PDFs library or upload one directly.",
+      },
+    ],
+  },
+  {
+    id: "custom-slides",
+    title: "Custom Slides",
+    icon: "layout",
+    items: [
+      {
+        q: "What is a Custom Slide?",
+        a: "A slide format where AI builds a bespoke layout and content from your prompt, for when none of the other 24 formats fit what you need.",
+      },
+      {
+        q: "What is a template?",
+        a: "A curated, ready-made Custom Slide design — Hero, Comparison, Timeline, and more — you can insert and edit instead of starting from a blank prompt.",
+      },
+      {
+        q: "Can I save my own template?",
+        a: "Not yet — only super users (admins) can save new templates. You can insert an existing template and customize it, but you can't publish your own back to the shared library.",
+      },
+      {
+        q: "How do I insert a template?",
+        a: "When adding a slide, search or open the Templates view in the Add-slide picker, filter by kind, and pick one — it inserts a pre-filled Custom Slide you can edit.",
       },
     ],
   },
@@ -130,6 +153,10 @@ const WIKI: WikiCategory[] = [
       {
         q: "How do I add a video?",
         a: "Use a Big Statement slide in video mode. Uploaded files must be MP4 or WebM, up to 25 MB each, with a maximum of 6 uploaded videos per course. YouTube links are unlimited and do not count toward the cap.",
+      },
+      {
+        q: "Can I embed a YouTube video instead of uploading a file?",
+        a: "Yes — paste a YouTube link in the Video picker's Link tab. It plays through YouTube's own player on the slide, and YouTube links don't count toward the 6-video upload limit.",
       },
       {
         q: "Why can't I import an image from a URL?",
@@ -221,7 +248,7 @@ const WIKI: WikiCategory[] = [
       },
       {
         q: "How many languages does Learnbee support?",
-        a: "15 languages: English, 9 Indian languages (Hindi, Marathi, Gujarati, Bengali, Punjabi, Tamil, Kannada, Telugu, Malayalam), and 5 via OpenAI (Spanish, French, Portuguese, German, Japanese).",
+        a: "16 languages: English and English (India); 9 Indian languages (Hindi, Marathi, Gujarati, Bengali, Punjabi, Tamil, Kannada, Telugu, Malayalam); Spanish, French, Portuguese, German; and Japanese.",
       },
       {
         q: "Can I change a course language without using Translate?",
@@ -233,7 +260,7 @@ const WIKI: WikiCategory[] = [
 
 const ICON_MAP: Record<string, string> = {
   rocket: "M13 2L4.5 13.5H11l-1 8.5L19.5 10H13V2z",
-  wand: "M15 4V2m0 14v-2M8 9H2m14 0h-2m-1.5-4.5L11 6m3 7-1.5-1.5M5 3l1.5 1.5M19 3l-1.5 1.5M5 21l1.5-1.5",
+  wand: "M4 21V14M4 10V3M12 21V12M12 8V3M20 21V16M20 12V3M1 14H7M9 8H15M17 16H23",
   layers: "M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5",
   mic: "M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3zM19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8",
   image: "M21 15l-5-5L5 21M21 15v6H3V3h18v12zM8.5 8.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2z",
@@ -241,6 +268,7 @@ const ICON_MAP: Record<string, string> = {
   package: "M16.5 9.4L7.55 4.24M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16zM3.27 6.96L12 12.01l8.73-5.05M12 22.08V12",
   users: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75",
   globe: "M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10zM2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z",
+  layout: "M3 3H21V21H3V3ZM3 9H21M9 21V9",
 };
 
 function TopicIcon({ icon, size = 18 }: { icon: string; size?: number }) {
