@@ -13,7 +13,7 @@ export default function BgMorph() {
       { sel: ".hero", rgb: [15, 23, 41] },
       { sel: ".demo-section", rgb: [248, 247, 251] },
       { sel: ".value-section", rgb: [15, 23, 41] },
-      { sel: "#philosophy", rgb: [248, 247, 251] },
+      { sel: "#about", rgb: [248, 247, 251] },
       { sel: ".features", rgb: [248, 247, 251] },
       { sel: "#faq", rgb: [248, 247, 251] },
     ];

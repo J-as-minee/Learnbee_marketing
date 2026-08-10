@@ -11,7 +11,7 @@ export default function CtaSection() {
         </div>
         <div className="cta-actions reveal reveal-d2">
           <a href={SIGN_IN} className="btn btn-white btn-lg">Get Started for Free</a>
-          <a href="#philosophy" className="btn btn-outline-light btn-lg">See How It Works</a>
+          <a href="#about" className="btn btn-outline-light btn-lg">See How It Works</a>
         </div>
       </div>
     </section>

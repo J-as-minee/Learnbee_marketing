@@ -27,6 +27,7 @@ export default function FeaturesSection() {
   const [open, setOpen] = useState<number | null>(null);
 
   useEffect(() => {
+    document.documentElement.style.overflow = open !== null ? "hidden" : "";
     document.body.style.overflow = open !== null ? "hidden" : "";
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(null);
@@ -34,6 +35,7 @@ export default function FeaturesSection() {
     document.addEventListener("keydown", onKey);
     return () => {
       document.removeEventListener("keydown", onKey);
+      document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
     };
   }, [open]);
@@ -65,16 +67,6 @@ export default function FeaturesSection() {
                 style={cardStyle}
                 onClick={() => setOpen(i)}
               >
-                <button
-                  className="feat-expand"
-                  aria-label="Expand"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setOpen(i);
-                  }}
-                >
-                  ↗
-                </button>
                 <div
                   className="feat-icon"
                   style={{

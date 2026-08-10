@@ -410,7 +410,7 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 /* Step 8 — export rows */
 .wrp-export-lbl { font-size: 0.6rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--wrp-muted); }
 .wrp-export-row { display: flex; align-items: center; gap: 8px; background: var(--wrp-bg); border: 1px solid var(--wrp-border); border-radius: 6px; padding: 7px 10px; }
-.wrp-export-ico { font-size: 0.85rem; flex-shrink: 0; color: var(--wrp-text); }
+.wrp-export-ico { display: flex; flex-shrink: 0; color: var(--wrp-text); }
 .wrp-export-row-lbl { font-size: 0.68rem; color: var(--wrp-text); font-weight: 500; }
 
 /* Responsive */
@@ -507,15 +507,6 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 }
 .feat-card:hover { transform: translateY(-3px); box-shadow: 0 16px 40px var(--fb, rgba(0,0,0,0.12)); }
 
-.feat-expand {
-  position: absolute; top: 12px; right: 12px;
-  width: 24px; height: 24px; border-radius: 6px;
-  background: rgba(0,0,0,0.06); border: none; cursor: pointer;
-  font-size: 0.7rem; display: flex; align-items: center; justify-content: center;
-  color: var(--fc, #666); transition: background 0.15s;
-}
-.feat-card:hover .feat-expand { background: rgba(0,0,0,0.12); }
-
 .feat-icon {
   width: 44px; height: 44px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
@@ -530,7 +521,6 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   flex: 1; margin: 0 -22px;
   padding: 16px 22px 20px;
   background: var(--ft, #f8f7fb);
-  border-top: 1px solid rgba(0,0,0,0.06);
   border-radius: 0; min-height: 130px;
 }
 
@@ -594,6 +584,7 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .fmimg-photo { border-radius: 6px; aspect-ratio: 1; position: relative; overflow: hidden; }
 .fmimg-sel::after { content:''; position:absolute; inset:0; border:2px solid #0ea5e9; border-radius:6px; }
 .fmimg-chk { position:absolute; top:3px; right:3px; width:13px; height:13px; background:#0ea5e9; color:#fff; font-size:0.5rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; }
+.fmimg-more { font-size: 0.62rem; color: #999; margin-top: 6px; text-align: center; }
 
 /* ── Quiz mockup ── */
 .fm-quiz { display: flex; flex-direction: column; gap: 5px; }
@@ -658,6 +649,23 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 }
 .fmc-perm.hi { background: #ffe4e6; border-color: #fbb6c3; color: #be123c; }
 
+.fm-custom { display: flex; flex-direction: column; gap: 8px; }
+.fcs-prompt {
+  font-size: 0.7rem; font-weight: 600; font-style: italic; color: #1A1A2E;
+  background: rgba(255,255,255,0.85); border: 1px solid rgba(0,0,0,0.07);
+  border-radius: 6px; padding: 6px 10px;
+}
+.fcs-cards { display: flex; gap: 6px; }
+.fcs-card { flex: 1; height: 32px; border-radius: 6px; }
+.fcs-tpl-lbl { font-size: 0.6rem; color: #999; margin-top: 2px; }
+.fcs-tpl-chips { display: flex; gap: 5px; flex-wrap: wrap; }
+.fcs-chip {
+  font-size: 0.62rem; font-weight: 600; color: #555;
+  background: rgba(255,255,255,0.85); border: 1px solid rgba(0,0,0,0.09);
+  border-radius: 20px; padding: 3px 9px;
+}
+.fcs-chip.hi { background: #ede9fe; border-color: #c4b5fd; color: #4c1d95; }
+
 /* ── Feature modal ── */
 .feat-overlay {
   position: fixed; inset: 0; z-index: 500;
@@ -670,7 +678,7 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .feat-modal {
   background: #fff; border-radius: 20px;
   max-width: 560px; width: calc(100% - 32px);
-  max-height: 90vh; overflow-y: auto;
+  max-height: 90vh; overflow-y: auto; overscroll-behavior: contain;
   position: relative;
   transform: translateY(18px); transition: transform 0.25s;
   box-shadow: 0 24px 64px rgba(0,0,0,0.28);
@@ -705,7 +713,7 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .fmod-bullets li::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--fc, #9333EA); flex-shrink: 0; margin-top: 5px; }
 
 .fmod-cta { display: flex; width: 100%; justify-content: center; padding: 13px; font-size: 0.95rem; border-radius: 10px; }
-.feat-mock-lg { width: 100%; }
+.feat-mock-lg { width: 100%; margin: 0; }
 
 /* Responsive */
 @media (max-width: 900px) {

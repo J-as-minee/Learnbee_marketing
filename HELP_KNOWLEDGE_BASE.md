@@ -10,7 +10,7 @@
 > section here. Anything not yet verifiable is marked **To Be Documented (TBD)** —
 > do not replace TBD with assumptions.
 >
-> **Last reviewed:** 2026-07-10 · **Applies to:** Learnbee (web app)
+> **Last reviewed:** 2026-08-10 · **Applies to:** Learnbee (web app)
 
 ---
 
@@ -69,7 +69,7 @@ authoring.
   material.
 - **AI narration** — voice-over generated once, plays free for every learner, in
   the course language.
-- **24 slide formats** — from narrative to interactive/quiz layouts.
+- **25 slide formats** — from narrative and content to interactive/quiz layouts, plus an AI Custom Slide.
 - **Multi-format delivery** — the same course plays in the editor preview, the
   hosted `/play` player, and inside a SCORM package.
 - **Self-contained SCORM** — images, audio and video are bundled into the export.
@@ -82,13 +82,13 @@ authoring.
 |---|---|
 | **Course** | The top-level unit a creator builds and publishes. Contains modules and slides. |
 | **Module** | A named section of a course; contains an ordered list of slides. |
-| **Slide** | A single screen in a course, using one of the 24 slide **formats**. |
+| **Slide** | A single screen in a course, using one of the 25 slide **formats**. |
 | **Format** | The layout/type of a slide (e.g. Title Slide, Quiz / MCQ). See the [format registry](#appendix-a--slide-format-registry). |
 | **Wizard / Course Wizard** | The 6-step guided flow for creating a new course. |
 | **Narration / Voiceover** | AI-generated spoken audio for slides, in the course language. |
 | **Segment** | One narration unit within a slide (usually one per section/element). |
 | **Click mode** | A narration mode where the learner clicks each element to hear its segment, instead of it auto-playing. Internally "interact per element / per segment". |
-| **Auto-advance** | Option to move to the next slide automatically after narration ends. |
+| **Auto-advance** | Option to move to the next slide automatically after narration ends. Not available on question slides or PDF Viewer — those wait for the learner. |
 | **Gated slide** | An interactive slide the learner must complete before proceeding. |
 | **Access code** | A 6-character code a learner enters to open a published course. |
 | **Publish** | Make a course available online with a link, QR code, and embed code. |
@@ -97,7 +97,27 @@ authoring.
 | **Library / Curated Library** | A curated collection of ready-made courses to browse, copy, and adapt. |
 | **Translation family** | A set of the same course translated into multiple languages, linked together. |
 | **Course PDF** | A PDF document embedded via the PDF Viewer slide. |
+| **Template** | A curated **AI Custom Slide** design (hero, comparison, timeline, etc.) you insert from the Add-slide picker. Inserting a template creates a pre-filled Custom Slide. Only super users can save new templates. |
+| **AI Custom Slide** | A slide format (category "AI") where AI generates a custom slide from your prompt. One of the 25 formats. |
+| **Big Play** | The label shown in the module tree for a **Big Statement** slide set to **video mode** — the same format, not a separate one. |
 | **Reference content / Reference PDF** | Source material you provide so the AI can generate the course. |
+
+### Acronyms
+
+| Acronym | Expansion / meaning |
+|---|---|
+| **AI** | Artificial Intelligence — powers outline generation, narration scripts, translation, and the AI Custom Slide. |
+| **LMS** | Learning Management System — where a SCORM package is uploaded and played. |
+| **SCORM** | Sharable Content Object Reference Model — the e-learning package standard Learnbee exports (**SCORM 2004 4th Edition**). |
+| **MCQ** | Multiple-Choice Question — the Quiz / MCQ format. |
+| **PDF** | Portable Document Format — used by the PDF Viewer slide, reference PDFs, and Course PDFs. |
+| **QR** | Quick Response code — the scannable code produced in the Publish dialog. |
+| **TTS** | Text-to-Speech — the technology behind AI narration. |
+| **VO** | Voiceover — the generated narration audio. |
+| **F / M** | Female / Male — narration voice options. |
+| **RTL** | Right-to-Left text (e.g. Arabic) — not currently supported. |
+| **OAuth** | Open Authorization — a sign-in method (e.g. Google; planned). |
+| **RAG** | Retrieval-Augmented Generation — how this document is consumed by the Help assistant. |
 
 ### Internal names vs user-facing names
 Some names differ between what a developer sees and what a user sees. Always use the
@@ -206,18 +226,23 @@ the reference material provided.
 **Related.** [Languages](#42-languages), [Editor](#43-the-editor),
 [Narration](#45-narration-ai-voiceover).
 
+**Keywords.** create course, new course, wizard, generate course, AI course, build a
+course, start a course, course generator, make a course.
+
 ---
 
 ### 4.2 Languages
 
 **Purpose.** Produce a course and its narration in a chosen language.
 
-**How it works.** Learnbee supports **14 languages**:
-- **1 global:** English.
-- **9 Indian:** Hindi, Marathi, Gujarati, Bengali, Punjabi, Tamil, Kannada, Telugu,
-  Malayalam.
-- **4 European:** (exact set **TBD** — European languages beyond English are
-  supported for narration and content.)
+**When to use.** When you need the course content and voiceover in a specific language.
+
+**How it works.** Learnbee supports **16 languages**:
+- **English** and **English (India)**.
+- **9 Indian languages:** Hindi, Bengali, Marathi, Gujarati, Punjabi, Tamil, Kannada,
+  Malayalam, Telugu.
+- **4 European:** Spanish, French, Portuguese, German.
+- **Japanese.**
 
 All AI-generated content and narration are produced in the course language, and UI
 strings are localized where available.
@@ -237,16 +262,21 @@ linked copy.
 
 **Related.** [Translate](#412-translate), [Narration](#45-narration-ai-voiceover).
 
+**Keywords.** language, languages, Hindi, Tamil, Spanish, Japanese, multilingual,
+change language, course language, supported languages.
+
 ---
 
 ### 4.3 The editor
 
 **Purpose.** Build and edit a course.
 
+**When to use.** Throughout building, refining, and reviewing a course.
+
 **How it works.** Three-zone layout:
 - **Module Tree (left)** — modules and slides; each slide shows its title (primary)
   and format (secondary), plus a voice-ready indicator.
-- **Canvas (middle)** — the slide you're editing; all 24 formats are editable inline.
+- **Canvas (middle)** — the slide you're editing; all 25 formats are editable inline.
 - **Properties Panel (right)** — settings for the selected slide.
 
 **Auto-save.** Work saves automatically as you edit (debounced, ~1.5 seconds). There
@@ -254,11 +284,17 @@ is **no manual save button**.
 
 **Preview.** Click **Preview** to play the course as a learner would.
 
+**Course styling.** A course-level **font style** setting controls the typography used
+across the course's slides.
+
 **Best practices.** Give slides clear titles (used in the module tree and elsewhere).
 
 **Common mistakes.** Waiting for a "Save" button — saving is automatic.
 
 **Related.** [Slide formats](#44-slide-formats), [Narration](#45-narration-ai-voiceover).
+
+**Keywords.** editor, edit course, module tree, canvas, properties panel, autosave,
+save, rearrange slides, font style.
 
 ---
 
@@ -266,27 +302,40 @@ is **no manual save button**.
 
 **Purpose.** Present content in the most effective layout for each idea.
 
-**How it works.** There are **24 formats** in 4 categories. Interactive formats and
-step-revealed formats can act as **gates** (must be completed to proceed). See the
-full table in [Appendix A](#appendix-a--slide-format-registry).
+**When to use.** When adding a slide or changing a slide's layout/type.
 
-**Categories (summary).**
-- **Narrative:** Title Slide, Agenda Slide, Big Statement.
-- **Content:** Key Points, Insight Cards, Image + Content (left/right), Image Overlay
-  (left/right), PDF Viewer, Step by Step, Accordion, Sticky Scroll, Sticky Slide.
+**How it works.** There are **25 formats** across 6 categories, shown in the
+Add-slide picker. Several interactive and step-revealed formats act as **gates**
+(must be completed before the learner can proceed). See the full table in
+[Appendix A](#appendix-a--slide-format-registry).
+
+**Categories (as shown in the picker).**
+- **Opening:** Title Slide, Agenda.
+- **Content:** Big Statement, Image + Content (Left/Right), Image + Overlay
+  (Left/Right), Step by Step, PDF Viewer.
+- **Interactive:** Key Points, Insight Cards, Accordion, Sticky Scroll, Sticky Slide,
+  Flip Cards, Image Explore, Scenario Challenge.
+- **Quiz:** Quiz / MCQ, True / False, Fill in the Blanks, Image Match.
 - **Comparison:** Side by Side, Feature Matrix, Pros & Cons.
-- **Interactive:** Scenario Challenge, Quiz / MCQ, True / False, Flip Cards, Image
-  Explore, Image Match, Fill in the Blanks.
+- **AI:** AI Custom Slide.
 
 **Notes.**
 - **Video** is a **mode of Big Statement**, not a separate format (see
-  [Videos](#47-videos)).
+  [Videos](#47-videos)). In the module tree a video-mode slide is labelled **"Big
+  Play"**.
 - **PDF Viewer** embeds a paged PDF (see [PDFs](#48-pdfs)).
+- **AI Custom Slide** generates a bespoke slide from a prompt (category "AI"; see
+  [AI Custom Slide](#416-ai-custom-slide)).
+- **Templates** are ready-made **AI Custom Slide** designs you can insert (see
+  [Templates](#415-templates)).
 
 **Best practices.** Match the format to the content (e.g. use Comparison formats for
 before/after; use Interactive formats to check understanding).
 
 **Related.** [Videos](#47-videos), [PDFs](#48-pdfs), [Quizzes & interactive slides](#49-quizzes--interactive-slides).
+
+**Keywords.** slide formats, slide types, layouts, add slide, format list, kinds of
+slides, categories, 25 formats.
 
 ---
 
@@ -303,6 +352,8 @@ before/after; use Interactive formats to check understanding).
 - Narration audio is **generated once by the creator** and then plays for every
   learner at no extra per-learner cost.
 - Narration is split into **segments** (typically one per section/element of a slide).
+- A course-level **narration-length** setting controls how long/detailed the
+  generated narration scripts are.
 
 **Per-slide narration options** (each with a course-wide default in Course
 Settings):
@@ -310,7 +361,20 @@ Settings):
 - **Learner clicks on each segment** (**click mode**) — the learner clicks each
   element to hear its narration one segment at a time.
 - **Auto-advance** — when narration ends, the course advances to the next slide after
-  a short, cancellable countdown (about 2 seconds).
+  a short, cancellable countdown (about 2 seconds). The learner can press **Cancel**
+  on the countdown to stay on the slide.
+  - **Where it does not apply.** Six slide types always wait for the learner, whatever
+    the course default or the per-slide setting says: **Quiz/MCQ**, **True/False**,
+    **Fill in the Blanks**, **Image Match**, **Scenario Challenge** and **PDF Viewer**.
+    On those slides the narration is a short instruction that finishes well before the
+    learner has answered or finished reading, so advancing would either skip the
+    question or pull them off the document. The Narration drawer shows
+    *"not available — this slide waits for the learner"* instead of the toggle.
+  - So an auto-advancing course plays itself and pauses exactly where the learner has
+    something to do; they answer, then click **Next** to resume.
+  - **Video slides** (Big Statement in video mode) advance when the video finishes,
+    rather than when narration ends — video slides have no narration. Slides using a
+    **YouTube** embed are the exception and stay manual.
 
 **Steps.**
 1. Open a slide's **Narration** controls / drawer.
@@ -318,7 +382,7 @@ Settings):
 3. Choose voice (course default or per-segment override) and options.
 
 **Options.** Voice gender (F/M), per-segment voice override, skip, click mode,
-auto-advance.
+auto-advance, narration length.
 
 **Examples.**
 - Input-check slides (Quiz/MCQ, Image Match, Fill in the Blanks) narrate a single
@@ -335,11 +399,16 @@ language only.
 
 **Related.** [Videos](#47-videos), [Languages](#42-languages).
 
+**Keywords.** narration, voiceover, voice, TTS, audio, read aloud, male voice, female
+voice, skip, click mode, auto-advance, narration length.
+
 ---
 
 ### 4.6 Images
 
 **Purpose.** Add and manage images in slides.
+
+**When to use.** When a slide needs a photo, illustration, or background image.
 
 **How it works — the Image Picker tabs.**
 1. **Pexels** — search free stock photos.
@@ -380,19 +449,27 @@ Explore/Match) — not available because hotspots are positioned by percentage.
 **Related.** [Image Explore / Image Match](#49-quizzes--interactive-slides),
 ["From Link" errors](#8-errors--messages).
 
+**Keywords.** image, photo, picture, Pexels, upload image, stock photo, background
+image, crop, cover, contain, from link, image library.
+
 ---
 
 ### 4.7 Videos
 
 **Purpose.** Add full-screen video to a course.
 
+**When to use.** When you want a video to play full-screen on a slide.
+
 **How it works.** There is **no standalone video format**. Video is a **mode of the
 Big Statement slide**. A video slide plays full-screen and supports either:
 - An **uploaded video file**, or
 - A **YouTube** video (paste the link; plays via YouTube's player).
 
-**Important behavior.** Narration is **disabled** on video slides — the video
-provides its own audio.
+**Important behavior.**
+- Narration is **disabled** on video slides — the video provides its own audio.
+- An uploaded video **autoplays when the learner reaches the slide**.
+- In the editor's **module tree**, a video-mode slide is labelled **"Big Play"** — it
+  is the same Big Statement format, not a separate slide type.
 
 **Steps.** Add/select a Big Statement slide → switch it to **video mode** → upload a
 file or paste a YouTube link.
@@ -411,11 +488,16 @@ video mode instead.
 **Related.** [Big Statement](#appendix-a--slide-format-registry),
 [Limits & Constraints](#10-limits--constraints).
 
+**Keywords.** video, YouTube, upload video, big play, video slide, embed video, mp4,
+webm, video limit, autoplay.
+
 ---
 
 ### 4.8 PDFs
 
 **Purpose.** Embed a PDF document inside a course.
+
+**When to use.** When learners need to read a multi-page document inside the course.
 
 **How it works.** The **PDF Viewer** slide displays a paged PDF. Add PDFs in the
 wizard's **Media** step, or via the PDF picker in the editor.
@@ -427,11 +509,16 @@ one.
 
 **Related.** [Creating a course (Media step)](#41-creating-a-course-the-course-wizard).
 
+**Keywords.** PDF, document, PDF viewer, embed PDF, course PDF, attach document, paged
+PDF.
+
 ---
 
 ### 4.9 Quizzes & interactive slides
 
 **Purpose.** Check understanding and let learners explore.
+
+**When to use.** When you want to test knowledge or add hands-on interactivity.
 
 **Interactive formats.** Scenario Challenge, Quiz / MCQ, True / False, Flip Cards,
 Image Explore, Image Match, Fill in the Blanks. Several are **gated** (must be
@@ -450,11 +537,16 @@ the LMS.
 
 **Related.** [Slide formats](#44-slide-formats), [SCORM export](#411-scorm-export).
 
+**Keywords.** quiz, MCQ, question, true false, fill in the blanks, image match,
+assessment, pass mark, scoring, interactive, gated.
+
 ---
 
 ### 4.10 Publishing & sharing
 
 **Purpose.** Make a course available online.
+
+**When to use.** When the course is ready to share via link, QR code, embed, or access code.
 
 **How it works.** Open the **Publish** dialog to publish. You receive:
 - A **6-character access code** (learners enter it to open the course).
@@ -474,6 +566,12 @@ the content in place.
 **Access code format.** 6 characters from an unambiguous alphabet (excludes easily
 confused characters like 0/O and 1/I).
 
+**Sharing extras.**
+- You can send a colleague a **course link that reopens the Share panel**; after they
+  sign in, they can pull the SCORM zip themselves.
+- **Copied links paste as the course name** (a titled hyperlink) in tools like Teams,
+  Outlook and Slack, and shared links show a **social preview image**.
+
 **Best practices.** Share the link or QR for direct access; use the embed code for
 websites/intranets.
 
@@ -482,11 +580,16 @@ stay the same.
 
 **Related.** [Access code entry](#3-getting-started), [SCORM export](#411-scorm-export).
 
+**Keywords.** publish, share, link, QR code, embed, access code, iframe, republish,
+share course, online player.
+
 ---
 
 ### 4.11 SCORM export
 
 **Purpose.** Deliver a course through an LMS.
+
+**When to use.** When you need to host the course in a Learning Management System.
 
 **How it works.** Export any course as a **SCORM 2004** package (a `.zip`). Key
 points:
@@ -495,20 +598,24 @@ points:
 - The package is **self-contained** — images, audio, and video are bundled inside, so
   it doesn't depend on external hosting.
 - It tracks **lesson status/completion, score, session time**, and resume location.
-- It plays the same 24 formats as the online player.
+- It plays the same 25 formats as the online player.
 
 **Steps.** Use the **Export SCORM** action. Packaging takes about **30–40 seconds**
-(a "Packaging…" spinner shows while it builds); then the `.zip` downloads.
+and shows a live **"Packaging… X%"** progress indicator while it builds; then the
+`.zip` downloads.
 
 **Best practices.** Upload the `.zip` to your LMS as a SCORM 2004 course.
 
 **Common mistakes.** Double-clicking Export during packaging (the button is disabled
 while building).
 
-**Limitations.** SCORM 2004 (not 1.2 or xAPI) — other standards are **TBD**.
+**Limitations.** SCORM 2004 4th Edition (not xAPI) — other standards are **TBD**.
 
 **Related.** [Publishing & sharing](#410-publishing--sharing),
 [Integrations](#11-integrations).
+
+**Keywords.** SCORM, LMS, export, download package, SCORM 2004, upload to LMS, zip,
+packaging, completion tracking.
 
 ---
 
@@ -516,20 +623,33 @@ while building).
 
 **Purpose.** Produce the same course in another language.
 
-**How it works.** A course can be copied and **translated** into a target language,
-producing a linked **translation family** (the same course in multiple languages).
+**When to use.** When you need an existing course in one or more additional languages.
 
-**Steps.** From a course, choose **Translate** and pick the target language.
+**How it works.** Translate copies a course into a new **child course** in a target
+language as a **background job**. It translates slide **text** and **narration
+scripts**, and **regenerates the voiceover audio** using the source course's voice
+settings (only if the source course was voiced). Versions are linked as a
+**translation family** and appear as **stacked decks** in the Library, each with its
+own status, narration coverage, Share, Export SCORM, and Translate.
 
-**Limitations.** Detailed translate behavior and any per-format caveats: **TBD**.
+**Steps.** From a course, choose **Translate** → pick the target language → the job
+runs in the background (progress shows in the notification bell, see
+[Background jobs & notifications](#417-background-jobs--notifications)).
+
+**Limitations.** One target language per run; a duplicate-language version is blocked.
 
 **Related.** [Languages](#42-languages).
+
+**Keywords.** translate, translation, another language, multilingual, localize, language
+version, convert language.
 
 ---
 
 ### 4.13 Collaboration
 
 **Purpose.** Invite others to review or co-edit a course.
+
+**When to use.** When more than one person needs to build, review, or approve a course.
 
 **How it works.**
 - **Invite collaborators by email.** They receive an email with a **join link**; when
@@ -548,23 +668,189 @@ producing a linked **translation family** (the same course in multiple languages
   **"by \<owner\> · \<role\>"** byline in the Library, so you can tell whose course it is
   and your role on it.
 
-**Related.** [Permissions & Roles](#9-permissions--roles).
+**Steps.** Open the course → **invite** a collaborator by email and pick a role → they
+open the **join link**, sign in, and are added → leave **comments** on the course or a
+slide → the author resolves feedback (optionally via **AI-Assist**) and **deletes**
+threads when done.
+
+**Configuration options.** Role per collaborator (owner / admin / editor / reviewer /
+viewer); comment scope (course-level or per-slide).
+
+**Example.** An instructional designer (editor) drafts the course; a subject-matter
+expert (reviewer) leaves per-slide comments; the designer applies them and deletes the
+threads.
+
+**Best practices.** Give reviewers the **reviewer** role (comment-only) so they can't
+accidentally change content; keep threads focused on one slide.
+
+**Common mistakes.** Expecting a "resolve" button — there isn't one; **delete** the
+thread instead. Inviting with the wrong email (invites are keyed to the exact address).
+
+**Limitations.** Maximum **6 collaborators** per course (plus the owner). Reviewer and
+viewer roles are read-only.
+
+**Related.** [Permissions & Roles](#9-permissions--roles),
+[Curated Library](#414-curated-library).
+
+**Keywords.** collaborate, invite, share with team, co-edit, reviewer, comments,
+feedback, review, join link, shared course, roles.
 
 ---
 
 ### 4.14 Curated Library
 
-**Purpose.** Start from ready-made courses.
+**Purpose.** Start from ready-made courses instead of a blank course.
+
+**When to use.** When a curated course is close to what you need and you'd rather adapt
+than build from scratch.
 
 **How it works.** The **Library** is a curated set of official/ready-made courses
 organized into **collections**. You can **browse, copy (clone), and adapt** them as
-your own starting point. The Library supports **semantic search** (search by meaning,
-not just keywords).
+your own starting point. Cloning ("Use this course") runs as a **background job**
+(progress in the notification bell), always clones the course's **original language**,
+and regenerates its narration audio. **Semantic search** (search by meaning, not just
+keywords) is available in the Library and on the **Home** screen across your courses
+and collections, with filters (content type, draft/published, language).
 
-**Steps.** Open **Library** → browse a collection → open a course → **clone/copy** it
-to start editing your own version.
+**Steps.** Open **Library** → browse a collection (or **search**) → open a course →
+**Preview** it → **Use this course** to clone → edit your copy in the editor.
 
-**Related.** [Creating a course](#41-creating-a-course-the-course-wizard).
+**Configuration options.** Search filters: content type, draft/published, language.
+
+**Example.** Search "onboarding", preview a match, click **Use this course**, and edit
+the clone with your company's details.
+
+**Best practices.** Preview before cloning; clone in the **original language** and then
+**Translate** if you need another language.
+
+**Common mistakes.** Expecting edits to a Library course to change the original — you
+always edit your **own clone**, not the source.
+
+**Limitations.** Only **super users** can create/curate collections; cloning always
+uses the course's original language.
+
+**Related.** [Creating a course](#41-creating-a-course-the-course-wizard),
+[Translate](#412-translate),
+[Background jobs & notifications](#417-background-jobs--notifications).
+
+**Keywords.** library, templates library, ready-made courses, sample courses, clone,
+use this course, copy course, collections, semantic search, browse courses.
+
+---
+
+### 4.15 Templates
+
+**Purpose.** Start an **AI Custom Slide** from a ready-made design instead of a blank
+one.
+
+**When to use.** When you want a polished custom-slide layout (hero, comparison,
+timeline, etc.) and would rather adapt a proven design than build it from scratch.
+
+**How it works.** Templates are **curated AI Custom Slide designs** — pre-built layouts
+(with image slots and narration) that Learnbee's super users have published to a shared
+library. Picking a template inserts an **AI Custom Slide** pre-filled with that design,
+which you then edit. Templates are grouped into **kinds** you can filter by: **Hero,
+Comparison, Timeline, Process, Grid, Stat, Quote, List, Other**.
+
+**Steps (add a template slide).**
+1. In the editor, click **Add slide** to open the format picker.
+2. Either **search by name** (one search box covers both formats and templates) or open
+   the **Templates** view and **filter by kind**.
+3. **Click a template** — it inserts a Custom Slide pre-filled with that design.
+4. Edit the inserted slide's text, images, and narration.
+
+**Configuration options.** Filter templates by **kind** (Hero / Comparison / Timeline /
+Process / Grid / Stat / Quote / List / Other), or search by name/description.
+
+**Example.** Search "timeline", pick a Timeline template, then replace its placeholder
+milestones with your own content.
+
+**Best practices.** Use a template as a starting layout, then replace all placeholder
+text and images before publishing.
+
+**Common mistakes.** Expecting templates for **every** format — templates are
+specifically **Custom Slide** designs; the other 24 formats are added directly from the
+picker.
+
+**Limitations.** **Only super users (admins) can save new templates.** A regular creator
+can insert templates but cannot save their own — the "Save as template" action appears on
+a custom slide only for super users.
+
+**Related.** [AI Custom Slide](#416-ai-custom-slide), [Slide formats](#44-slide-formats),
+[The editor](#43-the-editor).
+
+**Keywords.** template, templates, custom slide template, preset, pre-filled slide, add
+slide, insert slide, save as template, hero, comparison, timeline, process, grid, stat,
+quote, list, layout.
+
+---
+
+### 4.16 AI Custom Slide
+
+**Purpose.** Generate a bespoke slide when none of the standard formats fit.
+
+**When to use.** When none of the other standard formats fit and you want AI to build a
+one-off layout from a description.
+
+**How it works.** **AI Custom Slide** is a slide **format** (category **AI**) — one of
+the 25 formats — where AI builds a custom slide layout and content from your prompt.
+
+**Steps.** Add a slide → choose **AI Custom Slide** → provide your prompt/content.
+
+**Configuration options.** Your prompt/content describes what the slide should contain.
+Further options: **TBD**.
+
+**Example.** "Create a slide showing our 3 support tiers as coloured cards with a price
+and one benefit each."
+
+**Best practices.** Give a clear, specific prompt; review the generated slide before
+publishing.
+
+**Common mistakes.** Confusing it with the standard formats — reach for AI Custom Slide
+only when the built-in formats don't fit.
+
+**Limitations.** Detailed behaviour and any per-surface caveats: **TBD**.
+
+**Related.** [Slide formats](#44-slide-formats), [Templates](#415-templates).
+
+**Keywords.** custom slide, AI custom slide, AI slide, custom layout, bespoke slide,
+generate slide.
+
+---
+
+### 4.17 Background jobs & notifications
+
+**Purpose.** Track long-running actions without blocking your work.
+
+**When to use.** Automatically — any time you start a job that runs in the background
+(Translate, or "Use this course" cloning).
+
+**How it works.** Some actions run as **background jobs** — notably **Translate** and
+**"Use this course" (clone)**. Progress appears in a **notification bell** in the
+header (with an unread count) plus short **toast** messages. You can keep working while
+a job runs.
+
+**Steps.** Start a background action (e.g. **Translate**) → watch progress in the
+**bell** / toasts → open the result when the job finishes.
+
+**Configuration options.** None — notifications appear automatically.
+
+**Example.** You start translating a course to Japanese; the bell shows progress while
+you keep editing another course.
+
+**Best practices.** Let a job finish before starting many more at once; check the bell
+if a result doesn't appear immediately.
+
+**Common mistakes.** Assuming a job failed because the page didn't change — background
+jobs continue while you work elsewhere; check the bell.
+
+**Limitations.** Notifications are session-based (header bell + 3-second toasts); a full
+persistent history is **TBD**.
+
+**Related.** [Translate](#412-translate), [Curated Library](#414-curated-library).
+
+**Keywords.** notification, notifications, bell, toast, background job, progress,
+translating, cloning, job status.
 
 ---
 
@@ -665,6 +951,27 @@ can crop, and choose Cover vs Contain display. See [4.6](#46-images).
 A: The **Library** — browse collections, clone a course, and adapt it. See
 [4.14](#414-curated-library).
 
+**Q: How do I insert a ready-made (template) slide?**
+A: When adding a slide, **search** or open the **Templates** view in the Add-slide picker,
+filter by kind (Hero, Comparison, Timeline, …), and pick one — it inserts a pre-filled
+**AI Custom Slide** you can edit. See [4.15](#415-templates).
+
+**Q: Can I save my own template?**
+A: Only **super users (admins)** can save new templates. A regular creator can insert
+existing templates but won't see a "Save as template" option. See [4.15](#415-templates).
+
+**Q: What is a "Big Play" slide?**
+A: It's the module-tree label for a **Big Statement** slide in **video mode** — the
+same format, not a separate one. See [4.7](#47-videos).
+
+**Q: How many slide formats are there?**
+A: **25** (including AI Custom Slide). See [Appendix A](#appendix-a--slide-format-registry).
+
+**Q: How many languages does Learnbee support?**
+A: **16** — English and English (India); 9 Indian languages (Hindi, Bengali, Marathi,
+Gujarati, Punjabi, Tamil, Kannada, Malayalam, Telugu); Spanish, French, Portuguese,
+German; and Japanese. See [4.2](#42-languages).
+
 **Q: Do I need to save my work?**
 A: No — the editor **auto-saves** continuously.
 
@@ -686,8 +993,9 @@ learner.
 - **Contact support if:** Translate isn't producing the expected language. 
 
 ### 7.2 SCORM export seems stuck
-- **Symptoms:** Export button shows "Packaging…" and is disabled.
-- **Cause:** Packaging bundles images/audio/video and takes ~30–40 seconds.
+- **Symptoms:** Export button shows "Packaging… X%" and is disabled.
+- **Cause:** Packaging bundles images/audio/video and takes ~30–40 seconds; the
+  percentage advances as it works.
 - **Resolution:** Wait for packaging to finish; the `.zip` will download. Don't
   double-click.
 - **Contact support if:** It runs far longer than ~40 seconds or fails repeatedly.
@@ -786,11 +1094,11 @@ learner.
 | Area | Constraint |
 |---|---|
 | **Course language** | Exactly one, set at creation, **immutable**. |
-| **Languages supported** | 14 (English + 9 Indian + 4 European; the 4 European set is TBD). |
-| **Slide formats** | 24 (see [Appendix A](#appendix-a--slide-format-registry)). |
+| **Languages supported** | 16 (English, English (India), 9 Indian languages, Spanish, French, Portuguese, German, Japanese). |
+| **Slide formats** | 25 (see [Appendix A](#appendix-a--slide-format-registry)). |
 | **Narration voices** | Female or male per course; per-segment override available. |
 | **Access code** | 6 characters, unambiguous alphabet. |
-| **SCORM** | SCORM **2004**; packaging ~30–40 seconds; self-contained zip. |
+| **SCORM** | SCORM **2004 (4th Edition)**; packaging ~30–40 seconds (shows "Packaging… X%"); self-contained zip. |
 | **Videos per course** | Up to **6 uploaded video files**. YouTube links are unlimited and don't count. |
 | **Video file size** | **25 MB** max per uploaded file (MP4 or WebM). |
 | **Title Slide layouts** | **7** shuffleable layouts (with a logo size control). |
@@ -800,7 +1108,7 @@ learner.
 | **PDF size / pages** | **TBD.** |
 | **Supported image types** | Common web image formats (exact list **TBD**; output is WebP). |
 | **Supported video sources** | Uploaded video file or YouTube link. |
-| **Browser compatibility** | **To Be Documented** (modern browsers assumed). |
+| **Devices / browsers** | Plays on modern desktop and mobile browsers, including mobile-landscape and iOS fullscreen. Exact browser matrix: **TBD**. |
 | **Performance** | SCORM packaging is the main wait (~30–40s); narration is generated once by the creator. |
 
 ---
@@ -809,7 +1117,7 @@ learner.
 
 | Integration | Purpose | Setup | Requirements | Known limitations |
 |---|---|---|---|---|
-| **LMS via SCORM 2004** | Deliver courses in an LMS with completion/score tracking. | Export SCORM → upload the `.zip` to the LMS. | An LMS that accepts SCORM 2004. | SCORM 2004 only; 1.2/xAPI **TBD**. |
+| **LMS via SCORM 2004** | Deliver courses in an LMS with completion/score tracking. | Export SCORM → upload the `.zip` to the LMS. | An LMS that accepts SCORM 2004. | SCORM 2004 4th Edition; xAPI **TBD**. |
 | **YouTube** | Embed a YouTube video in a Big Statement (video mode). | Paste the YouTube link on a video-mode slide. | A public/embeddable YouTube video. | Playback uses YouTube's own player; narration disabled on video slides. |
 | **Pexels (stock images)** | Search free stock photos in the image picker. | Use the **Pexels** tab in the image picker. | None (built in). | Pexels images are used as remote images and aren't added to your library. |
 | **Embed (iframe)** | Put a published course into another website. | Copy the embed code from Publish. | A site where you can paste HTML. | Uses the compact embedded player. |
@@ -842,8 +1150,9 @@ documented and suggest contacting support.
   disabled on video slides.
 - **Display modes (Cover/Contain) are not available** on Image Explore, Image Match,
   Sticky Scroll, Sticky Slide, Insight Cards, and Scenario Challenge.
-- **SCORM is 2004 only** (1.2/xAPI: TBD).
-- **Per-course video limit** exists (exact value TBD).
+- **SCORM is 2004 4th Edition** (xAPI: TBD).
+- **Per-course video limit:** 6 uploaded files (25 MB each); YouTube links are
+  unlimited and don't count.
 - **No documented public API** (TBD).
 - **Right-to-left (RTL) / Arabic** support: not available (planned/parked).
 - **Learner tracking beyond SCORM** (e.g. email capture in the hosted player):
@@ -882,6 +1191,19 @@ documented and suggest contacting support.
 > High-level, user-facing highlights. Engineering-level detail is intentionally
 > omitted. Dates reflect the project timeline.
 
+**August 2026 — recent additions**
+- **Auto-advance released to production** — narrated slides/segments can auto-advance;
+  six question/PDF formats always wait for the learner.
+- **Templates** — insert curated, pre-filled slides from the Add-slide picker (browse
+  by category or search by name).
+- **AI Custom Slide** — a new AI slide format (**25 formats** total).
+- **Narration-length** setting and **course font style** setting.
+- **SCORM packaging progress** — export shows a live "Packaging… X%" indicator, and the
+  package is **SCORM 2004 4th Edition**.
+- **Shareable course link** that reopens the Share panel; **titled-hyperlink** copy and
+  fixed **social preview images** for shared links.
+- Mobile-landscape and iOS fullscreen playback improvements.
+
 **May 2026 — recent additions**
 - **Collaboration:** threaded review comments, collaborator roles, shared-course
   indicators.
@@ -894,7 +1216,7 @@ documented and suggest contacting support.
   image formats. Image **cropping** at upload.
 - **Interactivity:** **Click mode** (learner clicks each segment) and **Auto-advance**
   across supported formats.
-- **SCORM:** self-contained packages (images/audio/video bundled), full 24-format
+- **SCORM:** self-contained packages (images/audio/video bundled), full format
   support in the SCORM player.
 - **Video & PDF:** video via Big Statement (file or YouTube) with a video library;
   PDF Viewer slides with a Course PDFs upload step.
@@ -923,43 +1245,51 @@ documented and suggest contacting support.
 
 ### Appendix A — Slide format registry
 
-| Format | Category | Gated? |
-|---|---|---|
-| Title Slide | Narrative | No |
-| Agenda Slide | Narrative | No |
-| Big Statement | Narrative | No |
-| Key Points | Content | No |
-| Insight Cards | Content | No |
-| Image + Content (Left) | Content | No |
-| Image + Content (Right) | Content | No |
-| Image Overlay (Left) | Content | No |
-| Image Overlay (Right) | Content | No |
-| PDF Viewer | Content | No |
-| Side by Side | Comparison | No |
-| Feature Matrix | Comparison | No |
-| Pros & Cons | Comparison | No |
-| Step by Step | Content | Yes |
-| Accordion | Content | Yes |
-| Sticky Scroll | Content | Yes |
-| Sticky Slide | Content | Yes |
-| Scenario Challenge | Interactive | Yes |
-| Quiz / MCQ | Interactive | Yes |
-| True / False | Interactive | Yes |
-| Flip Cards | Interactive | Yes |
-| Image Explore | Interactive | Yes |
-| Image Match | Interactive | Yes |
-| Fill in the Blanks | Interactive | Yes |
+There are **25 formats**. Names and categories below match the Add-slide picker.
 
-- **Video** = a mode of **Big Statement** (not a separate format).
+| # | Format (name) | Internal id | Category | Gated? |
+|---|---|---|---|---|
+| 1 | Title Slide | `title-slide` | Opening | No |
+| 2 | Agenda | `agenda-slide` | Opening | No |
+| 3 | Big Statement | `big-statement` | Content | No |
+| 4 | Image + Content (Left) | `image-content-left` | Content | No |
+| 5 | Image + Content (Right) | `image-content-right` | Content | No |
+| 6 | Image + Overlay (Left) | `image-overlay-left` | Content | No |
+| 7 | Image + Overlay (Right) | `image-overlay-right` | Content | No |
+| 8 | Step by Step | `step-by-step` | Content | Yes |
+| 9 | PDF Viewer | `pdf-viewer` | Content | No |
+| 10 | Key Points | `key-points` | Interactive | No |
+| 11 | Insight Cards | `insight-cards` | Interactive | No |
+| 12 | Accordion | `accordion` | Interactive | Yes |
+| 13 | Sticky Scroll | `sticky-scroll` | Interactive | Yes |
+| 14 | Sticky Slide | `sticky-slide` | Interactive | Yes |
+| 15 | Flip Cards | `flip-cards` | Interactive | Yes |
+| 16 | Image Explore | `image-explore` | Interactive | Yes |
+| 17 | Scenario Challenge | `scenario-challenge` | Interactive | Yes |
+| 18 | Quiz / MCQ | `quiz-mcq` | Quiz | Yes |
+| 19 | True / False | `true-false` | Quiz | Yes |
+| 20 | Fill in the Blanks | `fill-blanks` | Quiz | Yes |
+| 21 | Image Match | `image-match` | Quiz | Yes |
+| 22 | Side by Side | `comparison-side-by-side` | Comparison | No |
+| 23 | Feature Matrix | `comparison-matrix` | Comparison | No |
+| 24 | Pros & Cons | `comparison-pros-cons` | Comparison | No |
+| 25 | AI Custom Slide | `custom-slide` | AI | No |
+
+- **Video** = the **video mode** of **Big Statement** (not a separate format); labelled
+  **"Big Play"** in the module tree.
 - **Title Slide** has **7 shuffleable layouts** (Cinematic, Split, Typographic, Centered hero, Text left · image right, Full image · lower scrim, Diagonal split) plus a logo size control.
+- **Gated formats (11):** Step by Step, Accordion, Sticky Scroll, Sticky Slide, Flip Cards, Image Explore, Scenario Challenge, Quiz / MCQ, True / False, Fill in the Blanks, Image Match.
 
 ### Appendix B — Supported languages
 
+**16 languages total** (the course language is immutable once created).
+
 | Group | Languages |
 |---|---|
-| Global | English |
-| Indian | Hindi, Marathi, Gujarati, Bengali, Punjabi, Tamil, Kannada, Telugu, Malayalam |
-| European | 4 languages (exact set **TBD**) |
+| English (2) | English, English (India) |
+| Indian (9) | Hindi, Bengali, Marathi, Gujarati, Punjabi, Tamil, Kannada, Malayalam, Telugu |
+| European (4) | Spanish, French, Portuguese, German |
+| East Asian (1) | Japanese |
 
 ### Appendix C — Delivery methods
 
@@ -974,11 +1304,11 @@ documented and suggest contacting support.
 
 | Item | Value |
 |---|---|
-| Slide formats | 24 |
-| Languages | 14 (1 global + 9 Indian + 4 European) |
+| Slide formats | 25 (incl. AI Custom Slide) |
+| Languages | 16 (English, English (India), 9 Indian, Spanish, French, Portuguese, German, Japanese) |
 | Access code length | 6 characters (unambiguous alphabet) |
-| SCORM version | 2004 |
-| SCORM packaging time | ~30–40 seconds |
+| SCORM version | 2004 (4th Edition) |
+| SCORM packaging time | ~30–40 seconds (shows "Packaging… X%") |
 | Auto-save | Automatic (~1.5s debounce) |
 | Narration voices | Female / Male (per course; per-segment override) |
 | Image output format | WebP (max dimension ~1280px) |
@@ -1001,9 +1331,5 @@ documented and suggest contacting support.
 - Treat **TBD** items as "not currently documented" — do not fill them in with
   guesses.
 - Stay on Learnbee topics; decline unrelated requests politely.
-- **Never answer system-architecture questions** — tech stack, infrastructure,
-  hosting, databases, source code, internal APIs/endpoints, security setup, or how
-  the product or this assistant is built. Politely decline and point technical or
-  partnership enquiries to support. Only explain how to **use** product features.
 - Match the user's language where possible.
 ```

@@ -12,7 +12,7 @@ export default function SiteFooter() {
         </div>
         <div className="footer-col">
           <strong>Platform</strong>
-          <a href="/#philosophy">How It Works</a>
+          <a href="/#about">How It Works</a>
           <a href="/#features">Platform Features</a>
           <a href="/#value">Why Learnbee</a>
           <a href="/#faq">FAQs</a>

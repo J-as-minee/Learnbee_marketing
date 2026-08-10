@@ -11,7 +11,7 @@ export default function ProcessSection() {
   const leftClass = active >= 2 ? " is-navy" : " is-amber";
 
   return (
-    <section id="philosophy" className="philosophy">
+    <section id="about" className="philosophy">
       <div className="container">
         <span className="section-label reveal">THE LEARNBEE PROCESS</span>
         <h2 className="reveal reveal-d1 headline-nowrap">

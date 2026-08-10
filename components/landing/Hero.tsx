@@ -80,11 +80,11 @@ export default function Hero() {
         </h1>
         <p className="reveal reveal-d2">
           Most platforms stop at generating slides. Learnbee turns a document or topic into a
-          narrated course — in any of 12+ languages — then exports it anywhere, no LMS required.
+          narrated course — in any of 16 languages — then exports it anywhere, no LMS required.
         </p>
         <div className="hero-actions reveal reveal-d3">
           <a href={SIGN_IN} className="btn btn-white btn-lg">Get Started for Free</a>
-          <a href="#philosophy" className="btn btn-outline-light btn-lg">See How It Works</a>
+          <a href="#about" className="btn btn-outline-light btn-lg">See How It Works</a>
         </div>
       </div>
     </section>
