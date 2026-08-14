@@ -97,7 +97,8 @@ authoring.
 | **Library / Curated Library** | A curated collection of ready-made courses to browse, copy, and adapt. |
 | **Translation family** | A set of the same course translated into multiple languages, linked together. |
 | **Course PDF** | A PDF document embedded via the PDF Viewer slide. |
-| **Template** | A curated **AI Custom Slide** design (hero, comparison, timeline, etc.) you insert from the Add-slide picker. Inserting a template creates a pre-filled Custom Slide. Only super users can save new templates. |
+| **Template** | A curated **AI Custom Slide** design (hero, comparison, timeline, etc.) you insert from the Add-slide picker. Inserting a template creates a pre-filled Custom Slide. Anyone can insert one; only **super users** can save, edit, or delete them. |
+| **Super user** | An account-level administrator who manages **shared curated content** — templates and Library collections — for everyone. Separate from the five per-course collaborator roles. |
 | **AI Custom Slide** | A slide format (category "AI") where AI generates a custom slide from your prompt. One of the 25 formats. |
 | **Big Play** | The label shown in the module tree for a **Big Statement** slide set to **video mode** — the same format, not a separate one. |
 | **Reference content / Reference PDF** | Source material you provide so the AI can generate the course. |
@@ -765,22 +766,32 @@ Process / Grid / Stat / Quote / List / Other), or search by name/description.
 **Example.** Search "timeline", pick a Timeline template, then replace its placeholder
 milestones with your own content.
 
+**Managing templates (super users only).** On a custom slide, choose **Save as template**.
+The dialog's **Save to** control offers **New template** or **Update \<name\>** — pick
+*Update* to change an existing template instead of adding another. If the design is
+already saved, *Update* is pre-selected for you. **Edit** and **Delete** sit on each
+template card; delete asks for confirmation. Templates are shared with everyone on the
+account, so your changes and deletions affect other creators too.
+
 **Best practices.** Use a template as a starting layout, then replace all placeholder
-text and images before publishing.
+text and images before publishing. When improving a design that already exists, update
+the original rather than saving a near-identical copy.
 
 **Common mistakes.** Expecting templates for **every** format — templates are
 specifically **Custom Slide** designs; the other 24 formats are added directly from the
-picker.
+picker. Saving as a **new** template when you meant to update the original — check the
+**Save to** control before confirming.
 
-**Limitations.** **Only super users (admins) can save new templates.** A regular creator
-can insert templates but cannot save their own — the "Save as template" action appears on
-a custom slide only for super users.
+**Limitations.** **Only super users (admins) can save, edit, or delete templates.** A
+regular creator can insert any template but has no management actions. Deleting a template
+does not affect slides already created from it; those keep working.
 
 **Related.** [AI Custom Slide](#416-ai-custom-slide), [Slide formats](#44-slide-formats),
-[The editor](#43-the-editor).
+[The editor](#43-the-editor), [Permissions & roles](#9-permissions--roles).
 
 **Keywords.** template, templates, custom slide template, preset, pre-filled slide, add
-slide, insert slide, save as template, hero, comparison, timeline, process, grid, stat,
+slide, insert slide, save as template, edit template, update template, delete template,
+duplicate template, save to, hero, comparison, timeline, process, grid, stat,
 quote, list, layout.
 
 ---
@@ -960,6 +971,11 @@ filter by kind (Hero, Comparison, Timeline, …), and pick one — it inserts a 
 A: Only **super users (admins)** can save new templates. A regular creator can insert
 existing templates but won't see a "Save as template" option. See [4.15](#415-templates).
 
+**Q: I improved a template's design — how do I update it instead of adding a copy?**
+A: In the save dialog, set **Save to** → **Update \<name\>**. If the design is identical
+to one already saved, Learnbee detects it and pre-selects *Update* for you, so the
+default action won't create a duplicate. Super users only. See [4.15](#415-templates).
+
 **Q: What is a "Big Play" slide?**
 A: It's the module-tree label for a **Big Statement** slide in **video mode** — the
 same format, not a separate one. See [4.7](#47-videos).
@@ -1087,6 +1103,12 @@ learner.
   hidden, and Library card actions are limited by role.
 - A course can have up to **6 collaborators** in addition to the owner.
 
+**Super users (admins).** A separate, account-level status from the five course roles
+above. Super users can **save, edit, and delete templates** and **manage Library
+collections** — shared content everyone sees. Everyone can still insert templates and
+browse, preview, and clone Library courses. Super-user status is granted by Learnbee on
+request; it does **not** give access to anyone else's courses.
+
 ---
 
 ## 10. Limits & Constraints
@@ -1195,7 +1217,13 @@ documented and suggest contacting support.
 - **Auto-advance released to production** — narrated slides/segments can auto-advance;
   six question/PDF formats always wait for the learner.
 - **Templates** — insert curated, pre-filled slides from the Add-slide picker (browse
-  by category or search by name).
+  by category or search by name). Super users can now edit and delete templates as well
+  as save them, and saving a design that already exists offers to update the original
+  instead of adding a duplicate.
+- **SCORM reporting fix** — LMS reports now show the **question text** as a column label,
+  and **True / False** answers are reported correctly (they could previously be marked
+  wrong even when the score was right). **Re-export** any course whose report looked
+  wrong — packages already in your LMS keep the old behaviour.
 - **AI Custom Slide** — a new AI slide format (**25 formats** total).
 - **Narration-length** setting and **course font style** setting.
 - **SCORM packaging progress** — export shows a live "Packaging… X%" indicator, and the
