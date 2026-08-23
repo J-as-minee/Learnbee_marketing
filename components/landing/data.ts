@@ -3,8 +3,8 @@
    so the markup (and therefore the CSS hooks) stays pixel-identical. */
 
 /* ── Rotating hero word ── */
-export const ROTATING_WORDS = ["interactive", "impactful", "impressive", "inspiring"];
-export const ROTATING_COLORS = ["#9333EA", "#F0A500", "#0EA5E9", "#10B981"];
+export const ROTATING_WORDS = ["interactive", "impactful", "impressive", "inspiring", "imaginative"];
+export const ROTATING_COLORS = ["#9333EA", "#F0A500", "#0EA5E9", "#10B981", "#ec4899"];
 
 /* ── Process wizard (4 steps) ── */
 export interface WizStep {
