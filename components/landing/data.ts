@@ -208,7 +208,7 @@ export const featData: Feature[] = [
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`, ic: "#22c55e", ib: "#dcfce7", tint: "#f0fdf4", size: "lg",
     title: "SCORM 2004 Export", sub: "Self-contained .zip, any LMS",
     desc: "Every export packages images and audio into the zip. Drop it into Moodle, Cornerstone, SAP SuccessFactors, or Docebo — no plugin, no CDN dependency, no vendor lock-in.",
-    checks: ["Images bundled via sharp pipeline", "React components rendered via SSR", "Completion status, score, resume location", "No publish step required to export"],
+    checks: ["Images bundled via sharp pipeline", "React components rendered via SSR", "Progress, time spent, question-level answers & timing", "No publish step required to export"],
     mock: `<div class="fm-scorm">
       <div class="fms-file"><span class="fms-ico">📦</span><div><div class="fms-name">course_export.zip</div><div class="fms-meta">Images + audio bundled</div></div></div>
       <div class="fms-prog"><div class="fms-bar"></div></div>
@@ -218,7 +218,7 @@ export const featData: Feature[] = [
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>`, ic: "#f97316", ib: "#ffe4e0", tint: "#fff7f5", size: "lg",
     title: "Publish & Share", sub: "6-char code, QR, embed — live instantly",
     desc: "Hit publish and get an access code, QR, share link, and embed code in one step. Republish anytime — same code, same link, updated content.",
-    checks: ["No LMS required to share a course", "QR code downloads as PNG", "Embed code for any website or portal", "Republish — same code, updated content"],
+    checks: ["No LMS required to share a course", "QR code downloads as PNG", "Embed code for any website or portal", "Republish — same code, updated content", "Plays upright on any phone — no rotating required"],
     mock: `<div class="fm-publish">
       <div class="fmp-code">GXH26L</div>
       <div class="fmp-hint">share link · embed code · QR</div>

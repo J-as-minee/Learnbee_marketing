@@ -31,6 +31,10 @@ const WIKI: WikiCategory[] = [
         q: "How do collaborators access a shared course?",
         a: "They receive an email with a join link. When they sign in they are added to the course with the role you chose. Up to 6 collaborators per course.",
       },
+      {
+        q: "Can I see and reorder all my slides at once?",
+        a: "Yes — click Slides under the module list to open a grid of every slide in the course. Drag a card to reorder it, even into a different module, or click one to jump straight to editing it.",
+      },
     ],
   },
   {
@@ -185,6 +189,10 @@ const WIKI: WikiCategory[] = [
         q: "How do I embed a course on a website?",
         a: "Copy the embed code (an iframe) from the Publish dialog and paste it into your site HTML.",
       },
+      {
+        q: "Does the course work well on a phone?",
+        a: "Yes — courses play upright (portrait) or sideways on a phone, so learners don't need to rotate their device. This applies to the editor preview, shared links, and SCORM packages (existing SCORM packages need a re-export to pick it up).",
+      },
     ],
   },
   {
@@ -206,7 +214,11 @@ const WIKI: WikiCategory[] = [
       },
       {
         q: "What does the SCORM package track in my LMS?",
-        a: "Completion status, quiz score, session time, and resume location.",
+        a: "Completion status, score, progress, time spent, and resume location — plus question-level reporting: each question's text, the learner's answer, whether it was correct, and how long it took. True/False questions report correctly as true/false, not multiple choice.",
+      },
+      {
+        q: "Why doesn't my existing SCORM package show these improvements?",
+        a: "A SCORM package carries its own player inside the zip, so it keeps the behavior it had when exported. Export the course again and upload the new .zip to your LMS to pick up fixes and new features — packages already in your LMS aren't automatically updated.",
       },
     ],
   },
