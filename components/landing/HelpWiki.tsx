@@ -16,24 +16,24 @@ const WIKI: WikiCategory[] = [
     icon: "rocket",
     items: [
       {
+        q: "What is Learnbee?",
+        a: "An AI-powered course authoring tool — describe a topic or upload a document, and it generates a narrated, interactive course you can publish as a link or export as SCORM for your LMS.",
+      },
+      {
         q: "Do I need an account to create courses?",
         a: "Yes — you need to sign in to create, edit, publish, or manage courses. Learners taking a published course via a link or access code do not need an account.",
       },
       {
-        q: "What are the main areas of the app?",
-        a: "Home (start a course, recent work, enter an access code), Courses (your full list), Library (ready-made courses to browse and clone), Course Wizard (guided new-course creation), Editor (build and edit slides), Translate (copy and translate a course), and Player/Preview (play as a learner).",
+        q: "Is Learnbee free to use?",
+        a: "Yes — there's currently no billing or paid plan. Every signed-in account has full access to the toolset.",
       },
       {
-        q: "Does Learnbee auto-save my work?",
-        a: "Yes — the editor saves continuously as you type. There is no manual save button.",
+        q: "How do I sign up?",
+        a: "Click Get Started (or Sign Up) and create an account with your email or a supported sign-in provider. No approval or invite needed.",
       },
       {
         q: "How do collaborators access a shared course?",
         a: "They receive an email with a join link. When they sign in they are added to the course with the role you chose. Up to 6 collaborators per course.",
-      },
-      {
-        q: "Can I see and reorder all my slides at once?",
-        a: "Yes — click Slides under the module list to open a grid of every slide in the course. Drag a card to reorder it, even into a different module, or click one to jump straight to editing it.",
       },
     ],
   },
