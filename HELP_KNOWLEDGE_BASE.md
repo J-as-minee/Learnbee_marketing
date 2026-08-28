@@ -10,7 +10,7 @@
 > section here. Anything not yet verifiable is marked **To Be Documented (TBD)** —
 > do not replace TBD with assumptions.
 >
-> **Last reviewed:** 2026-08-10 · **Applies to:** Learnbee (web app)
+> **Last reviewed:** 2026-08-28 · **Applies to:** Learnbee (web app)
 
 ---
 
@@ -283,6 +283,18 @@ change language, course language, supported languages.
 **Auto-save.** Work saves automatically as you edit (debounced, ~1.5 seconds). There
 is **no manual save button**.
 
+**Slide sorter.** Click **Slides** — the row pinned under the module list — to open a
+grid of **every slide in the course at once**, like PowerPoint's slide sorter. Each card
+shows the real slide, and the one you were on is ringed and labelled. From here you can:
+- **Reorder** — drag a slide to a new position, either inside its module or **into a
+  different module**.
+- **Jump** — click a slide to close the sorter and start editing that slide.
+
+Reordering saves automatically, the same as any other edit. Two cards show a placeholder
+instead of the slide: **PDF Viewer** slides and **Big Statement** slides in video mode —
+loading a document or a video into every card at once would make the grid slow. The row
+is hidden until the course has at least one slide.
+
 **Preview.** Click **Preview** to play the course as a learner would.
 
 **Course styling.** A course-level **font style** setting controls the typography used
@@ -295,7 +307,8 @@ across the course's slides.
 **Related.** [Slide formats](#44-slide-formats), [Narration](#45-narration-ai-voiceover).
 
 **Keywords.** editor, edit course, module tree, canvas, properties panel, autosave,
-save, rearrange slides, font style.
+save, rearrange slides, reorder slides, move slide to another module, slide sorter,
+slide grid, sort view, thumbnails, font style.
 
 ---
 
@@ -598,8 +611,14 @@ points:
 - The file is **date-stamped** (e.g. `coursename_YYYY-MM-DD_scorm.zip`).
 - The package is **self-contained** — images, audio, and video are bundled inside, so
   it doesn't depend on external hosting.
-- It tracks **lesson status/completion, score, session time**, and resume location.
-- It plays the same 25 formats as the online player.
+- It tracks **completion status, score, time spent, progress, and resume location**, so a
+  learner can leave part-way and pick up where they left off.
+- **Question-level reporting** — each question reaches the LMS with its question text as
+  the label, the learner's answer, whether it was correct, how long it took, and when it
+  was answered. True/False questions are reported as true/false judgements rather than as
+  multiple choice.
+- It plays the same 25 formats as the online player, and on a phone it uses the upright
+  (portrait) layouts.
 
 **Steps.** Use the **Export SCORM** action. Packaging takes about **30–40 seconds**
 and shows a live **"Packaging… X%"** progress indicator while it builds; then the
@@ -612,11 +631,18 @@ while building).
 
 **Limitations.** SCORM 2004 4th Edition (not xAPI) — other standards are **TBD**.
 
+**Important — packages already in your LMS don't change.** A SCORM `.zip` carries its own
+player inside it, so it keeps the behaviour it had on the day it was exported. Fixes and
+new features (reporting improvements, the upright phone layouts) reach a course only when
+you **export it again** and upload the new package. Nothing about an existing package
+breaks; it simply stays as it was.
+
 **Related.** [Publishing & sharing](#410-publishing--sharing),
 [Integrations](#11-integrations).
 
 **Keywords.** SCORM, LMS, export, download package, SCORM 2004, upload to LMS, zip,
-packaging, completion tracking.
+packaging, completion tracking, progress bar, time spent, question report, interactions,
+re-export, resume.
 
 ---
 
@@ -1051,6 +1077,34 @@ learner.
 
 ---
 
+### 7.7 The LMS report looks wrong or empty
+- **Symptoms:** The LMS shows no progress bar movement, **00:00:00 time spent** against a
+  learner who clearly took the course, a True/False question marked wrong when the score
+  says otherwise, or every question collapsed into one unlabelled column.
+- **Cause:** These were defects in the SCORM player, fixed in August 2026. A SCORM package
+  carries its own player inside it, so a package exported **before** the fix keeps the old
+  behaviour no matter what the LMS does.
+- **Resolution:** **Export the course again** and upload the new `.zip` to your LMS.
+  Reports produced from then on will be correct. Historical records already in the LMS are
+  not rewritten.
+- **Contact support if:** A freshly exported package still reports incorrectly — tell us
+  which LMS and which figure looks wrong.
+
+---
+
+### 7.8 A slide won't drag in the slide sorter
+- **Symptoms:** Dragging a card does nothing, or the sorter closes and jumps to the slide
+  instead of moving it.
+- **Cause:** A drag needs a small deliberate movement before it starts — a quick tap is
+  read as a click, which is the "jump to this slide" action.
+- **Resolution:** Press the card and **move it a short distance** before releasing —
+  that small movement is what tells the sorter you meant to drag rather than click. The
+  same gesture works with a finger. To drop a slide into an **empty** module, release it
+  over that module's empty area.
+- **Contact support if:** Reordering still doesn't hold after you reopen the course.
+
+---
+
 ## 8. Errors & Messages
 
 > **"From Link" image import** returns a stable error type for every failure. The
@@ -1130,7 +1184,7 @@ request; it does **not** give access to anyone else's courses.
 | **PDF size / pages** | **TBD.** |
 | **Supported image types** | Common web image formats (exact list **TBD**; output is WebP). |
 | **Supported video sources** | Uploaded video file or YouTube link. |
-| **Devices / browsers** | Plays on modern desktop and mobile browsers, including mobile-landscape and iOS fullscreen. Exact browser matrix: **TBD**. |
+| **Devices / browsers** | Plays on modern desktop and mobile browsers. Phones are supported **held either way** — courses have a layout designed for upright (portrait) screens as well as sideways, so learners are no longer asked to rotate their device. Includes iOS fullscreen. Exact browser matrix: **TBD**. |
 | **Performance** | SCORM packaging is the main wait (~30–40s); narration is generated once by the creator. |
 
 ---
@@ -1173,6 +1227,10 @@ documented and suggest contacting support.
 - **Display modes (Cover/Contain) are not available** on Image Explore, Image Match,
   Sticky Scroll, Sticky Slide, Insight Cards, and Scenario Challenge.
 - **SCORM is 2004 4th Edition** (xAPI: TBD).
+- **An exported SCORM package is frozen.** It carries its own player, so improvements
+  made after the export reach it only when the course is exported again and re-uploaded.
+- **PDF Viewer and video slides show a placeholder in the slide sorter** — the grid does
+  not load a document or a video into every card.
 - **Per-course video limit:** 6 uploaded files (25 MB each); YouTube links are
   unlimited and don't count.
 - **No documented public API** (TBD).
@@ -1213,6 +1271,22 @@ documented and suggest contacting support.
 > High-level, user-facing highlights. Engineering-level detail is intentionally
 > omitted. Dates reflect the project timeline.
 
+**Late August 2026 — newest**
+- **Slide sorter.** A new **Slides** view opens a grid of every slide in the course at
+  once. Drag a slide to reorder it — including **into another module** — or click one to
+  jump straight to editing it. Open it from the **Slides** row under the module list.
+- **Upright phone layouts are now live for everyone**, across the editor preview, shared
+  links and SCORM packages. Rotating mid-slide keeps your place: narration carries on, and
+  anything you have opened, flipped or answered stays as it was.
+- **Better LMS reports.** Courses now report **progress** (so the LMS progress bar fills),
+  **time spent on a phone** (sessions could previously show 00:00:00), **how long each
+  question took**, and **when it was answered**. True/False questions are reported as
+  true/false rather than as multiple choice. **Re-export any course** whose LMS report
+  looked wrong — packages already uploaded keep the behaviour they were exported with.
+- **Returning to a finished slide no longer restarts it.** Coming back to a slide you've
+  completed used to replay the whole voiceover and lock **Next** again until it finished.
+  It now stays unlocked, and you can replay the audio deliberately if you want it.
+
 **August 2026 — recent additions**
 - **Auto-advance released to production** — narrated slides/segments can auto-advance;
   six question/PDF formats always wait for the learner.
@@ -1231,6 +1305,15 @@ documented and suggest contacting support.
 - **Shareable course link** that reopens the Share panel; **titled-hyperlink** copy and
   fixed **social preview images** for shared links.
 - Mobile-landscape and iOS fullscreen playback improvements.
+
+**Aug 2026 — phone-friendly courses**
+- **Courses now play upright on a phone.** Every slide type has a layout designed for a
+  tall screen, so learners can hold the phone naturally instead of being asked to turn it
+  sideways. Rotating mid-slide keeps your place — the narration carries on and anything
+  you have already opened or answered stays as it was.
+- Applies everywhere a learner can reach a course: the preview in the editor, a shared
+  link, and a SCORM package in your LMS. **Existing SCORM packages keep the behaviour
+  they were exported with — re-export a course to give it the upright layout.**
 
 **May 2026 — recent additions**
 - **Collaboration:** threaded review comments, collaborator roles, shared-course
