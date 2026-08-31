@@ -4,6 +4,7 @@ import Hero from "@/components/landing/Hero";
 import DemoSection from "@/components/landing/DemoSection";
 import ValueSection from "@/components/landing/ValueSection";
 import ProcessSection from "@/components/landing/ProcessSection";
+import PortraitCarousel from "@/components/landing/PortraitCarousel";
 import CoursePreview from "@/components/landing/CoursePreview";
 import FeaturesSection from "@/components/landing/FeaturesSection";
 import CourseLibrary from "@/components/landing/CourseLibrary";
@@ -22,6 +23,7 @@ export default function Home() {
         <DemoSection />
         <ValueSection />
         <ProcessSection />
+        <PortraitCarousel />
         <CoursePreview />
         <FeaturesSection />
         <CourseLibrary />

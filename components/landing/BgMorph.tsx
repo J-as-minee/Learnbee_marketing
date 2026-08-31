@@ -10,7 +10,7 @@ export default function BgMorph() {
     if (!morph) return;
 
     const DEFS = [
-      { sel: ".hero", rgb: [15, 23, 41] },
+      { sel: ".hero", rgb: [255, 255, 255] },
       { sel: ".demo-section", rgb: [248, 247, 251] },
       { sel: ".value-section", rgb: [15, 23, 41] },
       { sel: "#about", rgb: [248, 247, 251] },
