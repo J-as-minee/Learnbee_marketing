@@ -18,6 +18,63 @@ Not for day-to-day task tracking (use TODO.md for parked ideas) — this is the 
 
 ---
 
+## 2026-08-28 — Terms clause 8 rewritten; "Last updated" bumped on Terms only
+
+**What:** Section 8 (Marketing and Publicity) went from one loose paragraph to 8.1–8.6,
+governing when an organisation's name or logo may appear in Learnbee marketing. The
+"Last updated" date on **Terms** moved 26 June → 28 August 2026. **Privacy was left at
+26 June deliberately.**
+**Why:** The old clause said only "with your consent we may reference your name and logo",
+which does not distinguish *a person from that company signed up* from *that company is
+our customer* — the distinction that actually carries legal and reputational risk. 8.2 now
+states plainly that a logo reference is a factual usage statement and not an endorsement,
+sponsorship, partnership or customer claim, and requires that to be disclosed on the same
+page as the logos. 8.5 puts case studies, testimonials, usage figures and any "is a
+customer" claim behind prior written consent. 8.4 gives a no-reason-required removal route
+(legal@learnbee.ai, 15 business days).
+The date bump is not housekeeping: the change-notification wording in the same document
+promises the date is revised when terms change, so shipping a rewritten clause 8 under a
+26 June stamp would have contradicted the document itself. Privacy was *not* bumped
+because nothing in it changed except a broken footer href — bumping it would imply a
+policy change that did not happen and needlessly re-trigger "changes are effective when
+posted".
+**Touched:** `app/terms/content.html`, `app/privacy/content.html` (link only).
+**Open:** confirm `legal@learnbee.ai` is monitored — 8.4 makes it the removal channel.
+
+---
+
+## 2026-08-28 — Site copy caught up with three product releases
+
+**What:** Marketing copy and Help topics were behind the product by roughly a week. SCORM
+Export's card and FAQ still described only completion/score/resume; phone playback appeared
+nowhere on the site; the slide sorter had no Help coverage. Added question-level reporting
+to the tracked-fields list, a phone/portrait line to Publish & Share, a Getting Started FAQ
+for the sorter, and an FAQ explaining why an existing SCORM package shows none of it until
+re-exported. Getting Started was then curated — three low-value or duplicated questions out,
+three higher-value ones in (what Learnbee is, that it is currently free, how to sign up).
+**Why:** The re-export FAQ is the important one. A SCORM zip carries its own player, so the
+reporting fixes reach a customer only when they export again — without that stated, the
+reporting improvements read as broken rather than as pending a re-export.
+**Touched:** `components/landing/HelpWiki.tsx`, `components/landing/data.ts`.
+
+---
+
+## 2026-08-28 — Help knowledge base synced from the authoring repo
+
+**What:** Mirrored `docs/HELP_KNOWLEDGE_BASE.md` from the Learnbee authoring repo: the slide
+sorter, upright phone playback live on all three player surfaces, question-level SCORM
+reporting, two new troubleshooting entries (LMS report wrong or empty; a slide that will not
+drag), and the "exported packages are frozen until re-exported" caveat.
+**Why:** This file is the single source of truth for the Help Center **and** the Help
+Assistant's system prompt, but it lives in the authoring repo and is copied here **by hand**
+— so it drifts silently whenever only one side is edited. Worth knowing: when this sync ran,
+the file here was already carrying an uncommitted copy of an earlier (20 Aug) edit, which is
+exactly the drift the manual step invites. The authoring repo's `docs/README.md` now records
+the mirroring rule.
+**Touched:** `HELP_KNOWLEDGE_BASE.md`.
+
+---
+
 ## 2026-08-10 — Repo audit: CLAUDE.md mismatch identified
 
 **What:** Reviewed repo structure (`app/`, `components/`, `lib/`, `content/`, `scripts/`) and flagged that the checked-in `CLAUDE.md` documents a *different* codebase — the Vite/React Learnbee product app (course editor, SCORM export, Supabase) — not this Next.js marketing/blog site.
