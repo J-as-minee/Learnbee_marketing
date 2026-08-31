@@ -20,10 +20,10 @@ export default function Home() {
       <SiteNav />
       <main>
         <Hero />
+        <PortraitCarousel />
         <DemoSection />
         <ValueSection />
         <ProcessSection />
-        <PortraitCarousel />
         <CoursePreview />
         <FeaturesSection />
         <CourseLibrary />
