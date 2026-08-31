@@ -11,14 +11,29 @@ export default function CoursePreview() {
           learners would.
         </p>
         <div className="demo-frame-wrap reveal reveal-d3">
-          <iframe
-            src="https://dev.learnbee.ai/play/57ACX5?embed=true"
-            width="900"
-            height="560"
-            allowFullScreen
-            style={{ borderRadius: 12, border: "none" }}
-            title="Learnbee — a course about Learnbee"
-          />
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: 880,
+              margin: "0 auto",
+              aspectRatio: "16/9",
+            }}
+          >
+            <iframe
+              src="https://creator.learnbee.ai/play/R3VGRZ?embed=true"
+              allowFullScreen
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                border: "none",
+                borderRadius: 12,
+              }}
+              title="Learnbee — a course about Learnbee"
+            />
+          </div>
         </div>
       </div>
     </section>
