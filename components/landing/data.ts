@@ -134,6 +134,22 @@ export const featData: Feature[] = [
     </div>`,
   },
   {
+    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>`, ic: "#14b8a6", ib: "#ccfbf1", tint: "#f0fdfa", size: "lg",
+    title: "Custom Slide & Templates", sub: "When no format fits, describe it",
+    desc: "Need a layout none of the other 24 formats cover? Describe it and AI builds a bespoke Custom Slide from your prompt. Templates are curated, ready-made Custom Slide designs — Hero, Comparison, Timeline, and more — you insert and adapt instead of starting from a blank prompt.",
+    checks: ["Generate a bespoke slide from a text prompt", "Templates = curated, ready-made Custom Slide designs", "Filter templates by kind, or search by name", "Insert a template, then edit it freely"],
+    mock: `<div class="fm-custom">
+      <div class="fcs-prompt">"3 pricing tiers as cards"</div>
+      <div class="fcs-cards">
+        <div class="fcs-card" style="background:#f3e8ff"></div>
+        <div class="fcs-card" style="background:#fef3c7"></div>
+        <div class="fcs-card" style="background:#d1fae5"></div>
+      </div>
+      <div class="fcs-tpl-lbl">Or start from a template</div>
+      <div class="fcs-tpl-chips"><span class="fcs-chip">Hero</span><span class="fcs-chip hi">Comparison ✓</span><span class="fcs-chip">Timeline</span></div>
+    </div>`,
+  },
+  {
     icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>`, ic: "#0ea5e9", ib: "#e0f2fe", tint: "#f0f9ff", size: "sm",
     title: "Media Library", sub: "Images, video, and PDFs — search, upload, reuse",
     desc: "Search Pexels inline, upload your own, or pick from any past course. Every image runs through sharp — WebP, 1280px max, blur-fill thumbnail auto-generated for contain mode. Video and PDFs get their own pickers with the same reuse model.",
@@ -246,37 +262,25 @@ export const featData: Feature[] = [
       </div>
     </div>`,
   },
-  {
-    icon: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>`, ic: "#14b8a6", ib: "#ccfbf1", tint: "#f0fdfa", size: "lg",
-    title: "Custom Slide & Templates", sub: "When no format fits, describe it",
-    desc: "Need a layout none of the other 24 formats cover? Describe it and AI builds a bespoke Custom Slide from your prompt. Templates are curated, ready-made Custom Slide designs — Hero, Comparison, Timeline, and more — you insert and adapt instead of starting from a blank prompt.",
-    checks: ["Generate a bespoke slide from a text prompt", "Templates = curated, ready-made Custom Slide designs", "Filter templates by kind, or search by name", "Insert a template, then edit it freely"],
-    mock: `<div class="fm-custom">
-      <div class="fcs-prompt">"3 pricing tiers as cards"</div>
-      <div class="fcs-cards">
-        <div class="fcs-card" style="background:#f3e8ff"></div>
-        <div class="fcs-card" style="background:#fef3c7"></div>
-        <div class="fcs-card" style="background:#d1fae5"></div>
-      </div>
-      <div class="fcs-tpl-lbl">Or start from a template</div>
-      <div class="fcs-tpl-chips"><span class="fcs-chip">Hero</span><span class="fcs-chip hi">Comparison ✓</span><span class="fcs-chip">Timeline</span></div>
-    </div>`,
-  },
 ];
 
 // 12-col grid: row1=[Wizard(6),Formats(6)], row2=[CustomSlide(12)],
 // row3=[ImgLib(3),Click(3),Narration(6)], row4=[Assess(6),Collaborate(6)], row5=[Publish(6),SCORM(6)]
+// Index-aligned to featData — reordering a card there means reordering here too.
+// Below ~1024px the grid drops these placements (grid-column/row: auto) and the
+// cards flow in featData order, which is why Custom Slide sits third: on mobile
+// it should follow the formats card, not trail the whole grid.
 export const featureLayout = [
-  { col: "1 / 7",  row: "1" },
-  { col: "7 / 13", row: "1" },
-  { col: "1 / 4",  row: "3" },
-  { col: "4 / 7",  row: "3" },
-  { col: "7 / 13", row: "3" },
+  { col: "1 / 7",  row: "1" },  // AI Course Wizard
+  { col: "7 / 13", row: "1" },  // 25 Editorial Slide Formats
+  { col: "1 / 13", row: "2" },  // Custom Slide & Templates
+  { col: "1 / 4",  row: "3" },  // Media Library
+  { col: "4 / 7",  row: "3" },  // Click-Mode Interactivity
+  { col: "7 / 13", row: "3" },  // Translate & Narrate
   { col: "1 / 7",  row: "4" },  // Assessments
   { col: "7 / 13", row: "5" },  // SCORM
   { col: "1 / 7",  row: "5" },  // Publish & Share
   { col: "7 / 13", row: "4" },  // Collaborate
-  { col: "1 / 13", row: "2" },  // Custom Slide & Templates
 ];
 
 /* ── FAQ ── */

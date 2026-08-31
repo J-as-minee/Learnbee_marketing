@@ -1088,7 +1088,8 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .portrait-carousel { padding: 90px 0 70px; text-align: center; }
 .portrait-carousel h2 { font-size: 2.6rem; letter-spacing: -0.02em; margin-bottom: 6px; }
 .portrait-carousel .section-sub { margin-inline: auto; margin-bottom: 10px; }
-@media (max-width: 700px) {
-  .portrait-carousel { padding: 60px 0 40px; }
-  .portrait-carousel h2 { font-size: 1.9rem; }
+/* Hidden below the gallery's md breakpoint: the fan needs width to read, and
+   the arrows/dots are an awkward interaction on a phone. */
+@media (max-width: 767px) {
+  .portrait-carousel { display: none; }
 }
