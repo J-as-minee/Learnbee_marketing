@@ -235,10 +235,6 @@ export default function WhyNotChatGPT() {
                 </div>
                 <p className="wnc-c-title">{active.label}</p>
                 <p className="wnc-c-text">{active.text}</p>
-                <dl className="wnc-c-vs">
-                  <dt>In a chat window</dt>
-                  <dd>{active.vs}</dd>
-                </dl>
               </div>
             </div>
           </div>
