@@ -229,7 +229,7 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 /* ══════════════════════════════════════
    DEMO — live course embed
 ══════════════════════════════════════ */
-.demo-section { padding: 90px 0 100px; background: var(--bg-muted); text-align: center; }
+.demo-section { padding: 100px 0; background: var(--bg-muted); text-align: center; }
 .demo-section h2 { font-size: 2.9rem; letter-spacing: -0.03em; margin-top: 4px; max-width: 700px; margin-inline: auto; }
 .demo-section .section-sub { margin-inline: auto; margin-bottom: 44px; }
 
@@ -1041,7 +1041,7 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   position: fixed; inset: 0; z-index: -1;
   background: #ffffff;
 }
-.hero, .demo-section, .value-section, .philosophy,
+.hero, .demo-section, .wnc, .value-section,
 .features, .faq-section {
   background: transparent !important;
 }
@@ -1085,11 +1085,157 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   .fan-card { width: 11rem; height: 20rem; margin: -10rem 0 0 -5.5rem; }
 }
 
-.portrait-carousel { padding: 90px 0 70px; text-align: center; }
-.portrait-carousel h2 { font-size: 2.6rem; letter-spacing: -0.02em; margin-bottom: 6px; }
+.portrait-carousel { padding: 100px 0; text-align: center; }
+.portrait-carousel h2 { font-size: 2.9rem; letter-spacing: -0.03em; margin-bottom: 6px; }
 .portrait-carousel .section-sub { margin-inline: auto; margin-bottom: 10px; }
 /* Hidden below the gallery's md breakpoint: the fan needs width to read, and
    the arrows/dots are an awkward interaction on a phone. */
 @media (max-width: 767px) {
   .portrait-carousel { display: none; }
 }
+
+
+/* ══════════════════════════════════════
+   WHY NOT CHATGPT
+   Ported from the approved design file. Its hex values were sampled from the
+   live site, so they resolve to the real tokens here:
+   #9333ea → --accent · #181426 → --text · #6b7280 → --text-muted
+   #f8f7fb → --bg-muted · #0f1729 → --dark · 1100px → --max-width
+   Background is explicit white (not in the #bg-morph transparent list) so the
+   tinted detail card reads against it — the neighbouring demo-section is
+   --bg-muted, which would otherwise swallow the card.
+══════════════════════════════════════ */
+.wnc { padding: 100px 0; }
+
+/* Centred like the other sections (demo, features, carousel) rather than the
+   reference's split head. */
+.wnc-head { text-align: center; margin-bottom: 40px; }
+.wnc-head h2 {
+  font-size: 2.9rem; font-weight: 800;
+  letter-spacing: -0.03em; line-height: 1.15; color: var(--text);
+  max-width: 700px; margin-inline: auto;
+}
+.wnc-lede {
+  font-size: 0.975rem; line-height: 1.6; color: var(--text-muted);
+  max-width: 620px; margin: 14px auto 0;
+}
+
+.wnc-layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 40px; align-items: start;
+}
+
+/* ── Left: label rail + chips, no dividers — spacing carries the structure ── */
+.wnc-group {
+  display: grid; grid-template-columns: 118px minmax(0, 1fr);
+  gap: 20px; align-items: start; padding: 13px 0;
+}
+.wnc-rail {
+  font-size: 0.905rem; font-weight: 700; line-height: 1.35;
+  padding-top: 8px; color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+.wnc-rail.is-active { color: var(--accent); }
+
+.wnc-chips { display: flex; flex-wrap: wrap; gap: 7px; }
+
+.wnc-chip {
+  appearance: none; font-family: inherit; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #fff; border: 1px solid var(--accent-subtle);
+  border-radius: 999px; padding: 7px 15px 7px 12px;
+  font-size: 0.875rem; font-weight: 600; line-height: 1.3;
+  color: var(--text); white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease,
+              box-shadow 0.2s ease, transform 0.2s ease;
+}
+.wnc-chip::before {
+  content: ""; flex: 0 0 auto; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent); opacity: 0.5;
+  transition: opacity 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+.wnc-chip:hover {
+  background: var(--accent-light); border-color: var(--accent);
+  transform: translateY(-1px);
+}
+.wnc-chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wnc-chip[aria-selected="true"] {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(147, 51, 234, 0.28);
+}
+.wnc-chip[aria-selected="true"]::before {
+  background: #fff; opacity: 1; transform: scale(1.3);
+}
+
+/* ── Right: sticky detail card ── */
+.wnc-aside { position: sticky; top: calc(var(--nav-h) + 24px); }
+.wnc-card {
+  /* Two-stop near-white purple wash — no single token expresses it. */
+  background: linear-gradient(178deg, #fbfafe 0%, #f5f3fa 100%);
+  border: 1px solid rgba(147, 51, 234, 0.13);
+  border-radius: 18px; padding: 24px 26px 28px;
+  box-shadow: 0 1px 2px rgba(24, 20, 38, 0.03), 0 18px 36px -26px rgba(24, 20, 38, 0.4);
+}
+.wnc-c-head { margin-bottom: 16px; }
+.wnc-c-label {
+  display: block;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.105em;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 10px;
+}
+/* Full-width rule under the label — the section's one horizontal flourish. */
+.wnc-rule {
+  display: block; height: 2px; border-radius: 2px;
+  background: var(--accent); opacity: 0.85; transform-origin: left center;
+}
+.wnc-c-title {
+  font-size: 1.095rem; font-weight: 700; line-height: 1.35;
+  letter-spacing: -0.0115em; color: var(--text); margin-bottom: 10px;
+}
+.wnc-c-text { font-size: 0.94rem; line-height: 1.68; color: #4b4761; }
+.wnc-c-vs { margin-top: 20px; padding-top: 17px; border-top: 1px solid rgba(147, 51, 234, 0.15); }
+.wnc-c-vs dt { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.019em; color: var(--accent); margin-bottom: 6px; }
+.wnc-c-vs dd { font-size: 0.905rem; line-height: 1.62; color: var(--text-muted); }
+
+/* Staggered rise on each selection. Content swaps instantly and animates in —
+   never fades out first, or hover-to-select would feel laggy. */
+@keyframes wncRise { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
+@keyframes wncSweep { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.wnc-c-label, .wnc-c-title, .wnc-c-text, .wnc-c-vs {
+  animation: wncRise 360ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.wnc-c-label { animation-delay: 0ms; }
+.wnc-c-title { animation-delay: 50ms; }
+.wnc-c-text  { animation-delay: 100ms; }
+.wnc-c-vs    { animation-delay: 160ms; }
+.wnc-rule { animation: wncSweep 460ms cubic-bezier(0.25, 0.46, 0.45, 0.94) both; }
+
+@media (max-width: 980px) {
+  .wnc-layout { grid-template-columns: minmax(0, 1fr) 300px; gap: 30px; }
+  .wnc-aside { width: 300px; }
+}
+
+@media (max-width: 900px) {
+  .wnc { padding: 60px 0 70px; }
+  .wnc-head { margin-bottom: 22px; }
+  .wnc-head h2 { font-size: 1.9rem; }
+  .wnc-layout { grid-template-columns: 1fr; gap: 16px; }
+  /* Card leads on small screens and pins to the very top: the chips are the
+     thing being scrolled, so the detail needs to stay on screen. */
+  .wnc-aside { order: -1; width: auto; top: 0; z-index: 5; background: var(--bg); padding: 8px 0 6px; }
+  .wnc-card { padding: 18px 20px 20px; border-radius: 16px; }
+  .wnc-group { grid-template-columns: 1fr; gap: 8px; }
+  .wnc-rail { padding-top: 0; }
+  .wnc-chip { white-space: normal; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wnc-c-label, .wnc-c-title, .wnc-c-text, .wnc-c-vs, .wnc-rule {
+    animation: none; opacity: 1; transform: none;
+  }
+  .wnc-chip, .wnc-chip::before, .wnc-rail { transition: none; }
+}
+
+.faq-a-link { color: var(--accent); font-weight: 600; white-space: nowrap; }
+.faq-a-link:hover { text-decoration: underline; }

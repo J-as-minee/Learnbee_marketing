@@ -15,7 +15,17 @@ export default function FaqSection() {
                 <span>{item.q}</span>
                 <span className="faq-arrow">→</span>
               </div>
-              <div className="faq-a">{item.a}</div>
+              <div className="faq-a">
+                {item.a}
+                {item.link ? (
+                  <>
+                    {" "}
+                    <a className="faq-a-link" href={item.link.href}>
+                      {item.link.label} →
+                    </a>
+                  </>
+                ) : null}
+              </div>
             </div>
           ))}
         </div>

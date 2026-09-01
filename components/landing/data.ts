@@ -284,12 +284,20 @@ export const featureLayout = [
 ];
 
 /* ── FAQ ── */
-export const faqData = [
+export interface FaqItem {
+  q: string;
+  a: string;
+  /* Optional trailing link, rendered after the answer text. */
+  link?: { href: string; label: string };
+}
+
+export const faqData: FaqItem[] = [
   { q: "Do I need instructional-design experience?", a: "No — the wizard turns a title, audience, and objective into a structured course; you're editing and approving, not building from scratch." },
   { q: "What if I don't have source content yet?", a: "Skip it — the AI can generate from just your topic and objective, or you can paste text, upload a doc/PDF, or let it search the web." },
   { q: "Can I rewrite or restructure what it generates?", a: "Yes, all of it — copy, images, narration, slide order, and format choice are editable per slide." },
   { q: "If I update a course after publishing, do learners see the change?", a: "Yes on the share-link version — republishing reuses the same code/link. SCORM packages already loaded into an LMS would need re-export and re-upload." },
   { q: "Can I share a course without an LMS?", a: "Yes — a public link/access code (with QR and embed code), no learner login required." },
+  { q: "Can't I just use ChatGPT for this?", a: "Use it for the first draft — Learnbee does everything after it. Narration and voiceover in 16 languages, interactive slides, auto-graded quizzes, and a SCORM package your LMS will accept.", link: { href: "#why-not-chatgpt", label: "See what that covers" } },
 ];
 
 /* ── Value cards ── */

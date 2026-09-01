@@ -141,7 +141,7 @@ export default function Hero() {
         </p>
         <div className="hero-actions reveal reveal-d3">
           <a href={SIGN_IN} className="btn btn-white btn-lg">Get Started for Free</a>
-          <a href="#about" className="btn btn-outline-light btn-lg">See How It Works</a>
+          <a href="#features" className="btn btn-outline-light btn-lg">See How It Works</a>
         </div>
       </div>
 

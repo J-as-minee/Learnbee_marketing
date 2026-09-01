@@ -2,10 +2,9 @@ import BgMorph from "@/components/landing/BgMorph";
 import SiteNav from "@/components/landing/SiteNav";
 import Hero from "@/components/landing/Hero";
 import DemoSection from "@/components/landing/DemoSection";
+import WhyNotChatGPT from "@/components/landing/WhyNotChatGPT";
 import ValueSection from "@/components/landing/ValueSection";
-import ProcessSection from "@/components/landing/ProcessSection";
 import PortraitCarousel from "@/components/landing/PortraitCarousel";
-import CoursePreview from "@/components/landing/CoursePreview";
 import FeaturesSection from "@/components/landing/FeaturesSection";
 import CourseLibrary from "@/components/landing/CourseLibrary";
 import FaqSection from "@/components/landing/FaqSection";
@@ -22,9 +21,8 @@ export default function Home() {
         <Hero />
         <PortraitCarousel />
         <DemoSection />
+        <WhyNotChatGPT />
         <ValueSection />
-        <ProcessSection />
-        <CoursePreview />
         <FeaturesSection />
         <CourseLibrary />
         <FaqSection />

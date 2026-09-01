@@ -12,8 +12,8 @@ export default function BgMorph() {
     const DEFS = [
       { sel: ".hero", rgb: [255, 255, 255] },
       { sel: ".demo-section", rgb: [248, 247, 251] },
+      { sel: ".wnc", rgb: [255, 255, 255] },
       { sel: ".value-section", rgb: [15, 23, 41] },
-      { sel: "#about", rgb: [248, 247, 251] },
       { sel: ".features", rgb: [248, 247, 251] },
       { sel: "#faq", rgb: [248, 247, 251] },
     ];

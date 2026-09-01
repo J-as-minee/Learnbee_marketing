@@ -27,9 +27,6 @@ export default function SiteNav() {
 
         <ul className={`nav-links${mobileOpen ? " open" : ""}`} id="nav-links">
           <li className="nav-item">
-            <a href="/#about" className="nav-btn">About</a>
-          </li>
-          <li className="nav-item">
             <a href="/#features" className="nav-btn">Features</a>
           </li>
           <li
