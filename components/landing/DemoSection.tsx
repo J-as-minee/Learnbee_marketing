@@ -11,14 +11,29 @@ export default function DemoSection() {
           answer the quiz.
         </p>
         <div className="demo-frame-wrap reveal reveal-d3">
-          <iframe
-            src="https://dev.learnbee.ai/play/GXH26L?embed=true"
-            width="900"
-            height="560"
-            allowFullScreen
-            style={{ borderRadius: 12, border: "none" }}
-            title="Learnbee course demo"
-          />
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              maxWidth: 880,
+              margin: "0 auto",
+              aspectRatio: "16/9",
+            }}
+          >
+            <iframe
+              src="https://creator.learnbee.ai/play/9V3JD7?embed=true"
+              allowFullScreen
+              style={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                border: "none",
+                borderRadius: 12,
+              }}
+              title="Learnbee course demo"
+            />
+          </div>
         </div>
       </div>
     </section>
