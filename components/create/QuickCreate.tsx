@@ -20,11 +20,10 @@ const ENTER: Record<TransitionKind, [string, string]> = {
 };
 
 const SIGN_IN = "https://creator.learnbee.ai/sign-in";
-const STEPS = ["Basics", "Source", "Review"];
-const AUDIENCES = ["New hires", "Managers", "Customers", "Support agents", "Sales team", "Everyone"];
+const STEPS = ["Basics", "Review"];
 
 const SOURCES: { type: DraftSourceType; title: string; sub: string; icon: React.JSX.Element }[] = [
-  { type: "idea", title: "Just my idea", sub: "We write it from your topic and objective.",
+  { type: "idea", title: "Internet", sub: "We research the topic as we build.",
     icon: <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z" /> },
   { type: "upload", title: "Upload a file", sub: "PDF, DOCX or PPTX, up to 5 MB.",
     icon: <path d="M12 16V4m0 0L8 8m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" /> },
@@ -130,23 +129,23 @@ export default function QuickCreate() {
     window.scrollTo({ top: 0, behavior: "auto" });
   }, []);
 
-  const canLeaveBasics =
-    topic.trim().length > 0 && objective.trim().length > 0 && audience.trim().length > 0;
-  const canLeaveSource =
+  const sourceReady =
     source === null ||
     (source === "paste" ? pasteText.trim().length > 0 : source === "upload" ? !!file : true);
+  const canContinue =
+    topic.trim().length > 0 &&
+    objective.trim().length > 0 &&
+    audience.trim().length > 0 &&
+    sourceReady;
 
-  function nextFromBasics() {
-    if (!canLeaveBasics) return;
+  function toReview() {
+    if (!canContinue) return;
     track("basics_completed");
-    go(1, 1);
-  }
-  function nextFromSource() {
-    if (!canLeaveSource) return;
     track("source_completed", { source: source ?? "idea" });
     track("review_reached");
-    go(2, 1);
+    go(1, 1);
   }
+
   function openGate(reason: GateReason) {
     track("gate_shown", { reason });
     setError(null);
@@ -266,9 +265,6 @@ export default function QuickCreate() {
               <>
                 <span className="qc-eyebrow">Course basics</span>
                 <h2 className="qc-h1">What are we <span className="qc-grad">building?</span></h2>
-                <p className="qc-sub">
-                  Three things, then we start. The wizard needs all of them.
-                </p>
 
                 <div className="qc-field">
                   <label className="qc-label" htmlFor="qc-topic">Course title</label>
@@ -276,12 +272,8 @@ export default function QuickCreate() {
                     id="qc-topic" className="qc-input" value={topic} autoFocus
                     maxLength={DRAFT_LIMITS.topic}
                     onChange={(e) => setTopic(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === "Enter") nextFromBasics(); }}
                     placeholder="e.g. Product Onboarding for Sales Reps"
                   />
-                  {near(topic, DRAFT_LIMITS.topic) && (
-                    <p className="qc-help"><span className="qc-count">{topic.length}/{DRAFT_LIMITS.topic}</span></p>
-                  )}
                 </div>
 
                 <div className="qc-field">
@@ -292,15 +284,6 @@ export default function QuickCreate() {
                     onChange={(e) => setAudience(e.target.value)}
                     placeholder="e.g. New sales hires in their first 30 days"
                   />
-                  <div className="qc-chips">
-                    {AUDIENCES.map((a) => (
-                      <button key={a} type="button" className="qc-chip"
-                              aria-pressed={audience === a}
-                              onClick={() => setAudience(audience === a ? "" : a)}>
-                        {a}
-                      </button>
-                    ))}
-                  </div>
                 </div>
 
                 <div className="qc-field">
@@ -311,19 +294,61 @@ export default function QuickCreate() {
                     onChange={(e) => setObjective(e.target.value)}
                     placeholder="e.g. Understand the core value propositions and handle common objections confidently"
                   />
-                  <p className="qc-help">
-                    What a learner should be able to do afterwards.
-                    {near(objective, DRAFT_LIMITS.objective) && (
-                      <span className="qc-count">{objective.length}/{DRAFT_LIMITS.objective}</span>
-                    )}
-                  </p>
+                </div>
+
+                <div className="qc-field">
+                  <label className="qc-label">Where should the content come from?</label>
+                  <div className="qc-cards">
+                    {SOURCES.map((sc) => (
+                      <button key={sc.type} type="button" className="qc-card"
+                              aria-pressed={source === sc.type}
+                              onClick={() => setSource(source === sc.type ? null : sc.type)}>
+                        <span className="qc-tile"><Icon>{sc.icon}</Icon></span>
+                        <span>
+                          <span className="qc-card-t">{sc.title}</span>
+                          <span className="qc-card-s">{sc.sub}</span>
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+
+                  {source === "paste" && (
+                    <textarea
+                      className="qc-textarea" style={{ marginTop: 12 }} autoFocus
+                      value={pasteText} maxLength={DRAFT_LIMITS.text}
+                      onChange={(e) => setPasteText(e.target.value)}
+                      placeholder="Paste notes, a policy, a transcript…"
+                      aria-label="Pasted content"
+                    />
+                  )}
+
+                  {source === "upload" && (
+                    <div
+                      className={`qc-drop${dragging ? " is-over" : ""}`}
+                      onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+                      onDragLeave={() => setDragging(false)}
+                      onDrop={(e) => { e.preventDefault(); setDragging(false); pickFile(e.dataTransfer.files?.[0] ?? null); }}
+                    >
+                      {file ? (
+                        <span className="qc-file">{file.name}
+                          <button type="button" aria-label="Remove file" onClick={() => setFile(null)}>×</button>
+                        </span>
+                      ) : (
+                        <label style={{ cursor: "pointer", display: "block" }}>
+                          <span className="qc-drop-t">Drop a file or click to upload</span>
+                          <span className="qc-drop-s">PDF · DOCX · PPTX — up to 5 MB</span>
+                          <input type="file" accept={UPLOAD_ACCEPT} style={{ display: "none" }}
+                                 onChange={(e) => pickFile(e.target.files?.[0] ?? null)} />
+                        </label>
+                      )}
+                      {fileMsg && <p className="qc-drop-s" style={{ color: "#B91C1C" }}>{fileMsg}</p>}
+                    </div>
+                  )}
                 </div>
 
                 <div className="qc-actions">
-                  <span className="qc-note" style={{ margin: 0 }}>
-                    {canLeaveBasics ? "" : "All three are needed to continue."}
-                  </span>
-                  <button className="qc-btn qc-btn-solid" onClick={nextFromBasics} disabled={!canLeaveBasics}>
+                  <a className="qc-back" href="/">← Home</a>
+                  <button className="qc-btn qc-btn-solid" onClick={toReview} disabled={!canContinue}>
                     Continue →
                   </button>
                 </div>
@@ -332,78 +357,8 @@ export default function QuickCreate() {
 
             {step === 1 && (
               <>
-                <span className="qc-eyebrow">Source material</span>
-                <h2 className="qc-h1">What should we <span className="qc-grad">build it from?</span></h2>
-                <p className="qc-sub">Optional — skip this and we&apos;ll write it from your idea.</p>
-
-                <label className="qc-label" style={{ marginTop: 26 }}>Where should the content come from?</label>
-                <div className="qc-cards">
-                  {SOURCES.map((s) => (
-                    <button key={s.type} type="button" className="qc-card"
-                            aria-pressed={source === s.type}
-                            onClick={() => setSource(source === s.type ? null : s.type)}>
-                      <span className="qc-tile"><Icon>{s.icon}</Icon></span>
-                      <span>
-                        <span className="qc-card-t" style={{ display: "block" }}>{s.title}</span>
-                        <span className="qc-card-s">{s.sub}</span>
-                      </span>
-                    </button>
-                  ))}
-                </div>
-
-                {source === "paste" && (
-                  <div className="qc-field">
-                    <label className="qc-label" htmlFor="qc-paste">Paste content</label>
-                    <textarea
-                      id="qc-paste" className="qc-textarea" value={pasteText} autoFocus maxLength={DRAFT_LIMITS.text}
-                      onChange={(e) => setPasteText(e.target.value)}
-                      placeholder="Paste notes, a policy, a transcript…"
-                      aria-label="Pasted content"
-                    />
-                    <p className="qc-help">
-                      Training guides, product docs, SOPs — anything relevant.
-                      <span className="qc-count">{pasteText.length}/{DRAFT_LIMITS.text}</span>
-                    </p>
-                  </div>
-                )}
-
-                {source === "upload" && (
-                  <div
-                    className={`qc-drop${dragging ? " is-over" : ""}`}
-                    onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-                    onDragLeave={() => setDragging(false)}
-                    onDrop={(e) => { e.preventDefault(); setDragging(false); pickFile(e.dataTransfer.files?.[0] ?? null); }}
-                  >
-                    <p className="qc-drop-t">Drop a file here</p>
-                    <p className="qc-drop-s">PDF, DOCX or PPTX · up to 20 MB</p>
-                    <label className="qc-file" style={{ cursor: "pointer" }}>
-                      Choose a file
-                      <input type="file" accept={UPLOAD_ACCEPT} style={{ display: "none" }}
-                             onChange={(e) => pickFile(e.target.files?.[0] ?? null)} />
-                    </label>
-                    {file && (
-                      <div><span className="qc-file">{file.name}
-                        <button type="button" aria-label="Remove file" onClick={() => setFile(null)}>×</button>
-                      </span></div>
-                    )}
-                    {fileMsg && <p className="qc-drop-s" style={{ color: "#B91C1C" }}>{fileMsg}</p>}
-                  </div>
-                )}
-
-                <div className="qc-actions">
-                  <button className="qc-back" onClick={() => go(0, -1)}>← Back</button>
-                  <button className="qc-btn qc-btn-solid" onClick={nextFromSource} disabled={!canLeaveSource}>
-                    Continue →
-                  </button>
-                </div>
-              </>
-            )}
-
-            {step === 2 && (
-              <>
                 <span className="qc-eyebrow">Review</span>
                 <h2 className="qc-h1">Ready to <span className="qc-grad">generate.</span></h2>
-                <p className="qc-sub">Everything below carries into the editor.</p>
 
                 <dl className="qc-review">
                   <div className="qc-row"><dt>Title</dt><dd>{topic}</dd></div>
@@ -411,33 +366,27 @@ export default function QuickCreate() {
                   <div className="qc-row"><dt>Objective</dt><dd>{objective}</dd></div>
                   <div className="qc-row"><dt>Source</dt>
                     <dd>
-                      {source === "upload" ? `Upload — ${file?.name ?? "no file"}`
-                        : source === "paste" ? `Pasted content — ${pasteText.trim().length} characters`
-                        : "From your idea"}
+                      {source === "upload" ? file?.name ?? "Upload"
+                        : source === "paste" ? `Pasted content · ${pasteText.trim().length} characters`
+                        : "Internet"}
                     </dd></div>
-                  {/* Structure and quiz are not editable here — the app owns them,
-                      and Customize opens its editor behind the gate. */}
-                  {DEFAULTS_DISPLAY.map(([k, v]) => (
-                    <div className="qc-row is-default" key={k}><dt>{k}</dt><dd>{v}</dd></div>
-                  ))}
+                  <div className="qc-row is-default">
+                    <dt>Structure &amp; quiz</dt>
+                    <dd>
+                      Smart defaults{" "}
+                      <button className="qc-inline-btn" onClick={() => openGate("customize")}>Customize</button>
+                    </dd>
+                  </div>
                 </dl>
 
-                <div style={{ marginTop: 16 }}>
-                  <button className="qc-btn qc-btn-quiet"
-                          style={{ padding: "9px 17px", fontSize: "0.855rem", display: "inline-flex", alignItems: "center", gap: 8 }}
-                          onClick={() => openGate("customize")}>
-                    <Lock /> Customize structure &amp; quiz
-                  </button>
-                </div>
+                <button className="qc-btn qc-btn-primary qc-btn-block" style={{ marginTop: 22 }}
+                        onClick={() => openGate("generate")}>
+                  <Sparkle size={17} /> Generate my course
+                </button>
+                <p className="qc-foot-note">Free account to generate — your draft is saved.</p>
 
-                <div className="qc-actions" style={{ display: "block" }}>
-                  <button className="qc-btn qc-btn-primary qc-btn-block" onClick={() => openGate("generate")}>
-                    <Sparkle size={17} /> Generate my course
-                  </button>
-                  <p className="qc-foot-note">Free account to generate — your draft is saved.</p>
-                </div>
                 <div className="qc-actions">
-                  <button className="qc-back" onClick={() => go(1, -1)}>← Back</button>
+                  <button className="qc-back" onClick={() => go(0, -1)}>← Back</button>
                 </div>
               </>
             )}
