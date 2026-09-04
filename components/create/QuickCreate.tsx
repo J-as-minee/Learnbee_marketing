@@ -32,6 +32,11 @@ const SOURCES: { type: DraftSourceType; title: string; sub: string; icon: React.
     icon: <path d="M9 3h6v3H9zM8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 12h6M9 16h4" /> },
 ];
 
+/* Counters stay out of the way until the cap is actually in reach. */
+function near(v: string, cap: number) {
+  return v.length > cap * 0.8;
+}
+
 function Sparkle({ size = 20 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -266,38 +271,27 @@ export default function QuickCreate() {
                 </p>
 
                 <div className="qc-field">
+                  <label className="qc-label" htmlFor="qc-topic">Course title</label>
                   <input
-                    className="qc-input qc-input-lg" value={topic} autoFocus
+                    id="qc-topic" className="qc-input" value={topic} autoFocus
                     maxLength={DRAFT_LIMITS.topic}
                     onChange={(e) => setTopic(e.target.value)}
                     onKeyDown={(e) => { if (e.key === "Enter") nextFromBasics(); }}
-                    placeholder="Workplace safety essentials"
-                    aria-label="Course title"
+                    placeholder="e.g. Product Onboarding for Sales Reps"
                   />
-                  <div className="qc-caption">
-                    <span>Course title</span>
-                    <span className="qc-count">{topic.length}/{DRAFT_LIMITS.topic}</span>
-                  </div>
+                  {near(topic, DRAFT_LIMITS.topic) && (
+                    <p className="qc-help"><span className="qc-count">{topic.length}/{DRAFT_LIMITS.topic}</span></p>
+                  )}
                 </div>
 
                 <div className="qc-field">
+                  <label className="qc-label" htmlFor="qc-audience">Target audience</label>
                   <input
-                    className="qc-input" value={objective} maxLength={DRAFT_LIMITS.objective}
-                    onChange={(e) => setObjective(e.target.value)}
-                    placeholder="What should learners be able to do afterwards?"
-                    aria-label="Learning objective"
-                  />
-                  <div className="qc-caption"><span>Learning objective</span></div>
-                </div>
-
-                <div className="qc-field">
-                  <input
-                    className="qc-input" value={audience} maxLength={DRAFT_LIMITS.audience}
+                    id="qc-audience" className="qc-input" value={audience}
+                    maxLength={DRAFT_LIMITS.audience}
                     onChange={(e) => setAudience(e.target.value)}
-                    placeholder="Who is it for?"
-                    aria-label="Audience"
+                    placeholder="e.g. New sales hires in their first 30 days"
                   />
-                  <div className="qc-caption"><span>Audience</span></div>
                   <div className="qc-chips">
                     {AUDIENCES.map((a) => (
                       <button key={a} type="button" className="qc-chip"
@@ -309,11 +303,29 @@ export default function QuickCreate() {
                   </div>
                 </div>
 
+                <div className="qc-field">
+                  <label className="qc-label" htmlFor="qc-objective">Learning objective</label>
+                  <textarea
+                    id="qc-objective" className="qc-textarea" value={objective}
+                    maxLength={DRAFT_LIMITS.objective}
+                    onChange={(e) => setObjective(e.target.value)}
+                    placeholder="e.g. Understand the core value propositions and handle common objections confidently"
+                  />
+                  <p className="qc-help">
+                    What a learner should be able to do afterwards.
+                    {near(objective, DRAFT_LIMITS.objective) && (
+                      <span className="qc-count">{objective.length}/{DRAFT_LIMITS.objective}</span>
+                    )}
+                  </p>
+                </div>
+
                 <div className="qc-actions">
-                  <button className="qc-btn qc-btn-primary" onClick={nextFromBasics} disabled={!canLeaveBasics}>
-                    Continue
+                  <span className="qc-note" style={{ margin: 0 }}>
+                    {canLeaveBasics ? "" : "All three are needed to continue."}
+                  </span>
+                  <button className="qc-btn qc-btn-solid" onClick={nextFromBasics} disabled={!canLeaveBasics}>
+                    Continue →
                   </button>
-                  {!canLeaveBasics && <span className="qc-note" style={{ margin: 0 }}>All three are needed to continue.</span>}
                 </div>
               </>
             )}
@@ -324,6 +336,7 @@ export default function QuickCreate() {
                 <h2 className="qc-h1">What should we <span className="qc-grad">build it from?</span></h2>
                 <p className="qc-sub">Optional — skip this and we&apos;ll write it from your idea.</p>
 
+                <label className="qc-label" style={{ marginTop: 26 }}>Where should the content come from?</label>
                 <div className="qc-cards">
                   {SOURCES.map((s) => (
                     <button key={s.type} type="button" className="qc-card"
@@ -340,16 +353,17 @@ export default function QuickCreate() {
 
                 {source === "paste" && (
                   <div className="qc-field">
+                    <label className="qc-label" htmlFor="qc-paste">Paste content</label>
                     <textarea
-                      className="qc-textarea" value={pasteText} autoFocus maxLength={DRAFT_LIMITS.text}
+                      id="qc-paste" className="qc-textarea" value={pasteText} autoFocus maxLength={DRAFT_LIMITS.text}
                       onChange={(e) => setPasteText(e.target.value)}
                       placeholder="Paste notes, a policy, a transcript…"
                       aria-label="Pasted content"
                     />
-                    <div className="qc-caption">
-                      <span>Your content</span>
+                    <p className="qc-help">
+                      Training guides, product docs, SOPs — anything relevant.
                       <span className="qc-count">{pasteText.length}/{DRAFT_LIMITS.text}</span>
-                    </div>
+                    </p>
                   </div>
                 )}
 
@@ -377,11 +391,10 @@ export default function QuickCreate() {
                 )}
 
                 <div className="qc-actions">
-                  <button className="qc-btn qc-btn-primary" onClick={nextFromSource} disabled={!canLeaveSource}>
-                    Continue
-                  </button>
-                  {source === null && <button className="qc-skip" onClick={nextFromSource}>Skip — just my idea</button>}
                   <button className="qc-back" onClick={() => go(0, -1)}>← Back</button>
+                  <button className="qc-btn qc-btn-solid" onClick={nextFromSource} disabled={!canLeaveSource}>
+                    Continue →
+                  </button>
                 </div>
               </>
             )}
@@ -393,32 +406,23 @@ export default function QuickCreate() {
                 <p className="qc-sub">Everything below carries into the editor.</p>
 
                 <dl className="qc-review">
-                  <div className="qc-row"><dt>Topic</dt><dd>{topic}</dd></div>
-                  <div className="qc-row"><dt>Objective</dt>
-<dd>{objective}</dd></div>
-                  <div className="qc-row"><dt>Audience</dt>
-<dd>{audience}</dd></div>
+                  <div className="qc-row"><dt>Title</dt><dd>{topic}</dd></div>
+                  <div className="qc-row"><dt>Audience</dt><dd>{audience}</dd></div>
+                  <div className="qc-row"><dt>Objective</dt><dd>{objective}</dd></div>
                   <div className="qc-row"><dt>Source</dt>
                     <dd>
                       {source === "upload" ? `Upload — ${file?.name ?? "no file"}`
                         : source === "paste" ? `Pasted content — ${pasteText.trim().length} characters`
-                        : "Just my idea"}
+                        : "From your idea"}
                     </dd></div>
+                  {/* Structure and quiz are not editable here — the app owns them,
+                      and Customize opens its editor behind the gate. */}
+                  {DEFAULTS_DISPLAY.map(([k, v]) => (
+                    <div className="qc-row is-default" key={k}><dt>{k}</dt><dd>{v}</dd></div>
+                  ))}
                 </dl>
 
-                <div className="qc-defaults">
-                  <div className="qc-defaults-h">
-                    <span className="qc-defaults-t">Structure &amp; quiz</span>
-                    <span className="qc-pill"><Sparkle size={12} /> Smart defaults</span>
-                  </div>
-                  <div className="qc-def-grid">
-                    {DEFAULTS_DISPLAY.map(([k, v]) => (
-                      <div key={k}>
-                        <div className="qc-def-k">{k}</div>
-                        <div className="qc-def-v">{v}</div>
-                      </div>
-                    ))}
-                  </div>
+                <div style={{ marginTop: 16 }}>
                   <button className="qc-btn qc-btn-quiet"
                           style={{ padding: "9px 17px", fontSize: "0.855rem", display: "inline-flex", alignItems: "center", gap: 8 }}
                           onClick={() => openGate("customize")}>
