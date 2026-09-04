@@ -1,5 +1,3 @@
-const SIGN_IN = "https://creator.learnbee.ai/sign-in";
-
 export default function CtaSection() {
   return (
     <section className="cta-band">
@@ -10,7 +8,7 @@ export default function CtaSection() {
           <p>Start from a document, a topic, or a blank page. Your first course can be live today.</p>
         </div>
         <div className="cta-actions reveal reveal-d2">
-          <a href={SIGN_IN} className="btn btn-white btn-lg">Get Started for Free</a>
+          <a href="/create" className="btn btn-white btn-lg">Get Started for Free</a>
           <a href="#features" className="btn btn-outline-light btn-lg">See How It Works</a>
         </div>
       </div>

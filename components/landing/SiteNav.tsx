@@ -54,7 +54,7 @@ export default function SiteNav() {
 
         <div className="nav-actions">
           <a href={SIGN_IN} className="nav-login">Log in</a>
-          <a href={SIGN_IN} className="btn btn-accent">Get Started</a>
+          <a href="/create" className="btn btn-accent">Get Started</a>
         </div>
 
         <button

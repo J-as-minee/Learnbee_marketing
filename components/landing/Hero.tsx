@@ -9,8 +9,6 @@ import {
   GalleryContainer,
 } from "@/components/blocks/animated-gallery";
 
-const SIGN_IN = "https://creator.learnbee.ai/sign-in";
-
 // Real slides from "Birds: Masters of Survival", a course generated with Learnbee.
 // Column order mirrors the reference layout; `no` is the slide's number in the
 // source course, shown in the hover label.
@@ -140,7 +138,7 @@ export default function Hero() {
           narrated course — in any of 16 languages — then exports it anywhere, no LMS required.
         </p>
         <div className="hero-actions reveal reveal-d3">
-          <a href={SIGN_IN} className="btn btn-white btn-lg">Get Started for Free</a>
+          <a href="/create" className="btn btn-white btn-lg">Get Started for Free</a>
           <a href="#features" className="btn btn-outline-light btn-lg">See How It Works</a>
         </div>
       </div>
