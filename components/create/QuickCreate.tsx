@@ -20,7 +20,6 @@ const ENTER: Record<TransitionKind, [string, string]> = {
 };
 
 const SIGN_IN = "https://creator.learnbee.ai/sign-in";
-const STEPS = ["Basics", "Review"];
 
 const SOURCES: { type: DraftSourceType; title: string; sub: string; icon: React.JSX.Element }[] = [
   { type: "idea", title: "Internet", sub: "We research the topic as we build.",
@@ -228,37 +227,6 @@ export default function QuickCreate() {
         </header>
 
         <main className="qc-stage">
-          <h1 className="qc-title">
-            <Sparkle />
-            Build your course with AI
-          </h1>
-          <p className="qc-tagline">
-            Slides, interactives, and narration — in the language of your learners.
-          </p>
-
-          <div className="qc-steps" role="list" aria-label="Progress">
-            {STEPS.map((label, i) => (
-              <div key={label} style={{ display: "contents" }}>
-                {i > 0 && (
-                  <span className={`qc-step-sep${i <= step ? " is-filled" : ""}`} aria-hidden="true" />
-                )}
-                <div role="listitem"
-                     className={`qc-step${i === step ? " is-active" : ""}${i < step ? " is-done" : ""}`}
-                     aria-current={i === step ? "step" : undefined}>
-                  <span className="qc-num" aria-hidden="true">
-                    {i < step ? (
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                           strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M20 6 9 17l-5-5" />
-                      </svg>
-                    ) : i + 1}
-                  </span>
-                  <span className="qc-step-label">{label}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-
           {/* key= forces a remount so the entrance animation replays each slide */}
           <div key={step} {...slideProps}>
             {step === 0 && (

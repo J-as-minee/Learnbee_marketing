@@ -55,46 +55,6 @@
 /* 760px keeps the single column readable now that Source shares the step. */
 .qc-stage { max-width: 760px; margin: 0 auto; padding: 18px 24px 36px; }
 
-.qc-title {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  font-size: 1.3rem; font-weight: 800; letter-spacing: -0.035em;
-}
-.qc-title svg { color: var(--purple); flex: 0 0 auto; }
-.qc-tagline {
-  text-align: center; margin-top: 7px;
-  font-size: 0.9rem; line-height: 1.5; color: var(--soft);
-}
-
-/* ── stepper ── */
-.qc-steps {
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  margin: 20px 0 26px;
-}
-.qc-step { display: flex; align-items: center; gap: 10px; }
-.qc-num {
-  display: grid; place-items: center;
-  width: 30px; height: 30px; border-radius: 50%;
-  font-size: 0.82rem; font-weight: 700;
-  background: #EDE9F4; color: var(--faint);
-  transition: background 0.4s var(--spring), color 0.4s var(--spring),
-              box-shadow 0.4s var(--spring);
-}
-.qc-step.is-active .qc-num {
-  background: var(--purple); color: #fff;
-  box-shadow: 0 0 0 4px rgba(147, 51, 234, 0.14);
-}
-.qc-step.is-done .qc-num { background: var(--purple); color: #fff; }
-.qc-step-label {
-  font-size: 0.875rem; font-weight: 600; color: var(--faint);
-  transition: color 0.4s var(--spring);
-}
-.qc-step.is-active .qc-step-label { color: var(--purple); }
-.qc-step.is-done .qc-step-label { color: var(--soft); }
-.qc-step-sep {
-  width: 62px; height: 2px; border-radius: 2px; background: var(--hair);
-  transition: background 0.4s var(--spring);
-}
-.qc-step-sep.is-filled { background: var(--purple); }
 
 /* ── type-led slide heads ── */
 .qc-eyebrow {
@@ -315,14 +275,12 @@
   .qc-stage { padding: 24px 20px 72px; }
   .qc-cards { grid-template-columns: 1fr; }
   .qc-row { grid-template-columns: 1fr; gap: 4px; }
-  .qc-steps { gap: 6px; }
-  .qc-step-sep { width: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .qc-slide, .qc-slide > *, .qc-scrim, .qc-modal, .qc-spinner {
     animation: none !important;
   }
-  .qc-card, .qc-btn, .qc-num, .qc-step-label { transition: none !important; }
+  .qc-card, .qc-btn { transition: none !important; }
   .qc-card:hover, .qc-btn-primary:hover { transform: none; }
 }
