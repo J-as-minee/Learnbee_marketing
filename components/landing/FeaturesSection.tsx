@@ -20,7 +20,7 @@ function modalInner(f: Feature): string {
     <ul class="fmod-bullets">
       ${f.checks.map((c) => `<li style="--fc:${f.ic}">${c}</li>`).join("")}
     </ul>
-    <a href="https://creator.learnbee.ai/sign-in" class="btn btn-accent fmod-cta">Get Started</a>`;
+    <a href="/create" class="btn btn-accent fmod-cta">Get Started</a>`;
 }
 
 export default function FeaturesSection() {

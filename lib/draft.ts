@@ -225,44 +225,68 @@ function apiUrl(path: string): string {
   return `${API_BASE.replace(/\/$/, "")}${path}`;
 }
 
-/**
- * Upload step — the contract wants source.fileRef, a storage key the platform
- * builds ("anything else is someone reaching for a path we did not hand out"),
- * so the file goes up first and we send back the key we are given.
- *
- * ASSUMED ENDPOINT: POST {API}/draft/upload (multipart, field "file") →
- * { fileRef }. Confirm the real path before launch — nothing else in the flow
- * is guesswork, and this is the one piece the contract file does not name.
- */
-export async function uploadDraftFile(file: File, turnstileToken: string | null): Promise<string> {
-  const form = new FormData();
-  form.append("file", file);
-  if (turnstileToken) form.append("cf-turnstile-response", turnstileToken);
+/* The platform's CORS layer allows the `content-type` header only, so the
+   Turnstile token travels in the body. Note that api/draft has no Turnstile
+   verification today — its real abuse controls are per-IP and global rate
+   limits plus the busboy file cap — so this is forward-wiring, not a gate. */
 
-  const res = await fetch(apiUrl("/draft/upload"), { method: "POST", body: form });
-  if (!res.ok) throw new DraftError(`Could not upload your file (${res.status}).`);
-  const data = (await res.json()) as { fileRef?: string };
-  if (!data?.fileRef) throw new DraftError("The upload did not return a file reference.");
-  return data.fileRef;
+/** Placeholder matching the server's own key shape. The real fileRef is minted
+ *  by api/draft ("written by us, never accepted from the caller"), so we only
+ *  need something that satisfies the mirror's check before we send. */
+const FILEREF_PLACEHOLDER = "drafts/00000000-0000-0000-0000-000000000000/upload.pdf";
+
+function describeFailure(status: number, body: Record<string, unknown> | null): string {
+  const code = typeof body?.error === "string" ? body.error : "";
+  if (code === "rate_limited") return "Too many drafts from your network just now. Try again shortly — nothing you typed is lost.";
+  if (code === "file_too_large") return "That file is over 5 MB. Try a smaller one.";
+  if (code === "contract") return `Draft rejected on "${String(body?.field ?? "?")}": ${String(body?.detail ?? "")}`;
+  if (code === "upload_failed") return "Your file could not be stored. Try again, or continue without it.";
+  if (status >= 500) return "The draft service had a problem. Try again in a moment.";
+  return `Could not save your draft (${status}).`;
 }
 
-/** POST /draft → { token }. Validated against the contract before it leaves. */
+/**
+ * POST /api/draft → 201 { token }.
+ *
+ * One endpoint for both shapes: JSON, or multipart when a file is attached —
+ * the `payload` field then carries the same JSON. The file is NOT uploaded
+ * separately and source.fileRef is NOT sent; the server mints the key from the
+ * token it generates and injects it before validating.
+ */
 export async function postDraft(
   payload: DraftPayload,
+  file: File | null,
   turnstileToken: string | null
 ): Promise<string> {
-  const checked = validateDraft(payload);
+  /* Validate what the server will actually see. For an upload that means the
+     payload plus the fileRef it is about to write. */
+  validateDraft(
+    file ? { ...payload, source: { type: "upload", fileRef: FILEREF_PLACEHOLDER } } : payload
+  );
 
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (turnstileToken) headers["cf-turnstile-response"] = turnstileToken;
+  const wire = { ...payload, ...(turnstileToken ? { turnstileToken } : {}) };
 
-  const res = await fetch(apiUrl("/draft"), {
-    method: "POST",
-    headers,
-    body: JSON.stringify(checked),
-  });
+  let res: Response;
+  if (file) {
+    const form = new FormData();
+    form.append("payload", JSON.stringify(wire));
+    form.append("file", file);
+    // No Content-Type: the browser sets the multipart boundary.
+    res = await fetch(apiUrl("/draft"), { method: "POST", body: form });
+  } else {
+    res = await fetch(apiUrl("/draft"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(wire),
+    });
+  }
 
-  if (!res.ok) throw new DraftError(`Could not save your draft (${res.status}).`);
+  if (!res.ok) {
+    let body: Record<string, unknown> | null = null;
+    try { body = await res.json(); } catch { /* non-JSON error page */ }
+    throw new DraftError(describeFailure(res.status, body));
+  }
+
   const data = (await res.json()) as { token?: string };
   if (!data?.token) throw new DraftError("The draft service did not return a token.");
   return data.token;

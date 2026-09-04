@@ -5,7 +5,7 @@ import {
   DEFAULTS_DISPLAY, DRAFT_CONTRACT_VERSION, DRAFT_LIMITS, RESUME_STEP, UPLOAD_ACCEPT,
   type DraftPayload, type DraftSourceType, type DraftUtm, type GateReason,
   DraftContractError, DraftError, fileError, getAnonId, handoffUrl,
-  postDraft, readUtm, uploadDraftFile,
+  postDraft, readUtm,
 } from "@/lib/draft";
 import { initAnalytics, track } from "@/lib/analytics";
 
@@ -175,22 +175,16 @@ export default function QuickCreate() {
     const resolved: DraftSourceType = source ?? "idea";
 
     try {
-      /* Upload first: the contract wants source.fileRef, a storage key the
-         platform issues — we never invent one. */
-      let fileRef: string | undefined;
-      if (resolved === "upload" && file) {
-        fileRef = await uploadDraftFile(file, turnstileToken.current);
-      }
-
       const payload: DraftPayload = {
         version: DRAFT_CONTRACT_VERSION,
         topic: topic.trim().slice(0, DRAFT_LIMITS.topic),
         objective: objective.trim().slice(0, DRAFT_LIMITS.objective),
         audience: audience.trim().slice(0, DRAFT_LIMITS.audience),
+        /* No fileRef for uploads — api/draft mints the key from the token it
+           generates and refuses one supplied by the caller. */
         source: {
           type: resolved,
           ...(resolved === "paste" ? { text: pasteText.trim().slice(0, DRAFT_LIMITS.text) } : {}),
-          ...(fileRef ? { fileRef } : {}),
         },
         /* Not step 1 — they resume where they were gated. */
         resumeStep: RESUME_STEP[gate],
@@ -199,7 +193,7 @@ export default function QuickCreate() {
       };
 
       // postDraft validates against the contract before anything leaves.
-      const token = await postDraft(payload, turnstileToken.current);
+      const token = await postDraft(payload, resolved === "upload" ? file : null, turnstileToken.current);
       window.location.href = handoffUrl(token, anonId);
     } catch (e) {
       // Everything the visitor typed is still in state — the retry re-sends it.
