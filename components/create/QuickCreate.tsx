@@ -348,6 +348,14 @@ export default function QuickCreate() {
 
                 <div className="qc-actions">
                   <a className="qc-back" href="/">← Home</a>
+                  {/* A disabled button with no reason is a dead end. */}
+                  {!canContinue && (
+                    <span className="qc-note">
+                      {source === "paste" && !pasteText.trim() ? "Paste your content to continue."
+                        : source === "upload" && !file ? "Add a file to continue."
+                        : "Title, audience and objective are all needed."}
+                    </span>
+                  )}
                   <button className="qc-btn qc-btn-solid" onClick={toReview} disabled={!canContinue}>
                     Continue →
                   </button>

@@ -111,7 +111,6 @@
   -webkit-background-clip: text; background-clip: text;
   -webkit-text-fill-color: transparent; color: transparent;
 }
-.qc-sub { font-size: 1rem; line-height: 1.6; color: var(--soft); max-width: 56ch; }
 
 /* ── fields: label above a boxed input, as in the app wizard ── */
 .qc-field { margin-top: 16px; }
@@ -132,24 +131,7 @@
   box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.12);
 }
 .qc-textarea { resize: vertical; min-height: 74px; }
-.qc-help { margin-top: 7px; font-size: 0.8rem; line-height: 1.5; color: var(--faint); }
-.qc-count { float: right; font-variant-numeric: tabular-nums; color: var(--faint); font-size: 0.78rem; }
-.qc-note { margin-top: 10px; font-size: 0.8rem; color: var(--faint); }
-
-/* ── chips ── */
-.qc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.qc-chip {
-  appearance: none; font-family: inherit; cursor: pointer;
-  background: #fff; border: 1px solid var(--hair); border-radius: 999px;
-  padding: 7px 15px; font-size: 0.855rem; font-weight: 600; color: var(--soft);
-  transition: border-color 0.2s var(--spring), color 0.2s var(--spring),
-              background-color 0.2s var(--spring), transform 0.2s var(--spring);
-}
-.qc-chip:hover { border-color: #D9D2E6; color: var(--ink); transform: translateY(-1px); }
-.qc-chip[aria-pressed="true"] {
-  background: var(--purple); border-color: var(--purple); color: #fff;
-}
-.qc-chip:focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; }
+.qc-note { font-size: 0.8rem; color: var(--faint); }
 
 /* ── source options: the app's option-card pattern ── */
 .qc-cards {
@@ -242,11 +224,6 @@
   box-shadow: 0 10px 26px -14px rgba(147, 51, 234, 0.85);
 }
 .qc-btn-primary:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 16px 32px -14px rgba(147, 51, 234, 0.95); }
-.qc-btn-quiet {
-  background: transparent; color: var(--soft);
-  border: 1px solid var(--hair); font-weight: 600;
-}
-.qc-btn-quiet:hover { border-color: #D9D2E6; color: var(--ink); }
 .qc-back {
   appearance: none; background: none; border: none; cursor: pointer;
   display: inline-flex; align-items: center; text-decoration: none;
@@ -346,6 +323,6 @@
   .qc-slide, .qc-slide > *, .qc-scrim, .qc-modal, .qc-spinner {
     animation: none !important;
   }
-  .qc-chip, .qc-card, .qc-btn, .qc-num, .qc-step-label { transition: none !important; }
-  .qc-card:hover, .qc-chip:hover, .qc-btn-primary:hover { transform: none; }
+  .qc-card, .qc-btn, .qc-num, .qc-step-label { transition: none !important; }
+  .qc-card:hover, .qc-btn-primary:hover { transform: none; }
 }
