@@ -22,18 +22,13 @@ const ENTER: Record<TransitionKind, [string, string]> = {
 const SIGN_IN = "https://creator.learnbee.ai/sign-in";
 
 const SOURCES: { type: DraftSourceType; title: string; sub: string; icon: React.JSX.Element }[] = [
-  { type: "idea", title: "Internet", sub: "We research the topic as we build.",
+  { type: "internet", title: "Internet", sub: "We research the topic as we build.",
     icon: <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z" /> },
   { type: "upload", title: "Upload a file", sub: "PDF, DOCX or PPTX, up to 5 MB.",
     icon: <path d="M12 16V4m0 0L8 8m4-4 4 4M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" /> },
   { type: "paste", title: "Paste content", sub: "Drop in notes, a policy, a transcript.",
     icon: <path d="M9 3h6v3H9zM8 5H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 12h6M9 16h4" /> },
 ];
-
-/* Counters stay out of the way until the cap is actually in reach. */
-function near(v: string, cap: number) {
-  return v.length > cap * 0.8;
-}
 
 function Sparkle({ size = 20 }: { size?: number }) {
   return (
@@ -54,6 +49,45 @@ function Lock() {
   );
 }
 
+/* One line, ellipsis, full text on hover. The tooltip is rendered only when the
+   text really is clipped — a bubble that repeats a fully visible value is noise.
+   It sits on the wrapper, not the clipped span, whose overflow:hidden would eat
+   it. tabIndex on the clipped span gives keyboard users the same reveal. */
+function ClipValue({ text }: { text: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const [clipped, setClipped] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const check = () => setClipped(el.scrollWidth > el.clientWidth + 1);
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [text]);
+
+  return (
+    <span className="qc-val">
+      <span ref={ref} className="qc-clip" tabIndex={clipped ? 0 : undefined}>{text}</span>
+      {/* The full string is already in the DOM above, so the bubble is decoration. */}
+      {clipped && <span className="qc-tip" aria-hidden="true">{text}</span>}
+    </span>
+  );
+}
+
+function Stroke({ d, size = 17 }: { d: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d={d} />
+    </svg>
+  );
+}
+const ArrowRight = () => <Stroke d="M5 12h13m-5-6 6 6-6 6" />;
+const ArrowLeft = () => <Stroke d="M19 12H6m5 6-6-6 6-6" />;
+const HomeIcon = () => <Stroke d="M3.5 10.5 12 3.5l8.5 7M5.5 9.5V20h13V9.5" />;
+
 function Icon({ children }: { children: React.JSX.Element }) {
   return (
     <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -63,7 +97,13 @@ function Icon({ children }: { children: React.JSX.Element }) {
   );
 }
 
-export default function QuickCreate() {
+/**
+ * `page` is /create — its own screen, with the site header and a full-viewport
+ * wash. `inline` is the section on the home page: no header, no 100svh, and
+ * the wash contained to the section rather than fixed over the whole document.
+ */
+export default function QuickCreate({ variant = "page" }: { variant?: "page" | "inline" }) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const [dir, setDir] = useState<1 | -1>(1);
 
@@ -122,15 +162,21 @@ export default function QuickCreate() {
     document.head.appendChild(s);
   }, [gate]);
 
+  /* Inline, jumping the window to the top would throw the visitor back up to
+     the hero mid-flow; the section's own top is what they need to see. */
   const go = useCallback((next: number, direction: 1 | -1) => {
     setDir(direction);
     setStep(next);
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, []);
+    if (variant === "page") window.scrollTo({ top: 0, behavior: "auto" });
+    else rootRef.current?.scrollIntoView({ block: "start", behavior: "auto" });
+  }, [variant]);
 
+  /* A source is a choice, not a default: leaving it unpicked used to fall
+     through to "internet" silently at submit time. */
   const sourceReady =
-    source === null ||
-    (source === "paste" ? pasteText.trim().length > 0 : source === "upload" ? !!file : true);
+    source === "paste" ? pasteText.trim().length > 0
+      : source === "upload" ? !!file
+      : source === "internet";
   const canContinue =
     topic.trim().length > 0 &&
     objective.trim().length > 0 &&
@@ -140,7 +186,7 @@ export default function QuickCreate() {
   function toReview() {
     if (!canContinue) return;
     track("basics_completed");
-    track("source_completed", { source: source ?? "idea" });
+    track("source_completed", { source: source ?? "internet" });
     track("review_reached");
     go(1, 1);
   }
@@ -175,7 +221,7 @@ export default function QuickCreate() {
     setError(null);
     track("create_account_clicked", { reason: gate });
 
-    const resolved: DraftSourceType = source ?? "idea";
+    const resolved: DraftSourceType = source ?? "internet";
 
     try {
       const payload: DraftPayload = {
@@ -211,20 +257,24 @@ export default function QuickCreate() {
 
   const enterAnim = ENTER[TRANSITION][dir === 1 ? 0 : 1];
   const slideProps = {
-    className: "qc-slide",
+    className: `qc-slide${step === 1 ? " qc-slide--review" : ""}`,
     style: { ["--qc-enter" as string]: enterAnim } as React.CSSProperties,
   };
 
   return (
-    <div className="qc">
+    <div className={`qc${variant === "inline" ? " qc--inline" : ""}`} ref={rootRef}>
       <div className="qc-shell">
-        <header className="qc-head">
-          <a className="qc-logo" href="/" aria-label="Learnbee home">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo.png" alt="Learnbee" />
-          </a>
-          <a className="qc-login" href={SIGN_IN}>Log in</a>
-        </header>
+        {/* The home page already has a header; a second logo under it reads as
+            a mistake. */}
+        {variant === "page" && (
+          <header className="qc-head">
+            <a className="qc-logo" href="/" aria-label="Learnbee home">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo.png" alt="Learnbee" />
+            </a>
+            <a className="qc-login" href={SIGN_IN}>Log in</a>
+          </header>
+        )}
 
         <main className="qc-stage">
           {/* key= forces a remount so the entrance animation replays each slide */}
@@ -232,7 +282,7 @@ export default function QuickCreate() {
             {step === 0 && (
               <>
                 <span className="qc-eyebrow">Course basics</span>
-                <h2 className="qc-h1">What are we <span className="qc-grad">building?</span></h2>
+                <h2 className="qc-h1">Describe your <span className="qc-grad">course.</span></h2>
 
                 <div className="qc-field">
                   <label className="qc-label" htmlFor="qc-topic">Course title</label>
@@ -264,7 +314,7 @@ export default function QuickCreate() {
                   />
                 </div>
 
-                <div className="qc-field">
+                <div className="qc-field qc-field--section">
                   <label className="qc-label">Where should the content come from?</label>
                   <div className="qc-cards">
                     {SOURCES.map((sc) => (
@@ -280,6 +330,9 @@ export default function QuickCreate() {
                     ))}
                   </div>
 
+                  {/* The panel's space is held whether or not one is open, so
+                      picking a source never moves the Continue row. */}
+                  <div className="qc-source-slot">
                   {source === "paste" && (
                     <textarea
                       className="qc-textarea" style={{ marginTop: 12 }} autoFocus
@@ -312,20 +365,26 @@ export default function QuickCreate() {
                       {fileMsg && <p className="qc-drop-s" style={{ color: "#B91C1C" }}>{fileMsg}</p>}
                     </div>
                   )}
+                  </div>
                 </div>
 
                 <div className="qc-actions">
-                  <a className="qc-back" href="/">← Home</a>
+                  {/* Inline, "Home" points at the page you are already on. */}
+                  {variant === "page"
+                    ? <a className="qc-ghost" href="/"><HomeIcon /> Home</a>
+                    : <span />}
                   {/* A disabled button with no reason is a dead end. */}
                   {!canContinue && (
                     <span className="qc-note">
-                      {source === "paste" && !pasteText.trim() ? "Paste your content to continue."
-                        : source === "upload" && !file ? "Add a file to continue."
-                        : "Title, audience and objective are all needed."}
+                      {!topic.trim() || !audience.trim() || !objective.trim()
+                        ? "Title, audience and objective are all needed."
+                        : !source ? "Choose where the content should come from."
+                        : source === "paste" ? "Paste your content to continue."
+                        : "Add a file to continue."}
                     </span>
                   )}
                   <button className="qc-btn qc-btn-solid" onClick={toReview} disabled={!canContinue}>
-                    Continue →
+                    Continue <ArrowRight />
                   </button>
                 </div>
               </>
@@ -336,33 +395,54 @@ export default function QuickCreate() {
                 <span className="qc-eyebrow">Review</span>
                 <h2 className="qc-h1">Ready to <span className="qc-grad">generate.</span></h2>
 
-                <dl className="qc-review">
-                  <div className="qc-row"><dt>Title</dt><dd>{topic}</dd></div>
-                  <div className="qc-row"><dt>Audience</dt><dd>{audience}</dd></div>
-                  <div className="qc-row"><dt>Objective</dt><dd>{objective}</dd></div>
-                  <div className="qc-row"><dt>Source</dt>
-                    <dd>
-                      {source === "upload" ? file?.name ?? "Upload"
-                        : source === "paste" ? `Pasted content · ${pasteText.trim().length} characters`
-                        : "Internet"}
-                    </dd></div>
-                  <div className="qc-row is-default">
-                    <dt>Structure &amp; quiz</dt>
-                    <dd>
-                      Smart defaults{" "}
-                      <button className="qc-inline-btn" onClick={() => openGate("customize")}>Customize</button>
-                    </dd>
+                <div className="qc-panel qc-panel--rows">
+                  <dl className="qc-review">
+                    <div className="qc-row"><dt>Title</dt><dd><ClipValue text={topic} /></dd></div>
+                    <div className="qc-row"><dt>Objective</dt><dd><ClipValue text={objective} /></dd></div>
+                    <div className="qc-row"><dt>Audience</dt><dd><ClipValue text={audience} /></dd></div>
+                    <div className="qc-row"><dt>Language</dt><dd><ClipValue text="English" /></dd></div>
+                    <div className="qc-row"><dt>Source</dt>
+                      <dd>
+                        <ClipValue text={
+                          source === "upload" ? file?.name ?? "Upload"
+                            : source === "paste" ? `Pasted content · ${pasteText.trim().length} characters`
+                            : "Internet"
+                        } />
+                      </dd></div>
+                  </dl>
+                </div>
+
+                {/* Its own card, not five more rows in the panel above: these are
+                    settings the visitor never chose, and burying them among the
+                    ones they did made the panel hard to read. */}
+                <div className="qc-panel qc-defaults">
+                  <div className="qc-defaults-h">
+                    <span className="qc-defaults-t">Structure &amp; quiz</span>
+                    <span className="qc-pill"><Sparkle size={12} /> Smart defaults</span>
                   </div>
-                </dl>
+                  <div className="qc-def-grid">
+                    {DEFAULTS_DISPLAY.map(([k, v]) => (
+                      <div key={k}>
+                        <div className="qc-def-k">{k}</div>
+                        <div className="qc-def-v">{v}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <button className="qc-unlock" onClick={() => openGate("customize")}>
+                    <span className="qc-unlock-ico"><Lock /></span>
+                    Customize structure &amp; quiz
+                    <span className="qc-unlock-arrow" aria-hidden="true">→</span>
+                  </button>
+                </div>
 
-                <button className="qc-btn qc-btn-primary qc-btn-block" style={{ marginTop: 22 }}
-                        onClick={() => openGate("generate")}>
-                  <Sparkle size={17} /> Generate my course
-                </button>
-                <p className="qc-foot-note">Free account to generate — your draft is saved.</p>
-
+                {/* Same row shape as step 1, so the pair never shifts between steps. */}
                 <div className="qc-actions">
-                  <button className="qc-back" onClick={() => go(0, -1)}>← Back</button>
+                  <button className="qc-ghost" onClick={() => go(0, -1)}>
+                    <ArrowLeft /> Back
+                  </button>
+                  <button className="qc-btn qc-btn-primary" onClick={() => openGate("generate")}>
+                    <Sparkle size={17} /> Generate my course <ArrowRight />
+                  </button>
                 </div>
               </>
             )}
@@ -393,10 +473,6 @@ export default function QuickCreate() {
                 <p>We&apos;ll open the editor with everything you&apos;ve entered, ready to adjust.</p>
               </>
             )}
-
-            <div className="qc-draft-chip">
-              <b>{topic || "Untitled course"}</b><span>·</span><span>{audience}</span>
-            </div>
 
             {/* Verification runs before the draft is posted. */}
             <div ref={turnstileBox} style={{ marginBottom: 14 }} />

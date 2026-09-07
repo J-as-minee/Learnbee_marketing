@@ -14,8 +14,12 @@
 export const DRAFT_CONTRACT_VERSION = "1";
 
 /** No URL option: the wizard has a web-search toggle, not a scraper, so a URL
- *  had nowhere honest to land. */
-export type DraftSourceType = "idea" | "upload" | "paste";
+ *  had nowhere honest to land.
+ *
+ *  `internet` was called `idea` until 7 Sep 2026. The platform still accepts
+ *  the old name on input and normalises it, so the two repos could deploy
+ *  independently — this side simply stopped sending it. */
+export type DraftSourceType = "internet" | "upload" | "paste";
 
 export interface DraftSource {
   type: DraftSourceType;
@@ -105,8 +109,8 @@ export function validateDraft(input: unknown): DraftPayload {
 
   const rawSource = (o.source ?? {}) as Record<string, unknown>;
   const type = str(rawSource.type) as DraftSourceType;
-  if (!["idea", "upload", "paste"].includes(type)) {
-    throw new DraftContractError("source.type", "source.type must be idea, upload or paste");
+  if (!["internet", "upload", "paste"].includes(type)) {
+    throw new DraftContractError("source.type", "source.type must be internet, upload or paste");
   }
   const source: DraftSource = { type };
   if (type === "paste") {

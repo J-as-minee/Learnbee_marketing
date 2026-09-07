@@ -138,7 +138,7 @@ export default function Hero() {
           narrated course — in any of 16 languages — then exports it anywhere, no LMS required.
         </p>
         <div className="hero-actions reveal reveal-d3">
-          <a href="/create" className="btn btn-white btn-lg">Get Started for Free</a>
+          <a href="/create" data-open-create className="btn btn-white btn-lg">Get Started for Free</a>
           <a href="#features" className="btn btn-outline-light btn-lg">See How It Works</a>
         </div>
       </div>

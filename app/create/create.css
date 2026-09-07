@@ -37,14 +37,39 @@
     radial-gradient(42% 36% at 98% 78%,  rgba(178, 75, 224, 0.11), transparent 72%);
 }
 
-.qc-shell { position: relative; z-index: 1; }
+.qc-shell { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; }
+
+/* The scroll target is the section, not .qc--inline inside it — without this
+   the sticky nav sits over the top of the revealed section. */
+.home-create { scroll-margin-top: var(--nav-h, 62px); }
+
+/* ── embedded on the home page ──
+   Same component, no page chrome: the wash is contained to the section, the
+   stage sizes to its content, and nothing reaches for the viewport. */
+.qc--inline {
+  /* One screen of its own, minus the sticky nav — the section reads as a
+     destination rather than as something wedged under the gallery. */
+  min-height: calc(100svh - var(--nav-h, 62px));
+  /* NOT centred: the two steps are different heights, so centring split the
+     slack differently on each and the heading moved between them. Anchored to
+     the top, both steps start on the same line and only the foot varies. */
+  background: transparent;
+  scroll-margin-top: var(--nav-h, 62px);
+  padding: clamp(20px, 3.5vh, 44px) 0 clamp(40px, 7vh, 72px);
+}
+.qc--inline::before { position: absolute; }
+.qc--inline .qc-shell,
+.qc--inline .qc-slide { flex: none; }
+.qc--inline .qc-stage { flex: none; padding-top: 0; }
 
 /* ── slim header ── */
+/* Full width, unlike the 760px stage below it: the mark and Log in sit out at
+   the page edges rather than hugging the form column. */
 .qc-head {
   display: flex; align-items: center; justify-content: space-between;
-  max-width: 760px; margin: 0 auto; padding: 18px 24px 0;
+  padding: 20px 44px 0;
 }
-.qc-logo img { height: 36px; width: auto; display: block; }
+.qc-logo img { height: 46px; width: auto; display: block; }
 .qc-login {
   font-size: 0.875rem; font-weight: 500; color: var(--soft);
   transition: color 0.15s;
@@ -53,18 +78,37 @@
 
 /* ── stage ── */
 /* 760px keeps the single column readable now that Source shares the step. */
-.qc-stage { max-width: 760px; margin: 0 auto; padding: 18px 24px 36px; }
+.qc-stage {
+  max-width: 760px; width: 100%; margin: 0 auto;
+  padding: clamp(10px, 2vh, 18px) 24px clamp(16px, 3vh, 36px);
+  flex: 1; display: flex; flex-direction: column;
+}
+/* The two steps are not the same height, so their actions would land at
+   different points and jump as you move between them. The slide fills the
+   stage and the actions are pushed to its foot — a gap above them on the
+   shorter step, but the buttons never move. */
+.qc-slide { flex: 1; display: flex; flex-direction: column; }
+.qc-actions { margin-top: auto; }
+/* The review step has to clear the fold on short laptops, so its spacing
+   scales with viewport height instead of sitting on fixed values. */
+.qc-slide--review { --gap: clamp(12px, 1.9vh, 16px); }
+/* Matches .qc-field's margin-top — the two steps must not shift under the
+   heading when you move between them. */
+.qc-slide--review > .qc-panel:first-of-type { margin-top: 16px; }
+.qc-slide--review > .qc-panel:last-of-type { margin-bottom: clamp(14px, 2.4vh, 22px); }
 
 
 /* ── type-led slide heads ── */
+/* Eyebrow and headline are centred; the fields below stay left-aligned. */
 .qc-eyebrow {
-  display: block;
+  display: block; text-align: center;
   font-size: 0.7rem; font-weight: 700; letter-spacing: 0.13em;
   text-transform: uppercase; color: var(--purple); margin-bottom: 8px;
 }
 .qc-h1 {
-  font-size: clamp(1.6rem, 3.4vw, 2.1rem); font-weight: 800;
-  letter-spacing: -0.04em; line-height: 1.12; margin-bottom: 4px;
+  text-align: center;
+  font-size: clamp(1.95rem, 4.2vw, 2.6rem); font-weight: 800;
+  letter-spacing: -0.04em; line-height: 1.12; margin-bottom: 30px;
 }
 .qc-grad {
   background: var(--accent-grad);
@@ -74,6 +118,9 @@
 
 /* ── fields: label above a boxed input, as in the app wizard ── */
 .qc-field { margin-top: 16px; }
+/* Source is a different question from the three about the course itself, so it
+   gets a wider gap than the rhythm between sibling fields. */
+.qc-field--section { margin-top: 40px; }
 .qc-label {
   display: block; margin-bottom: 8px;
   font-size: 0.875rem; font-weight: 600; color: var(--ink);
@@ -121,6 +168,14 @@
 .qc-card[aria-pressed="true"] .qc-card-t { color: var(--purple); }
 .qc-card-s { display: block; margin-top: 3px; font-size: 0.8rem; line-height: 1.45; color: var(--faint); }
 
+/* Reserved space for the source panel, so Continue sits at one height whichever
+   source is picked — or none. The panels are pinned to a single height too:
+   left to their own, the dropzone came out ~96px and the paste box 86px, and
+   the row below moved by the difference. */
+.qc-source-slot { min-height: 96px; }
+.qc-source-slot .qc-drop,
+.qc-source-slot .qc-textarea { min-height: 84px; }
+
 /* ── dropzone ── */
 .qc-drop {
   margin-top: 12px; border: 1.5px dashed #DED6EC; border-radius: 12px;
@@ -141,37 +196,109 @@
   font-size: 0.9rem;
 }
 
-/* ── review: the app's filled summary panel, without its border ── */
-.qc-review {
-  margin-top: 10px; background: #F7F6FA; border-radius: 14px; padding: 4px 18px;
+/* ── review: two hairline cards on the wash, values right-aligned ── */
+.qc-panel {
+  margin-top: var(--gap, 16px);
+  background: #fff;
+  border: 1px solid #EAE6F2;
+  border-radius: 16px;
+  padding: clamp(14px, 2vh, 20px) 20px;
+  box-shadow: 0 1px 2px rgba(15, 23, 41, 0.03);
 }
+/* The rows carry their own vertical rhythm, so the card only insets them. */
+.qc-panel--rows { padding: 2px 20px; }
+
+.qc-review { margin: 0; }
 .qc-row {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto;
-  gap: 20px; align-items: baseline;
-  padding: 12px 0; border-bottom: 1px solid #EDEAF2;
+  /* A fixed 30:70 split, gutter included in the columns rather than added on
+     top — the value column has to be bounded or a long objective grows the
+     card instead of clipping. */
+  display: grid; grid-template-columns: 30% minmax(0, 70%);
+  gap: 0; align-items: baseline;
+  padding: clamp(8px, 1.35vh, 13px) 0; border-bottom: 1px solid #F1EEF7;
 }
 .qc-row:last-child { border-bottom: none; }
-.qc-row dt { font-size: 0.9rem; color: var(--soft); }
-.qc-row dd { font-size: 0.9rem; font-weight: 600; color: var(--ink); text-align: right; }
-.qc-row.is-default dd { color: var(--soft); font-weight: 500; }
-.qc-inline-btn {
-  appearance: none; background: none; border: none; cursor: pointer;
-  font-family: inherit; font-size: 0.855rem; font-weight: 600;
-  color: var(--purple); text-decoration: underline; padding: 0 0 0 6px;
+.qc-row dt { font-size: 0.9rem; color: var(--soft); padding-right: 14px; }
+.qc-row dd { font-size: 0.9rem; font-weight: 700; color: var(--ink); text-align: right; }
+.qc-val { position: relative; display: block; }
+.qc-clip {
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  border-radius: 4px;
 }
-.qc-inline-btn:hover { color: var(--violet); }
+.qc-clip:focus-visible { outline: 2px solid var(--purple); outline-offset: 2px; }
+/* Anchored to the value's right edge, so it never leaves the card. */
+.qc-tip {
+  position: absolute; z-index: 5; top: calc(100% + 8px); right: 0;
+  width: max-content; max-width: min(400px, 100%);
+  background: #1B2130; color: #fff; border-radius: 10px;
+  padding: 9px 12px; text-align: left;
+  font-size: 0.815rem; font-weight: 500; line-height: 1.45; letter-spacing: -0.005em;
+  white-space: normal; text-wrap: pretty;
+  box-shadow: 0 16px 34px -18px rgba(15, 23, 41, 0.75);
+  opacity: 0; visibility: hidden; transform: translateY(-4px);
+  transition: opacity 0.14s var(--spring), transform 0.14s var(--spring), visibility 0.14s;
+}
+.qc-val:hover .qc-tip,
+.qc-val:focus-within .qc-tip { opacity: 1; visibility: visible; transform: none; }
+
+/* ── structure & quiz: read-only values in their own card ── */
+.qc-defaults-h {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+}
+.qc-defaults-t { font-size: 0.975rem; font-weight: 700; }
+.qc-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #F5EDFC; color: var(--purple); border-radius: 999px;
+  padding: 5px 12px; font-size: 0.75rem; font-weight: 700;
+}
+.qc-def-grid {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(12px, 2vh, 18px) 22px; margin: clamp(13px, 2vh, 18px) 0 clamp(13px, 2vh, 20px);
+}
+.qc-def-k { font-size: 0.8rem; color: var(--faint); margin-bottom: 4px; }
+.qc-def-v { font-size: 0.925rem; font-weight: 700; }
+/* Customize is a locked door, not a disabled control: it spans the card with
+   its label centred, and hover shows where it leads. */
+.qc-unlock {
+  appearance: none; font-family: inherit; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  width: 100%;
+  background: #fff; border: 1px solid #E7E4EE; border-radius: 12px;
+  padding: 9px 16px;
+  font-size: 0.855rem; font-weight: 600; color: var(--soft);
+  transition: border-color 0.18s var(--spring), color 0.18s var(--spring),
+              background-color 0.18s var(--spring), box-shadow 0.24s var(--spring);
+}
+.qc-unlock-ico {
+  flex: 0 0 auto; display: grid; place-items: center;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #F4F0FA; color: var(--purple);
+  transition: background-color 0.18s var(--spring), color 0.18s var(--spring);
+}
+/* Held in the layout at all times, so hover moves nothing but the arrow. */
+.qc-unlock-arrow {
+  font-size: 0.9rem; line-height: 1; color: var(--purple);
+  opacity: 0; transform: translateX(-4px);
+  transition: opacity 0.18s var(--spring), transform 0.18s var(--spring);
+}
+.qc-unlock:hover {
+  background: #FCFAFF; border-color: #D8C6EE; color: var(--ink);
+  box-shadow: 0 8px 20px -14px rgba(147, 51, 234, 0.7);
+}
+.qc-unlock:hover .qc-unlock-ico { background: var(--purple); color: #fff; }
+.qc-unlock:hover .qc-unlock-arrow { opacity: 1; transform: none; }
+.qc-unlock:focus-visible { outline: 2px solid var(--purple); outline-offset: 3px; }
 
 /* ── buttons ── */
 .qc-actions {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 14px; flex-wrap: wrap; margin-top: 30px;
+  gap: 14px; flex-wrap: wrap; padding-top: 30px;
 }
-.qc-btn-solid { background: var(--purple); color: #fff; }
-.qc-btn-block {
-  width: 100%; padding: 16px 26px; font-size: 1rem;
-  display: flex; align-items: center; justify-content: center; gap: 9px;
+.qc-btn-solid {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+  background: var(--purple); color: #fff;
 }
-.qc-foot-note { margin-top: 12px; text-align: center; font-size: 0.82rem; color: var(--faint); }
 .qc-btn-solid:not(:disabled):hover { background: var(--violet); }
 .qc-btn {
   appearance: none; font-family: inherit; cursor: pointer; border: none;
@@ -180,18 +307,26 @@
 }
 .qc-btn:disabled { opacity: 0.42; cursor: not-allowed; }
 .qc-btn-primary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 9px;
   background: var(--accent-grad); color: #fff;
   box-shadow: 0 10px 26px -14px rgba(147, 51, 234, 0.85);
 }
 .qc-btn-primary:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 16px 32px -14px rgba(147, 51, 234, 0.95); }
-.qc-back {
-  appearance: none; background: none; border: none; cursor: pointer;
-  display: inline-flex; align-items: center; text-decoration: none;
-  font-family: inherit; font-size: 0.875rem; font-weight: 600; color: var(--faint);
-  padding: 8px 2px; transition: color 0.15s;
+/* The secondary half of every action row: same metrics as .qc-btn, so Home /
+   Back and Continue / Generate read as one pair on both steps. */
+.qc-ghost {
+  appearance: none; cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 9px;
+  background: #fff; border: 1px solid #E4DDF0; border-radius: 11px;
+  padding: 12px 22px; font-family: inherit; font-size: 0.94rem; font-weight: 700;
+  color: var(--ink);
+  transition: border-color 0.18s var(--spring), background-color 0.18s var(--spring),
+              transform 0.18s var(--spring);
 }
-.qc-back:hover { color: var(--ink); }
-.qc-btn:focus-visible, .qc-back:focus-visible {
+.qc-ghost svg { color: var(--soft); transition: color 0.18s var(--spring); }
+.qc-ghost:hover { border-color: #CDB8E8; background: #FCFAFF; }
+.qc-ghost:hover svg { color: var(--purple); }
+.qc-btn:focus-visible, .qc-ghost:focus-visible {
   outline: 2px solid var(--purple); outline-offset: 3px;
 }
 
@@ -221,15 +356,8 @@
   padding: 5px 12px; font-size: 0.76rem; font-weight: 700;
 }
 .qc-modal h2 { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; margin: 15px 0 9px; }
-.qc-modal p { font-size: 0.925rem; line-height: 1.6; color: var(--soft); }
-.qc-draft-chip {
-  display: flex; align-items: center; gap: 9px; margin: 20px 0 22px;
-  background: #FAF9FC; border: 1px solid var(--hair); border-radius: 12px;
-  padding: 12px 14px; font-size: 0.875rem;
-}
-.qc-draft-chip b { font-weight: 700; }
-.qc-draft-chip span { color: var(--faint); }
-.qc-modal .qc-btn-primary { width: 100%; }
+.qc-modal p { font-size: 0.925rem; line-height: 1.6; color: var(--soft); margin-bottom: 22px; }
+.qc-modal .qc-btn-primary { width: 100%; justify-content: center; }
 .qc-signin { margin-top: 15px; text-align: center; font-size: 0.855rem; color: var(--faint); }
 .qc-signin button {
   appearance: none; background: none; border: none; cursor: pointer;
@@ -272,15 +400,50 @@
 }
 
 @media (max-width: 720px) {
+  .qc-def-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .qc-head { padding: 16px 20px 0; }
+  .qc-logo img { height: 38px; }
   .qc-stage { padding: 24px 20px 72px; }
   .qc-cards { grid-template-columns: 1fr; }
   .qc-row { grid-template-columns: 1fr; gap: 4px; }
+  .qc-row dd { text-align: left; }
+  .qc-panel { padding: 16px; }
+  .qc-panel--rows { padding: 2px 16px; }
+}
+
+@media (max-height: 880px) {
+  .qc-head { padding: 12px 44px 0; }
+  .qc-logo img { height: 38px; }
+  .qc-field { margin-top: 13px; }
+  .qc-field--section { margin-top: 26px; }
+  .qc-textarea { min-height: 62px; }
+  .qc-actions { padding-top: 20px; }
+}
+
+/* Below ~780px of viewport the review step is what runs out of room first —
+   two cards, a full-width action and a heading. Every gap gives a little so the
+   step still lands inside one screen on a 13" laptop. */
+@media (max-height: 780px) {
+  .qc-head { padding: 10px 44px 0; }
+  .qc-logo img { height: 34px; }
+  .qc-stage { padding-bottom: 18px; }
+  .qc-slide--review .qc-panel { margin-top: 11px; padding: 12px 18px; }
+  .qc-slide--review .qc-panel--rows { padding: 0 18px; }
+  .qc-slide--review .qc-row { padding: 6px 0; }
+  .qc-slide--review .qc-def-grid { gap: 10px 22px; margin: 10px 0 11px; }
+  .qc-slide--review .qc-def-k { margin-bottom: 1px; }
+  .qc-slide--review .qc-unlock { padding: 6px 14px; }
+  .qc-slide--review .qc-unlock-ico { width: 24px; height: 24px; }
+  .qc-actions { padding-top: 20px; }
+  .qc-ghost, .qc-slide--review .qc-btn { padding-top: 10px; padding-bottom: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .qc-slide, .qc-slide > *, .qc-scrim, .qc-modal, .qc-spinner {
     animation: none !important;
   }
-  .qc-card, .qc-btn { transition: none !important; }
+  .qc-card, .qc-btn, .qc-unlock, .qc-unlock-ico, .qc-unlock-arrow,
+  .qc-tip { transition: none !important; }
+  .qc-unlock-arrow { opacity: 1; transform: none; }
   .qc-card:hover, .qc-btn-primary:hover { transform: none; }
 }

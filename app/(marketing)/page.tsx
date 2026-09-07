@@ -1,6 +1,7 @@
 import BgMorph from "@/components/landing/BgMorph";
 import SiteNav from "@/components/landing/SiteNav";
 import Hero from "@/components/landing/Hero";
+import HomeQuickCreate from "@/components/landing/HomeQuickCreate";
 import DemoSection from "@/components/landing/DemoSection";
 import WhyNotChatGPT from "@/components/landing/WhyNotChatGPT";
 import ValueSection from "@/components/landing/ValueSection";
@@ -19,6 +20,7 @@ export default function Home() {
       <SiteNav />
       <main>
         <Hero />
+        <HomeQuickCreate />
         <PortraitCarousel />
         <DemoSection />
         <WhyNotChatGPT />
