@@ -2,9 +2,10 @@
 
 import { useEffect, useRef } from "react";
 
-/* Interactive hero background for the Help page — mouse-follow purple glow,
-   mirroring the homepage Hero. Renders the grid + glow layers and wires the
-   pointer tracking on the parent `.help-hero` section. */
+/* Interactive hero background for the Help page, mirroring the homepage Hero:
+   a mouse-follow purple glow, and the hex pattern revealed only under the
+   cursor. Renders the grid + glow layers and wires pointer tracking on the
+   parent `.help-hero` section. */
 export default function HelpHeroBg() {
   const glowRef = useRef<HTMLDivElement>(null);
 
@@ -18,10 +19,14 @@ export default function HelpHeroBg() {
       const x = (((e.clientX - r.left) / r.width) * 100).toFixed(2);
       const y = (((e.clientY - r.top) / r.height) * 100).toFixed(2);
       glow.style.background = `radial-gradient(560px circle at ${x}% ${y}%, rgba(147,51,234,0.24), transparent 70%)`;
+      // Feeds the radial mask on .help-grid so the hex pattern is revealed
+      // under the cursor along with the glow.
+      hero.style.setProperty("--gx", `${x}%`);
+      hero.style.setProperty("--gy", `${y}%`);
     };
     const onLeave = () => {
-      // Clear the inline style → reverts to the default CSS top-centre glow.
-      glow.style.background = "";
+      // Back to no glow; the pattern fades out with the :hover rule.
+      glow.style.background = "none";
     };
 
     hero.addEventListener("mousemove", onMove);

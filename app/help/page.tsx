@@ -22,7 +22,7 @@ export default function HelpPage() {
       <section className="help-hero">
         <HelpHeroBg />
         <div className="help-inner">
-          <span className="section-label on-dark">Help Centre</span>
+          <span className="section-label">Help Centre</span>
           <h1>
             Got a question?{" "}
             <span className="accent">We&apos;ve got answers.</span>
