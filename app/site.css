@@ -248,7 +248,6 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 
 @media (max-width: 700px) {
   .demo-frame-wrap { padding: 10px; }
-  .demo-frame-wrap iframe { height: 380px !important; }
   .headline-nowrap { font-size: 1.9rem; }
 }
 
@@ -1219,7 +1218,7 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   .wnc-layout { grid-template-columns: 1fr; gap: 16px; }
   /* Card leads on small screens and pins to the very top: the chips are the
      thing being scrolled, so the detail needs to stay on screen. */
-  .wnc-aside { order: -1; width: auto; top: 0; z-index: 5; background: var(--bg); padding: 8px 0 6px; }
+  .wnc-aside { order: -1; width: auto; top: var(--nav-h); z-index: 5; background: var(--bg); padding: 8px 0 6px; }
   .wnc-card { padding: 18px 20px 20px; border-radius: 16px; }
   .wnc-group { grid-template-columns: 1fr; gap: 8px; }
   .wnc-rail { padding-top: 0; }

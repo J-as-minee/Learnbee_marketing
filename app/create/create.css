@@ -125,6 +125,9 @@
   display: block; margin-bottom: 8px;
   font-size: 0.875rem; font-weight: 600; color: var(--ink);
 }
+/* Decorative only — aria-required on the input carries this to screen readers,
+   which would otherwise announce a literal "asterisk". */
+.qc-req { color: var(--purple); font-weight: 700; margin-left: 1px; }
 .qc-input, .qc-textarea {
   display: block; width: 100%;
   background: #fff; border: 1px solid #E7E4EE; border-radius: 10px;

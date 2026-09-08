@@ -113,7 +113,8 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
   const [audience, setAudience] = useState("");
 
   // Source
-  const [source, setSource] = useState<DraftSourceType | null>(null);
+  /* Always one selection — "internet" is what an untouched draft sends. */
+  const [source, setSource] = useState<DraftSourceType>("internet");
   const [pasteText, setPasteText] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [fileMsg, setFileMsg] = useState<string | null>(null);
@@ -186,7 +187,7 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
   function toReview() {
     if (!canContinue) return;
     track("basics_completed");
-    track("source_completed", { source: source ?? "internet" });
+    track("source_completed", { source });
     track("review_reached");
     go(1, 1);
   }
@@ -221,7 +222,7 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
     setError(null);
     track("create_account_clicked", { reason: gate });
 
-    const resolved: DraftSourceType = source ?? "internet";
+    const resolved: DraftSourceType = source;
 
     try {
       const payload: DraftPayload = {
@@ -281,13 +282,13 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
           <div key={step} {...slideProps}>
             {step === 0 && (
               <>
-                <span className="qc-eyebrow">Course basics</span>
+                <span className="qc-eyebrow">Create your first course</span>
                 <h2 className="qc-h1">Describe your <span className="qc-grad">course.</span></h2>
 
                 <div className="qc-field">
-                  <label className="qc-label" htmlFor="qc-topic">Course title</label>
+                  <label className="qc-label" htmlFor="qc-topic">Course title <span className="qc-req" aria-hidden="true">*</span></label>
                   <input
-                    id="qc-topic" className="qc-input" value={topic} autoFocus
+                    id="qc-topic" className="qc-input" value={topic} autoFocus aria-required="true"
                     maxLength={DRAFT_LIMITS.topic}
                     onChange={(e) => setTopic(e.target.value)}
                     placeholder="e.g. Product Onboarding for Sales Reps"
@@ -295,9 +296,9 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
                 </div>
 
                 <div className="qc-field">
-                  <label className="qc-label" htmlFor="qc-audience">Target audience</label>
+                  <label className="qc-label" htmlFor="qc-audience">Target audience <span className="qc-req" aria-hidden="true">*</span></label>
                   <input
-                    id="qc-audience" className="qc-input" value={audience}
+                    id="qc-audience" className="qc-input" value={audience} aria-required="true"
                     maxLength={DRAFT_LIMITS.audience}
                     onChange={(e) => setAudience(e.target.value)}
                     placeholder="e.g. New sales hires in their first 30 days"
@@ -305,9 +306,9 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
                 </div>
 
                 <div className="qc-field">
-                  <label className="qc-label" htmlFor="qc-objective">Learning objective</label>
+                  <label className="qc-label" htmlFor="qc-objective">Learning objective <span className="qc-req" aria-hidden="true">*</span></label>
                   <textarea
-                    id="qc-objective" className="qc-textarea" value={objective}
+                    id="qc-objective" className="qc-textarea" value={objective} aria-required="true"
                     maxLength={DRAFT_LIMITS.objective}
                     onChange={(e) => setObjective(e.target.value)}
                     placeholder="e.g. Understand the core value propositions and handle common objections confidently"
@@ -320,7 +321,7 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
                     {SOURCES.map((sc) => (
                       <button key={sc.type} type="button" className="qc-card"
                               aria-pressed={source === sc.type}
-                              onClick={() => setSource(source === sc.type ? null : sc.type)}>
+                              onClick={() => setSource(sc.type)}>
                         <span className="qc-tile"><Icon>{sc.icon}</Icon></span>
                         <span>
                           <span className="qc-card-t">{sc.title}</span>
@@ -378,7 +379,6 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
                     <span className="qc-note">
                       {!topic.trim() || !audience.trim() || !objective.trim()
                         ? "Title, audience and objective are all needed."
-                        : !source ? "Choose where the content should come from."
                         : source === "paste" ? "Paste your content to continue."
                         : "Add a file to continue."}
                     </span>
