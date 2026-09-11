@@ -10,7 +10,7 @@
 > section here. Anything not yet verifiable is marked **To Be Documented (TBD)** —
 > do not replace TBD with assumptions.
 >
-> **Last reviewed:** 2026-08-28 · **Applies to:** Learnbee (web app)
+> **Last reviewed:** 2026-09-11 · **Applies to:** Learnbee (web app)
 
 ---
 
@@ -150,6 +150,12 @@ Some names differ between what a developer sees and what a user sees. Always use
 Learners taking a **published** course via link or access code do **not** need an
 account.
 
+**You can start before you have an account.** On **learnbee.ai** you can describe your
+course first — title, audience, objective, and where the content should come from —
+and only sign up when you're ready to generate it. After signing up you land back in
+the course wizard with everything you entered already filled in. See
+[Starting a course on learnbee.ai](#33-starting-a-course-on-learnbeeai).
+
 ### 3.2 Navigation (main areas)
 | Area | What it's for |
 |---|---|
@@ -161,11 +167,50 @@ account.
 | **Translate** | Copy + translate a course into another language. |
 | **Player / Preview** | Play a course as a learner (editor preview or hosted player). |
 
-### 3.3 Initial setup
+### 3.3 Starting a course on learnbee.ai
+
+**Purpose.** Describe your course on the Learnbee website first, then sign up and carry
+on — nothing you typed is lost.
+
+**How it works.**
+1. On **learnbee.ai**, fill in the **course title**, **audience**, and **learning
+   objective**.
+2. Choose where the content should come from:
+   - **Internet** — Learnbee researches the topic for you.
+   - **Paste** — paste your own material (up to 20,000 characters).
+   - **Upload** — attach one file: **PDF, Word (.docx), PowerPoint (.pptx), .txt or
+     .md**, up to **5 MB**.
+3. Review your answers, then sign up (or sign in).
+4. You're taken straight back into the **course wizard**, on the step you'd reached,
+   with your answers in place. Finish the remaining steps and **Generate**.
+
+**What carries over.**
+- **Title, audience and objective** appear in step 1.
+- **Internet** — the **Search the internet** toggle arrives **on** in step 2, since
+  it's the only source there is.
+- **Pasted text** appears in the reference box in step 2.
+- **An uploaded file** appears in step 2's file list. A Word or PowerPoint file has
+  its text pulled into the reference box; a PDF is read directly when the course is
+  generated.
+- A **PDF** you uploaded is also saved to your **PDF library** once the course is
+  created, so it's there to reuse like any PDF you upload in the editor.
+
+**Good to know.**
+- The website starts every course in **English** with Learnbee's standard structure
+  (1 module, about 5 minutes, 5 quiz questions). You can change the language and any
+  of these settings in the wizard before you generate — the language only becomes
+  fixed once the course is created.
+- An unfinished draft is kept for **24 hours**. After that, start again on the website.
+- Nothing is generated until you're signed in.
+
+**Keywords.** start on website, learnbee.ai, quick create, get started, sign up, resume,
+continue where I left off, draft, create course before account.
+
+### 3.4 Initial setup
 There is no separate onboarding/setup step. To begin, **start a new course** from
 the "New" menu, which opens the [Course Wizard](#41-creating-a-course-the-course-wizard).
 
-### 3.4 Permissions and roles (summary)
+### 3.5 Permissions and roles (summary)
 See [Permissions & Roles](#9-permissions--roles) for detail. In short: a course has an
 owner (creator) and can be shared with up to **6 collaborators**, each with a role —
 **owner, admin, editor, reviewer, or viewer** — ranging from full editing to view-only.
@@ -295,6 +340,12 @@ instead of the slide: **PDF Viewer** slides and **Big Statement** slides in vide
 loading a document or a video into every card at once would make the grid slow. The row
 is hidden until the course has at least one slide.
 
+**First-time tour.** The first time you open a course, a short tour points out the
+controls you'll use most: **slide settings**, **AI Assist**, **Generate narration**,
+**Course settings**, **Preview**, and **Share & export**. It takes under a minute and
+you can close it at any point. It appears **once per account** — it won't reappear on
+another device or browser once you've seen it.
+
 **Preview.** Click **Preview** to play the course as a learner would.
 
 **Course styling.** A course-level **font style** setting controls the typography used
@@ -308,6 +359,7 @@ across the course's slides.
 
 **Keywords.** editor, edit course, module tree, canvas, properties panel, autosave,
 save, rearrange slides, reorder slides, move slide to another module, slide sorter,
+editor tour, walkthrough, onboarding, coach marks,
 slide grid, sort view, thumbnails, font style.
 
 ---
@@ -518,6 +570,11 @@ wizard's **Media** step, or via the PDF picker in the editor.
 
 **Steps.** Add a **PDF Viewer** slide → choose a PDF from your Course PDFs, or upload
 one.
+
+**PDFs from the website.** A PDF you attached while starting the course on learnbee.ai
+is saved to your PDF library when the course is created, alongside PDFs you upload in
+the editor — so you can reuse it on a PDF Viewer slide. (Word and PowerPoint files
+uploaded on the website are read for their text instead; no file is kept.)
 
 **Limitations.** Supported PDF size limits and page limits: **TBD**.
 
@@ -905,6 +962,10 @@ translating, cloning, job status.
 **Expected outcome.** A live, narrated course reachable by link, QR, embed, or access
 code.
 
+**Starting on the website instead:** describe the course on **learnbee.ai** → sign up →
+you land back in the wizard, on the step you'd reached, with your answers filled in →
+finish the wizard and **Generate**, then carry on from step 3 above. See [Starting a course on learnbee.ai](#33-starting-a-course-on-learnbeeai).
+
 ### 5.2 Create → export SCORM → upload to LMS
 1. Create and refine the course (as above).
 2. Choose **Export SCORM** (available without publishing).
@@ -1103,6 +1164,30 @@ learner.
   over that module's empty area.
 - **Contact support if:** Reordering still doesn't hold after you reopen the course.
 
+
+---
+
+### 7.9 My details from the website didn't carry over after signing up
+- **Symptoms:** After signing up you see **"This draft has expired"**, **"That link is
+  missing its draft"**, or an empty wizard.
+- **Cause:** Drafts started on learnbee.ai are kept for **24 hours**; after that the
+  link no longer finds anything. A draft can also only be picked up by one account.
+- **Resolution:** Start again on learnbee.ai — it takes a minute — and sign up in the
+  same visit. If you're asked to sign in, use the account you want the course to
+  belong to.
+- **Contact support if:** A draft started less than a day ago says it has expired.
+
+---
+
+### 7.10 My uploaded file isn't in the wizard
+- **Symptoms:** You attached a file on learnbee.ai, but step 2 shows **"We could not
+  reopen your uploaded file"**, or no file.
+- **Cause:** The file couldn't be read back after sign-up (for example, it was damaged,
+  or the connection dropped while it was being fetched).
+- **Resolution:** Add the file again on the **Content** step — everything else you
+  entered is still there.
+- **Contact support if:** The same file fails every time.
+
 ---
 
 ## 8. Errors & Messages
@@ -1271,7 +1356,19 @@ documented and suggest contacting support.
 > High-level, user-facing highlights. Engineering-level detail is intentionally
 > omitted. Dates reflect the project timeline.
 
-**Late August 2026 — newest**
+**September 2026 — newest**
+- **Start your course on learnbee.ai.** Describe your course on the website — title,
+  audience, objective, and whether the content should come from the internet, your own
+  pasted text, or a file — and sign up only when you're ready to generate. You land
+  back in the course wizard with everything filled in.
+- **A short tour of the editor** the first time you open a course, pointing out the
+  controls you'll use most. Shown once per account.
+- **PDFs uploaded on the website are kept in your PDF library**, so you can reuse them
+  like any other PDF.
+- **Moving a slide to another module in the module tree now saves.** Previously the
+  move looked done but was lost when you reopened the course.
+
+**Late August 2026**
 - **Slide sorter.** A new **Slides** view opens a grid of every slide in the course at
   once. Drag a slide to reorder it — including **into another module** — or click one to
   jump straight to editing it. Open it from the **Slides** row under the module list.
