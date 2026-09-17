@@ -1,0 +1,274 @@
+/* Floating "Ask Learnbee AI" button and its chat panel.
+
+   Token fallbacks are spelled out because this component mounts in the root
+   layout, which does not itself import site.css where the tokens are defined.
+
+   Purple is kept for the entry button and a few small accents (the sparkle
+   tiles, the send button, links). The large surfaces — header, bubbles, log —
+   are neutral, so a long answer reads as text rather than as brand colour. */
+
+.ask-fab {
+  position: fixed;
+  right: clamp(16px, 3vw, 28px);
+  bottom: clamp(16px, 3vw, 28px);
+  z-index: 400; /* above page chrome, below the mobile nav overlay at 500 */
+  width: 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--accent, #9333ea);
+  border-radius: 50%;
+  background: var(--text, #181426);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 10px 26px rgba(15, 12, 30, 0.34);
+}
+.ask-fab:focus-visible {
+  outline: 3px solid var(--accent-subtle, #e9d5ff);
+  outline-offset: 4px;
+}
+
+/* Centred by the browser's own dialog centring: the UA gives a modal dialog
+   inset:0 and margin:auto. site.css's `*, *::before, *::after { margin: 0 }`
+   reset wipes that margin out, which pins the dialog to the top-left corner —
+   so it is restored here, along with the UA's fit-content height that stops
+   inset:0 stretching the box to the full viewport.
+   No `display` here: a <dialog> relies on display:none while closed, so setting
+   it would leave the panel on screen permanently. */
+.ask-dialog {
+  margin: auto;
+  height: fit-content;
+  width: min(430px, calc(100vw - 24px));
+  padding: 0;
+  border: 1px solid var(--border, #e5e1ec);
+  border-radius: 18px;
+  background: #fff;
+  color: var(--text, #181426);
+  box-shadow: 0 30px 80px rgba(15, 23, 41, 0.34);
+  overflow: hidden;
+}
+.ask-dialog::backdrop {
+  background: rgba(15, 23, 41, 0.38);
+  backdrop-filter: blur(2px);
+}
+.ask-dialog-inner {
+  display: flex;
+  flex-direction: column;
+  /* A set height, so the panel keeps its shape before the log fills up. */
+  height: min(620px, calc(100vh - 120px));
+}
+
+/* ── Header ── */
+.ask-dialog-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px 16px;
+  background: #fff;
+  border-bottom: 1px solid var(--border, #e5e1ec);
+}
+.ask-head-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: var(--accent-light, #f3e8ff);
+  color: var(--accent, #9333ea);
+}
+.ask-head-text { flex: 1; min-width: 0; }
+.ask-dialog-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--text, #181426);
+}
+.ask-head-sub {
+  margin: 2px 0 0;
+  font-size: 0.77rem;
+  line-height: 1.45;
+  color: var(--text-muted, #6b7280);
+}
+.ask-dialog-close {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted, #6b7280);
+  cursor: pointer;
+  transition: background 0.14s, color 0.14s;
+}
+.ask-dialog-close:hover { background: #f1f2f5; color: var(--text, #181426); }
+
+/* ── Conversation ── */
+.ask-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.ask-log {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 16px;
+  background: #fff;
+}
+.ask-msg { display: flex; align-items: flex-start; gap: 10px; }
+.ask-msg.user { flex-direction: row-reverse; }
+.ask-bubble {
+  max-width: 88%;
+  padding: 14px 16px 11px;
+  border: none;
+  border-radius: 16px;
+  background: #f3f0ea;
+  font-size: 0.88rem;
+  line-height: 1.65;
+}
+/* The visitor's own turn: a cooler fill, right-aligned. */
+.ask-msg.user .ask-bubble {
+  background: #ebedf2;
+  color: var(--text, #181426);
+}
+.ask-bubble-text > *:first-child { margin-top: 0; }
+.ask-bubble-text > *:last-child { margin-bottom: 0; }
+.ask-bubble-text p { margin: 0 0 10px; }
+.ask-bubble-text ul,
+.ask-bubble-text ol { margin: 0 0 10px; padding-left: 20px; }
+.ask-bubble-text li { margin: 3px 0; }
+.ask-bubble-text li::marker { color: #9aa0ab; }
+.ask-bubble-text strong { font-weight: 700; }
+.ask-bubble-text a { color: var(--accent, #9333ea); font-weight: 600; text-decoration: underline; }
+.ask-bubble-text code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: #f1f2f5;
+  font-size: 0.84em;
+}
+.ask-time {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.68rem;
+  color: var(--text-muted, #6b7280);
+}
+.ask-error {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #dc2626;
+}
+
+.ask-typing { display: inline-flex; align-items: center; gap: 4px; padding: 2px 0; }
+.ask-typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9aa0ab;
+  animation: ask-typing-bounce 1.4s ease-in-out infinite;
+}
+.ask-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.ask-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+@keyframes ask-typing-bounce {
+  0%, 60%, 100% { opacity: 0.35; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* ── Starter questions ── */
+.ask-chips {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  overflow-x: auto;
+  background: #fff;
+  border-top: 1px solid var(--border, #e5e1ec);
+  scrollbar-width: none;
+}
+.ask-chips::-webkit-scrollbar { display: none; }
+.ask-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  padding: 7px 12px;
+  border: 1px solid var(--border, #e5e1ec);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--text, #181426);
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.14s, background 0.14s;
+}
+.ask-chip svg { color: var(--amber, #f0a500); flex-shrink: 0; }
+.ask-chip:hover {
+  border-color: #c3c7d1;
+  background: #f1f2f5;
+}
+
+/* ── Composer ── */
+.ask-composer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #fff;
+  border-top: 1px solid var(--border, #e5e1ec);
+}
+.ask-input {
+  flex: 1;
+  min-width: 0;
+  padding: 11px 16px;
+  border: 1px solid var(--border, #e5e1ec);
+  border-radius: 999px;
+  background: #f7f7f9;
+  color: var(--text, #181426);
+  font-size: 0.88rem;
+  font-family: inherit;
+}
+.ask-input::placeholder { color: var(--text-muted, #6b7280); }
+.ask-input:focus {
+  outline: none;
+  border-color: #b9bec9;
+  background: #fff;
+}
+.ask-input:disabled { opacity: 0.6; }
+/* Kept purple: it is the panel's one primary action. */
+.ask-send {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--accent, #9333ea);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.14s, opacity 0.14s;
+}
+.ask-send:hover:not(:disabled) { background: var(--accent-h, #7e22ce); }
+.ask-send:disabled { opacity: 0.4; cursor: not-allowed; }
+.ask-send.stop { background: #6b7280; }
+.ask-send.stop:hover { background: #4b5563; }
+
+@media (max-width: 600px) {
+  .ask-fab { width: 52px; height: 52px; }
+  .ask-dialog { width: calc(100vw - 20px); }
+  .ask-dialog-inner { height: min(560px, calc(100vh - 100px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ask-typing-dot { animation: none; }
+}

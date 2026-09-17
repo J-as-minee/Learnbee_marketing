@@ -408,8 +408,23 @@
   .qc-logo img { height: 38px; }
   .qc-stage { padding: 24px 20px 72px; }
   .qc-cards { grid-template-columns: 1fr; }
-  .qc-row { grid-template-columns: 1fr; gap: 4px; }
+  /* minmax(0, 1fr), not 1fr: a bare 1fr track can't shrink below its content,
+     so a long value on one line pushed the column past the card edge. */
+  .qc-row { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .qc-row dd { text-align: left; }
+  /* Stacked rows have the full width, and a phone can't hover for the tooltip,
+     so long values wrap instead of being clipped. (ClipValue then measures no
+     overflow and shows no tooltip.) */
+  .qc-clip { white-space: normal; overflow-wrap: anywhere; }
+  /* The pair can't sit side by side on a phone; wrapped, they fell onto two
+     lines at different widths. Stack them full width instead, in source order:
+     the secondary above, the primary below where the thumb rests. */
+  .qc-actions { flex-direction: column; align-items: stretch; gap: 12px; }
+  .qc-actions > .qc-btn,
+  .qc-actions > .qc-ghost { width: 100%; justify-content: center; }
+  /* The inline builder's empty placeholder would otherwise take a gap slot. */
+  .qc-actions > span:empty { display: none; }
+  .qc-actions > .qc-note { text-align: center; }
   .qc-panel { padding: 16px; }
   .qc-panel--rows { padding: 2px 16px; }
 }
@@ -450,3 +465,18 @@
   .qc-unlock-arrow { opacity: 1; transform: none; }
   .qc-card:hover, .qc-btn-primary:hover { transform: none; }
 }
+
+/* ── Small touch screens: the laptop note ──
+   Opens from Generate / Customize in place of the sign-up gate (SMALL_TOUCH in
+   QuickCreate.tsx) because the Learnbee editor isn't built for phones yet.
+   Reuses .qc-scrim / .qc-modal; these only lay out its contents. */
+.qc-device { text-align: center; }
+.qc-device-ico {
+  display: inline-grid; place-items: center; width: 60px; height: 60px;
+  border-radius: 18px; background: #F3E8FF; color: var(--purple);
+}
+.qc-modal.qc-device p { margin-bottom: 20px; }
+.qc-modal.qc-device .qc-signin { margin: 14px 0 0; }
+.qc-device-actions { display: flex; flex-direction: column; gap: 10px; }
+.qc-device-actions > .qc-btn,
+.qc-device-actions > .qc-ghost { width: 100%; justify-content: center; }

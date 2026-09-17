@@ -28,13 +28,15 @@ export default function SiteFooter() {
         </div>
         <div className="footer-col">
           <strong>Company</strong>
+          <a href="/about">About Us</a>
+          <a href="/contact">Contact Us</a>
           <a href="/help">Help Centre</a>
           <a href="/privacy">Privacy Policy</a>
           <a href="/terms">Terms &amp; Conditions</a>
         </div>
       </div>
       <div className="footer-bottom container">
-        <span>&copy; 2026 Learnbee. All rights reserved.</span>
+        <span>&copy; 2026 Bsharp Sales Enablers Private Limited. Learnbee is a product of Bsharp.</span>
       </div>
     </footer>
   );

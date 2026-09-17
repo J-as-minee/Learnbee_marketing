@@ -1,0 +1,266 @@
+/* ══════════════════════════════════════
+   CONTACT SECTION — components/landing/ContactSection.tsx
+   Everything is prefixed `cs-`. Colours, type and radius come from the
+   site tokens in site.css so the page matches the rest of learnbee.ai.
+══════════════════════════════════════ */
+
+.cs {
+  --cs-border-h: #d4cde3;
+  --cs-ring: rgba(147, 51, 234, 0.14);
+  position: relative;
+  overflow: hidden;
+  background: var(--bg);
+  /* The nav floats over this page (<SiteNav overlay />), so its height is added back:
+     content stays exactly where it sat below the nav, with the wave behind the top. */
+  padding: calc(142px + var(--nav-h, 62px)) 24px 112px;
+}
+/* Brand wave from the very top of the page — same asset as the About hero. The form
+   card is allowed to overlap it. */
+.cs-wave {
+  position: absolute;
+  /* Pulled above the page top so the wave's crest rides a little higher. */
+  inset: -16px 0 auto 0;
+  height: 380px;
+  background: url("/about-wave.svg") top center / 100% 100% no-repeat;
+  pointer-events: none;
+  z-index: 0;
+}
+.cs-inner {
+  position: relative;
+  z-index: 1;
+  max-width: calc(var(--max-width) - 48px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  /* Row gap carries the spacing that .cs-intro's margin used to. */
+  gap: 26px 60px;
+  /* The form card is the taller column again now the contact tiles have moved
+     to their own section, so the heading block centres against it. */
+  align-items: center;
+  grid-template-areas: "head form";
+}
+.cs-head { grid-area: head; }
+.cs-form-card { grid-area: form; }
+
+/* ── Left ── */
+.cs-title {
+  font-size: 2.9rem;
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 22px;
+}
+.cs-title span { color: var(--accent); }
+.cs-intro {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  max-width: 42ch;
+  margin-bottom: 0;
+}
+
+/* Benefit bullets under the intro. */
+.cs-points { list-style: none; padding: 0; margin: 38px 0 0; }
+.cs-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+/* No trailing gap, so the block stays optically centred against the form. */
+.cs-points li:last-child { margin-bottom: 0; }
+.cs-point-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+}
+
+/* ── Form card ── */
+.cs-form-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(24, 20, 38, 0.08);
+  padding: 38px;
+}
+/* Kept in the layout while the success panel shows, so the card never resizes. */
+.cs-form-body.is-hidden { visibility: hidden; }
+.cs-form-title {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--text);
+}
+.cs-form-sub { font-size: 0.9rem; color: var(--text-muted); margin: 4px 0 26px; }
+
+.cs-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cs-field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; min-width: 0; }
+.cs-field label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.cs-req { color: var(--accent); }
+.cs-input {
+  width: 100%;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--text);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.cs-input::placeholder { color: #a8a3b5; }
+.cs-input:hover { border-color: var(--cs-border-h); }
+.cs-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px var(--cs-ring);
+}
+textarea.cs-input { min-height: 120px; resize: vertical; line-height: 1.55; }
+
+/* Same look as .btn.btn-accent.btn-lg, full width. */
+.cs-submit {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--text, #181426);
+  color: #fff;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+}
+.cs-submit:hover:not(:disabled) { background: #2a2340; }
+.cs-submit:active:not(:disabled) { transform: scale(0.99); }
+.cs-submit:focus-visible { outline: 3px solid var(--accent-subtle); outline-offset: 3px; }
+.cs-submit:disabled { opacity: 0.8; cursor: progress; }
+.cs-arrow { transition: transform 0.2s ease; }
+.cs-submit:hover:not(:disabled) .cs-arrow { transform: translateX(3px); }
+.cs-spin { animation: cs-spin 0.8s linear infinite; }
+
+.cs-error {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #b42318;
+  background: #fef3f2;
+  border: 1px solid #fecdca;
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+
+.cs-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ── Success panel ── */
+.cs-success {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 38px;
+  animation: cs-fade 0.35s ease-out both;
+}
+.cs-success-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+}
+.cs-success h3 {
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 10px;
+  outline: none;
+}
+.cs-success p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--text-muted);
+  max-width: 34ch;
+  margin-bottom: 22px;
+}
+.cs-again {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+}
+.cs-again:hover { color: var(--accent-h); text-decoration: underline; }
+.cs-again:focus-visible { outline: 3px solid var(--accent-subtle); outline-offset: 2px; }
+
+@keyframes cs-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes cs-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-success { animation: none; }
+  .cs-spin { animation-duration: 2.4s; }
+  .cs-input, .cs-submit, .cs-arrow { transition: none; }
+}
+
+@media (max-width: 940px) {
+  .cs { padding: calc(90px + var(--nav-h, 62px)) 20px 80px; }
+  .cs-wave { height: 330px; top: -10px; background-size: 220% 100%; }
+  .cs-inner {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    grid-template-areas:
+      "head"
+      "form";
+  }
+  .cs-intro { max-width: none; }
+}
+@media (max-width: 560px) {
+  .cs-title { font-size: 2.2rem; }
+  .cs-form-card { padding: 26px 20px; border-radius: 18px; }
+  .cs-row { grid-template-columns: 1fr; gap: 0; }
+  .cs-success { padding: 26px 20px; }
+}

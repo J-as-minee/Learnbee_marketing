@@ -21,6 +21,14 @@ const ENTER: Record<TransitionKind, [string, string]> = {
 
 const SIGN_IN = "https://creator.learnbee.ai/sign-in";
 
+/* Phones and portrait tablets. The Learnbee editor isn't built for small touch
+   screens yet, so they can fill in the builder but Generate / Customize show a
+   "use a laptop" note instead of the sign-up gate. Touch only, so a narrow
+   laptop window still works. */
+const SMALL_TOUCH = "(max-width: 1023px) and (pointer: coarse)";
+const LAPTOP_PATH =
+  "M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16";
+
 const SOURCES: { type: DraftSourceType; title: string; sub: string; icon: React.JSX.Element }[] = [
   { type: "internet", title: "Internet", sub: "We research the topic as we build.",
     icon: <path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z" /> },
@@ -192,7 +200,33 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
     go(1, 1);
   }
 
+  /* Link the device note offers, built from the current origin so it points at
+     whichever environment this is. */
+  const [deviceNote, setDeviceNote] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const deviceLink = () => `${window.location.origin}/#create`;
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(deviceLink());
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2400);
+    } catch {
+      window.prompt("Copy this link:", deviceLink());
+    }
+  }
+  function emailLink() {
+    const body = `Create your first course on Learnbee: ${deviceLink()}`;
+    window.location.href =
+      `mailto:?subject=${encodeURIComponent("Create my course on Learnbee")}&body=${encodeURIComponent(body)}`;
+  }
   function openGate(reason: GateReason) {
+    // Never hand a small touch screen to the editor — show the laptop note.
+    if (window.matchMedia(SMALL_TOUCH).matches) {
+      track("quickcreate_device_blocked", { reason });
+      setCopied(false);
+      setDeviceNote(true);
+      return;
+    }
     track("gate_shown", { reason });
     setError(null);
     setGate(reason);
@@ -374,13 +408,11 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
                   {variant === "page"
                     ? <a className="qc-ghost" href="/"><HomeIcon /> Home</a>
                     : <span />}
-                  {/* A disabled button with no reason is a dead end. */}
-                  {!canContinue && (
+                  {/* A disabled button with no reason is a dead end. The required
+                      fields are already starred, so this only covers the source. */}
+                  {!canContinue && topic.trim() && audience.trim() && objective.trim() && (
                     <span className="qc-note">
-                      {!topic.trim() || !audience.trim() || !objective.trim()
-                        ? "Title, audience and objective are all needed."
-                        : source === "paste" ? "Paste your content to continue."
-                        : "Add a file to continue."}
+                      {source === "paste" ? "Paste your content to continue." : "Add a file to continue."}
                     </span>
                   )}
                   <button className="qc-btn qc-btn-solid" onClick={toReview} disabled={!canContinue}>
@@ -449,6 +481,29 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
           </div>
         </main>
       </div>
+
+      {deviceNote && (
+        <div className="qc-scrim" role="dialog" aria-modal="true" aria-labelledby="qc-device-h"
+             onClick={(e) => { if (e.target === e.currentTarget) setDeviceNote(false); }}>
+          <div className="qc-modal qc-device">
+            <span className="qc-device-ico" aria-hidden="true"><Stroke d={LAPTOP_PATH} size={28} /></span>
+            <h2 id="qc-device-h">Finish this on a laptop</h2>
+            <p>
+              Learnbee&apos;s course editor is designed for bigger screens. Open Learnbee on your
+              laptop or desktop to generate and edit your course.
+            </p>
+            <div className="qc-device-actions">
+              <button type="button" className="qc-btn qc-btn-primary" onClick={copyLink}>
+                {copied ? "Link copied" : "Copy link"}
+              </button>
+              <button type="button" className="qc-ghost" onClick={emailLink}>Email me the link</button>
+            </div>
+            <p className="qc-signin">
+              <button type="button" onClick={() => setDeviceNote(false)}>Back to my course</button>
+            </p>
+          </div>
+        </div>
+      )}
 
       {gate && (
         <div className="qc-scrim" role="dialog" aria-modal="true" aria-labelledby="qc-gate-h"

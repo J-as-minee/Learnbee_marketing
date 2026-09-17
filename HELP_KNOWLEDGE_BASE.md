@@ -10,7 +10,7 @@
 > section here. Anything not yet verifiable is marked **To Be Documented (TBD)** —
 > do not replace TBD with assumptions.
 >
-> **Last reviewed:** 2026-09-11 · **Applies to:** Learnbee (web app)
+> **Last reviewed:** 2026-09-17 · **Applies to:** Learnbee (web app)
 
 ---
 
@@ -58,6 +58,7 @@ authoring.
 ### Core use cases
 - Turn reference material (text, PDFs) into a structured, multi-module course with
   AI.
+- Bring slides from an existing PowerPoint deck into a course (beta).
 - Produce narrated courses in multiple languages, including Indian languages.
 - Publish a course online (link, QR code, embed) or export SCORM for an LMS.
 - Reuse and adapt ready-made courses from a curated Library.
@@ -948,6 +949,63 @@ translating, cloning, job status.
 
 ---
 
+### 4.18 Import from PowerPoint (Beta)
+
+**Purpose.** Turn an existing PowerPoint deck into Learnbee slides without rebuilding it
+by hand.
+
+**When to use.** When you already have training material in a `.pptx` deck and want it
+in a Learnbee course, with narration, as quickly as possible.
+
+**How it works.** Import from PowerPoint is in **beta**. You pick a deck and choose which
+slides to bring in; AI then **redesigns each slide** as an **AI Custom Slide**, keeping the
+slide's text, pictures and icons, and writing a narration script (from the speaker notes
+when the deck has them). The result is a Learnbee slide, not a copy of the PowerPoint —
+the layout is redesigned, so always review it.
+- **Keep the deck's look** (default) recreates each slide's own background, colours and
+  shapes. **Use the course theme** styles the slides with your course theme instead.
+- In a course that isn't in English, the slide text and narration are **translated into
+  the course language**. Brand and product names, model numbers and figures are kept as
+  written.
+- Slides are designed a few at a time and **appear in the module one by one, in deck
+  order**, after the slide you had selected. A progress bar at the bottom of the editor
+  shows how many are done, and the editor follows each new slide until you pick another
+  one.
+
+**Steps.** Open **Add slide** → **Create with AI** → **Import from PowerPoint** → choose a
+`.pptx` file → tick the slides you want → choose **Keep the deck's look** or **Use the
+course theme** → **Import**.
+
+**Configuration options.** Which slides to import; **Keep the deck's look** or **Use the
+course theme**.
+
+**Example.** A 12-slide product deck becomes 12 narrated slides in the current module,
+in the same order, in about two minutes.
+
+**Best practices.** Review every imported slide before publishing. Generate the
+**voiceover** afterwards — imports write narration scripts but no audio. Compress large
+pictures in PowerPoint (**File → Compress Pictures**) before importing a big deck.
+
+**Common mistakes.** Expecting an exact copy of the deck; expecting voice audio straight
+away; closing the tab while an import is running (slides not yet added are lost).
+
+**Limitations.**
+- **Beta limits:** up to **25 slides** and **20 MB** per import, and one import at a time.
+- Only `.pptx` files (not older `.ppt`, Keynote or Google Slides — export to `.pptx`
+  first). Password-protected files can't be opened.
+- Videos, audio, tiny icons not next to any text, and some picture formats (EMF/WMF) are
+  not carried over; the slide list tells you what will be left out.
+- A slide that can't be designed is skipped and named when the import finishes — import
+  it again to retry.
+
+**Related.** [AI Custom Slide](#416-ai-custom-slide), [Narration](#45-narration-ai-voiceover),
+[Background jobs & notifications](#417-background-jobs--notifications).
+
+**Keywords.** PowerPoint, PPT, PPTX, import, import deck, upload presentation, convert
+slides, beta, import limit, keep the deck's look.
+
+---
+
 ## 5. Workflows
 
 ### 5.1 Create → narrate → publish (typical journey)
@@ -1062,6 +1120,12 @@ existing templates but won't see a "Save as template" option. See [4.15](#415-te
 A: In the save dialog, set **Save to** → **Update \<name\>**. If the design is identical
 to one already saved, Learnbee detects it and pre-selects *Update* for you, so the
 default action won't create a duplicate. Super users only. See [4.15](#415-templates).
+
+**Q: Can I import my PowerPoint slides?**
+A: Yes, in beta. Open **Add slide** → **Create with AI** → **Import from PowerPoint**,
+choose a `.pptx` file and tick the slides you want. Each slide is redesigned with AI as
+an AI Custom Slide, with a narration script. Up to 25 slides and 20 MB per import; there
+is no daily limit. See [4.18](#418-import-from-powerpoint-beta).
 
 **Q: What is a "Big Play" slide?**
 A: It's the module-tree label for a **Big Statement** slide in **video mode** — the
@@ -1190,6 +1254,19 @@ learner.
 
 ---
 
+### 7.9 Can't import a PowerPoint
+- **Symptoms:** The **Import** button is disabled, or a message says the file is too large
+  or can't be opened.
+- **Cause:** One of the beta limits: the file is over **20 MB**, another import is still
+  running, or the file isn't a readable `.pptx` (for example an older `.ppt` or a
+  password-protected deck).
+- **Resolution:** Compress the deck's pictures in PowerPoint (**File → Compress
+  Pictures**) or split the deck; wait for the running import to finish; save the file as
+  `.pptx` without a password.
+- **Contact support if:** A small, unprotected `.pptx` still can't be opened.
+
+---
+
 ## 8. Errors & Messages
 
 > **"From Link" image import** returns a stable error type for every failure. The
@@ -1212,6 +1289,15 @@ learner.
 - **"ANTHROPIC_API_KEY is not configured on the server."** — An internal
   configuration error in the AI service. **Meaning:** the server can't reach the AI
   provider. **Resolution:** contact support (this is not a user-fixable setting).
+- **"\<file\> is N MB. Imports are limited to 20 MB — try compressing its pictures in
+  PowerPoint (File → Compress Pictures), or split the deck."** — PowerPoint import.
+  **Meaning:** the deck is over the 20 MB beta limit. **Resolution:** compress the
+  pictures or split the deck, then import again.
+- **"This file could not be opened. It may be password-protected, or not a .pptx
+  file."** — PowerPoint import. **Resolution:** save the deck as `.pptx` without a
+  password (older `.ppt`, Keynote and Google Slides files need exporting to `.pptx`).
+- **"An import is already running"** — PowerPoint import. Only one import runs at a
+  time; wait for the progress bar to finish, then start the next one.
 
 > Additional user-visible error messages: **To Be Documented.**
 
@@ -1270,6 +1356,7 @@ request; it does **not** give access to anyone else's courses.
 | **Supported image types** | Common web image formats (exact list **TBD**; output is WebP). |
 | **Supported video sources** | Uploaded video file or YouTube link. |
 | **Devices / browsers** | Plays on modern desktop and mobile browsers. Phones are supported **held either way** — courses have a layout designed for upright (portrait) screens as well as sideways, so learners are no longer asked to rotate their device. Includes iOS fullscreen. Exact browser matrix: **TBD**. |
+| **PowerPoint import (beta)** | `.pptx` only; up to **25 slides** and **20 MB** per import; one import at a time. |
 | **Performance** | SCORM packaging is the main wait (~30–40s); narration is generated once by the creator. |
 
 ---
@@ -1318,6 +1405,7 @@ documented and suggest contacting support.
   not load a document or a video into every card.
 - **Per-course video limit:** 6 uploaded files (25 MB each); YouTube links are
   unlimited and don't count.
+- **PowerPoint import is in beta** and redesigns each slide rather than copying it; imported slides need review and a voiceover. Beta limits: 25 slides and 20 MB per import.
 - **No documented public API** (TBD).
 - **Right-to-left (RTL) / Arabic** support: not available (planned/parked).
 - **Learner tracking beyond SCORM** (e.g. email capture in the hosted player):
@@ -1357,6 +1445,10 @@ documented and suggest contacting support.
 > omitted. Dates reflect the project timeline.
 
 **September 2026 — newest**
+- **Import from PowerPoint (beta).** Bring an existing `.pptx` deck into a course: pick
+  the slides, keep the deck's look or use your course theme, and each slide is redesigned
+  with AI, with a narration script, appearing in the module in deck order. Slides are
+  translated into the course language. Beta limits: 25 slides and 20 MB per import.
 - **Start your course on learnbee.ai.** Describe your course on the website — title,
   audience, objective, and whether the content should come from the internet, your own
   pasted text, or a file — and sign up only when you're ready to generate. You land

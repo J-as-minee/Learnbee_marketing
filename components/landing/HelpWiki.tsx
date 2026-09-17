@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 interface WikiCategory {
   id: string;
   title: string;
+  /* One line under the title in the topic header, as in the reference layout. */
+  blurb: string;
   icon: string;
   items: { q: string; a: string }[];
 }
@@ -13,6 +15,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "getting-started",
     title: "Getting Started",
+    blurb: "Accounts, sign-up, collaborators and what Learnbee does",
     icon: "rocket",
     items: [
       {
@@ -40,6 +43,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "course-wizard",
     title: "Course Wizard",
+    blurb: "The six-step wizard, reference content, depth and quizzes",
     icon: "wand",
     items: [
       {
@@ -67,6 +71,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "slide-formats",
     title: "Slide Formats",
+    blurb: "Every slide format, gating, video and PDF slides",
     icon: "layers",
     items: [
       {
@@ -90,6 +95,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "custom-slides",
     title: "Custom Slides",
+    blurb: "AI-built bespoke layouts and ready-made templates",
     icon: "layout",
     items: [
       {
@@ -113,6 +119,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "narration",
     title: "Narration & Voices",
+    blurb: "Voices, scripts, click mode and auto-advance",
     icon: "mic",
     items: [
       {
@@ -144,6 +151,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "images-media",
     title: "Images & Media",
+    blurb: "Image picker, cover vs contain, video and YouTube",
     icon: "image",
     items: [
       {
@@ -171,6 +179,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "publishing",
     title: "Publishing & Sharing",
+    blurb: "Access codes, share links, embeds and mobile playback",
     icon: "link",
     items: [
       {
@@ -198,6 +207,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "scorm",
     title: "SCORM Export",
+    blurb: "Exporting, packaging time and what your LMS tracks",
     icon: "package",
     items: [
       {
@@ -225,6 +235,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "collaboration",
     title: "Collaboration",
+    blurb: "Invites, roles, review comments and AI fixes",
     icon: "users",
     items: [
       {
@@ -248,6 +259,7 @@ const WIKI: WikiCategory[] = [
   {
     id: "translate",
     title: "Translate",
+    blurb: "Linked copies, 16 languages and the language rules",
     icon: "globe",
     items: [
       {
@@ -292,66 +304,36 @@ function TopicIcon({ icon, size = 18 }: { icon: string; size?: number }) {
 }
 
 export default function HelpWiki() {
+  /* The sidebar picks which topic the right-hand column shows. Only that topic's
+     questions are rendered, so there is nothing to scroll-spy or jump to. */
   const [active, setActive] = useState(WIKI[0].id);
-  const [highlight, setHighlight] = useState<string | null>(null);
-  const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Scroll-spy: highlight the sidebar item for the topic currently in view.
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActive(visible[0].target.id.replace("topic-", ""));
-      },
-      { rootMargin: "-25% 0px -65% 0px", threshold: 0 }
-    );
-    WIKI.forEach((c) => {
-      const el = document.getElementById(`topic-${c.id}`);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  const goToTopic = (id: string) => {
-    document.getElementById(`topic-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setActive(id); // reflect the clicked topic immediately, before scroll-spy catches up
-    setHighlight(id);
-    if (highlightTimer.current) clearTimeout(highlightTimer.current);
-    highlightTimer.current = setTimeout(() => setHighlight(null), 1800);
-  };
-
-  const goToChat = () => {
-    document.querySelector(".help-hero")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const current = WIKI.find((c) => c.id === active) ?? WIKI[0];
 
   return (
     <section className="help-wiki-section" id="topics">
       <div className="container">
         <div className="help-wiki-header">
-          <span className="section-label">HELP TOPICS</span>
-          <h2 className="help-wiki-headline">Browse by topic</h2>
+          <span className="section-label">Knowledge base</span>
+          <h2 className="help-wiki-headline">Browse by Topic &amp; Category</h2>
+          <p className="help-wiki-sub">
+            Explore {WIKI.length} curated categories covering every feature in Learnbee.
+          </p>
         </div>
 
         <div className="help-wiki-layout">
-          {/* Sticky sidebar — self-route to any topic, or jump back to the AI chat */}
+          {/* Sticky category panel — pick a topic */}
           <aside className="help-wiki-nav">
-            <div className="help-wiki-nav-sticky">
-              <button type="button" className="help-wiki-nav-ask" onClick={goToChat}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <path d="M13 2L4.5 13.5H11l-1 8.5L19.5 10H13l0-8z" />
-                </svg>
-                Ask Learnbee AI
-              </button>
+            <div className="help-wiki-panel">
+              <p className="help-wiki-panel-head">Help categories</p>
               <ul className="help-wiki-nav-list">
                 {WIKI.map((c) => (
                   <li key={c.id}>
                     <button
                       type="button"
                       className={`help-wiki-nav-item${active === c.id ? " active" : ""}`}
-                      onClick={() => goToTopic(c.id)}
+                      onClick={() => setActive(c.id)}
                       aria-current={active === c.id ? "true" : undefined}
+                      aria-controls="help-topic-panel"
                     >
                       <TopicIcon icon={c.icon} size={16} />
                       {c.title}
@@ -362,30 +344,34 @@ export default function HelpWiki() {
             </div>
           </aside>
 
-          {/* Topic stack */}
-          <div className="help-wiki-content">
-            {WIKI.map((cat) => (
-              <div
-                key={cat.id}
-                id={`topic-${cat.id}`}
-                className={`help-wiki-topic${highlight === cat.id ? " help-wiki-topic--glow" : ""}`}
-              >
-                <div className="help-wiki-card-head">
-                  <span className="help-wiki-icon" aria-hidden="true">
-                    <TopicIcon icon={cat.icon} />
-                  </span>
-                  <h3 className="help-wiki-title">{cat.title}</h3>
-                </div>
-                <div className="help-wiki-items">
-                  {cat.items.map((item, i) => (
-                    <details key={i} className="help-wiki-detail">
-                      <summary className="help-wiki-q">{item.q}</summary>
-                      <p className="help-wiki-a">{item.a}</p>
-                    </details>
-                  ))}
+          {/* Questions for the selected topic only */}
+          <div
+            className="help-wiki-content"
+            id="help-topic-panel"
+            role="region"
+            aria-label={`${current.title} questions`}
+          >
+            {/* key: re-mounts on topic change, so open questions collapse rather
+                than carrying over to the next topic. */}
+            <div key={current.id} className="help-wiki-topic">
+              <div className="help-wiki-topic-head">
+                <span className="help-wiki-icon" aria-hidden="true">
+                  <TopicIcon icon={current.icon} size={20} />
+                </span>
+                <div className="help-wiki-topic-meta">
+                  <h3 className="help-wiki-title">{current.title}</h3>
+                  <p className="help-wiki-blurb">{current.blurb}</p>
                 </div>
               </div>
-            ))}
+              <div className="help-wiki-items">
+                {current.items.map((item, i) => (
+                  <details key={i} className="help-wiki-detail">
+                    <summary className="help-wiki-q">{item.q}</summary>
+                    <p className="help-wiki-a">{item.a}</p>
+                  </details>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

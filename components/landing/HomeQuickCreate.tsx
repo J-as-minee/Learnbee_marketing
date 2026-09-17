@@ -12,8 +12,13 @@ import "@/app/create/create.css";
  * and a section sitting in the DOM on every home page load would report a
  * funnel opening for every visitor who never touched it.
  *
- * The buttons stay real links to /create, and this intercepts the click — so
- * the flow still works with JavaScript off, it just lands on the page version.
+ * The buttons are real links to /#create, and this intercepts the click. They
+ * deliberately never point at the /create page: a cmd-click, or a click before
+ * hydration, lands here too, where the hash handler below opens the builder.
+ *
+ * It also opens when the address is /#create, which is how other pages (About's
+ * "Try now") link straight to it. That is still an explicit request to create,
+ * so the analytics event it fires on mount stays honest.
  */
 export default function HomeQuickCreate() {
   const [open, setOpen] = useState(false);
@@ -38,7 +43,18 @@ export default function HomeQuickCreate() {
       reveal();
     };
     document.addEventListener("click", onClick);
-    return () => document.removeEventListener("click", onClick);
+
+    // Arriving at /#create, or following a #create link while already here.
+    const onHash = () => {
+      if (window.location.hash === "#create") reveal();
+    };
+    onHash();
+    window.addEventListener("hashchange", onHash);
+
+    return () => {
+      document.removeEventListener("click", onClick);
+      window.removeEventListener("hashchange", onHash);
+    };
   }, [reveal]);
 
   return (

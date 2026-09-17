@@ -128,6 +128,7 @@ export default function Hero() {
     <section className="hero" ref={heroRef}>
       <div className="hero-grid" aria-hidden="true"></div>
       <div className="hero-glow" aria-hidden="true" ref={glowRef}></div>
+      <div className="hero-wave" aria-hidden="true"></div>
       <div className="container hero-inner">
         <span className="section-label reveal">BUILT FOR L&amp;D TEAMS</span>
         <h1 className="reveal reveal-d1">
@@ -138,7 +139,7 @@ export default function Hero() {
           narrated course — in any of 16 languages — then exports it anywhere, no LMS required.
         </p>
         <div className="hero-actions reveal reveal-d3">
-          <a href="/create" data-open-create className="btn btn-white btn-lg">Get Started for Free</a>
+          <a href="/#create" data-open-create className="btn btn-white btn-lg">Get Started for Free</a>
           <a href="#features" className="btn btn-outline-light btn-lg">See How It Works</a>
         </div>
       </div>

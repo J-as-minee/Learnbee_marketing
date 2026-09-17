@@ -1,44 +1,16 @@
 "use client";
 
 import { useState, useRef, useEffect, FormEvent } from "react";
-import { remark } from "remark";
-import remarkGfm from "remark-gfm";
-import remarkRehype from "remark-rehype";
-import rehypeStringify from "rehype-stringify";
-
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-}
-
-// Markdown → HTML for the streamed answer. Sync so it re-renders on each chunk.
-// remark-rehype drops raw HTML by default, so AI output can't inject markup.
-const mdProcessor = remark().use(remarkGfm).use(remarkRehype).use(rehypeStringify);
-function renderMarkdown(src: string): string {
-  try {
-    return String(mdProcessor.processSync(src));
-  } catch {
-    return src;
-  }
-}
-
-const SUGGESTED = [
-  "How do I create a course?",
-  "How do I export to SCORM?",
-  "Can I change the course language?",
-  "How does narration work?",
-  "Do learners need an account?",
-  "How do I invite collaborators?",
-];
+import { SUGGESTED, renderMarkdown, useAskAi } from "./askAi";
+import "@/app/help-chat.css";
 
 export default function HelpChat() {
+  /* Streaming, history and the endpoint contract are shared with the floating
+     assistant panel; only this search-bar presentation is local. */
+  const { history, streaming, error, ask, stop, reset: resetChat } = useAskAi();
   const [input, setInput] = useState("");
-  const [history, setHistory] = useState<Message[]>([]);
-  const [streaming, setStreaming] = useState(false);
-  const [error, setError] = useState("");
   const responseRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const abortRef = useRef<AbortController | null>(null);
 
   // Scroll response into view when it appears
   useEffect(() => {
@@ -47,69 +19,16 @@ export default function HelpChat() {
     }
   }, [history.length]);
 
-  async function ask(question: string) {
-    if (!question.trim() || streaming) return;
-    setError("");
-
-    const userMsg: Message = { role: "user", content: question };
-    const assistantMsg: Message = { role: "assistant", content: "" };
-    setHistory((h) => [...h, userMsg, assistantMsg]);
-    setInput("");
-    setStreaming(true);
-
-    abortRef.current?.abort();
-    const ctrl = new AbortController();
-    abortRef.current = ctrl;
-
-    try {
-      const res = await fetch("/api/help/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: question,
-          history: history.map((m) => ({ role: m.role, content: m.content })),
-        }),
-        signal: ctrl.signal,
-      });
-
-      if (!res.ok) throw new Error(await res.text());
-
-      const reader = res.body!.getReader();
-      const dec = new TextDecoder();
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = dec.decode(value, { stream: true });
-        setHistory((h) => {
-          const next = [...h];
-          next[next.length - 1] = {
-            ...next[next.length - 1],
-            content: next[next.length - 1].content + chunk,
-          };
-          return next;
-        });
-      }
-    } catch (e: unknown) {
-      if ((e as { name?: string }).name === "AbortError") return;
-      setError("Something went wrong. Please try again.");
-      setHistory((h) => h.slice(0, -2));
-    } finally {
-      setStreaming(false);
-    }
-  }
-
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    ask(input);
+    const q = input;
+    setInput("");
+    ask(q);
   }
 
   function reset() {
-    abortRef.current?.abort();
-    setHistory([]);
+    resetChat();
     setInput("");
-    setError("");
-    setStreaming(false);
     setTimeout(() => inputRef.current?.focus(), 50);
   }
 
@@ -137,7 +56,7 @@ export default function HelpChat() {
             aria-label="Ask a question"
           />
           {streaming ? (
-            <button type="button" className="help-search-btn stop" onClick={() => abortRef.current?.abort()}>
+            <button type="button" className="help-search-btn stop" onClick={stop}>
               Stop
             </button>
           ) : (

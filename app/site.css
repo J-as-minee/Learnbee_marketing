@@ -73,6 +73,8 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 
 .btn-accent  { background: var(--accent); color: #fff; }
 .btn-accent:hover { background: var(--accent-h); }
+.btn-dark { background: var(--text, #181426); color: #fff; }
+.btn-dark:hover { background: #2a2340; }
 
 .btn-white { background: #fff; color: var(--accent); font-weight: 700; }
 .btn-white:hover { background: #f5edff; }
@@ -104,16 +106,26 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   z-index: 200;
 }
 
+/* Floating header (opt-in via <SiteNav overlay />): fixed, so it stays at the top while
+   scrolling, and out of the page flow so the hero (and its wave) starts at the very top
+   behind it. Keeps .site-header's solid white and border. */
+.site-header--overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
 .nav { display: flex; align-items: center; height: var(--nav-h); }
 
 .logo {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  margin-right: 32px;
+  margin-right: 16px;
 }
 
-.nav-links { display: flex; list-style: none; gap: 2px; flex: 1; align-items: center; justify-content: flex-start; }
+.nav-links { display: flex; list-style: none; gap: 2px; flex: 1; align-items: center; justify-content: center; }
 .nav-item { position: relative; }
 
 .nav-btn {
@@ -149,8 +161,21 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .dropdown-item:hover { background: var(--accent-light); color: var(--accent); }
 
 .nav-actions { display: flex; align-items: center; gap: 18px; flex-shrink: 0; margin-left: auto; }
+/* Chip-shaped. The element selector keeps this ahead of .btn.btn-accent's
+   radius regardless of source order. */
+.nav-actions a.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 9px 20px;
+}
+.nav-cta svg { transition: transform 0.18s ease; }
+.nav-cta:hover svg { transform: translateX(3px); }
 .nav-login { font-size: 0.875rem; font-weight: 500; color: var(--text-muted); transition: color 0.15s; white-space: nowrap; }
 .nav-login:hover { color: var(--text); }
+.nav-mobile-only { display: none; }
 
 .nav-toggle {
   display: none; flex-direction: column; justify-content: center; gap: 5px;
@@ -213,6 +238,9 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .hero-letter.out { animation: letterOut 0.2s forwards; }
 
 /* ── Interactive grid glow ── */
+/* Phone-only brand wave; switched on in the 700px block. */
+.hero-wave { display: none; }
+
 .hero-glow {
   position: absolute; inset: 0; z-index: 1;
   pointer-events: none;
@@ -950,20 +978,6 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .trust-card p { font-size: 0.85rem; color: rgba(255,255,255,0.50); line-height: 1.65; }
 
 
-/* ══════════════════════════════════════
-   CTA BAND
-══════════════════════════════════════ */
-.cta-band { background: var(--dark); padding: 90px 0; position: relative; overflow: hidden; }
-.cta-grid {
-  position: absolute; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='52' height='90' viewBox='0 0 52 90'%3E%3Cpath d='M26 0L52 15L52 45L26 60L0 45L0 15ZM26 60L26 90' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='1'/%3E%3C/svg%3E");
-  background-size: 52px 90px;
-  pointer-events: none;
-}
-.cta-band-inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px; position: relative; z-index: 2; }
-.cta-text h2 { font-size: 2.6rem; color: #fff; letter-spacing: -0.03em; max-width: 620px; margin: 0 auto 8px; }
-.cta-text p { color: rgba(255,255,255,0.42); font-size: 0.95rem; }
-.cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
 
 /* ══════════════════════════════════════
@@ -974,7 +988,7 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .footer-logo { display: inline-flex; margin-bottom: 12px; }
 .logo-img { height: 36px; width: auto; display: block; }
 .logo-img-footer { height: 30px; }
-.footer-mission { font-size: 0.84rem; color: rgba(255,255,255,0.30); line-height: 1.65; margin-bottom: 18px; max-width: 270px; }
+.footer-mission { font-size: 0.84rem; color: rgba(255,255,255,0.62); line-height: 1.65; margin-bottom: 18px; max-width: 270px; }
 .footer-social { display: flex; gap: 9px; }
 .footer-social a {
   width: 31px; height: 31px; border: 1px solid var(--border-dark); border-radius: 7px;
@@ -984,14 +998,14 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 .footer-social a:hover { background: rgba(255,255,255,0.07); color: #fff; }
 
 .footer-col { display: flex; flex-direction: column; gap: 9px; }
-.footer-col strong { font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
-.footer-col a { font-size: 0.84rem; color: rgba(255,255,255,0.32); transition: color 0.15s; }
-.footer-col a:hover { color: rgba(255,255,255,0.80); }
+.footer-col strong { font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.68); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+.footer-col a { font-size: 0.84rem; color: rgba(255,255,255,0.72); transition: color 0.15s; }
+.footer-col a:hover { color: #8b5cf6; }
 
-.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; font-size: 0.77rem; color: rgba(255,255,255,0.22); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding: 18px 24px; font-size: 0.77rem; color: rgba(255,255,255,0.55); }
 .footer-legal { display: flex; gap: 18px; }
-.footer-legal a { color: rgba(255,255,255,0.22); }
-.footer-legal a:hover { color: rgba(255,255,255,0.55); }
+.footer-legal a { color: rgba(255,255,255,0.55); }
+.footer-legal a:hover { color: #8b5cf6; }
 
 
 /* ══════════════════════════════════════
@@ -1007,29 +1021,45 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 
 @media (max-width: 700px) {
   .nav-links { display: none; }
-  .nav-login { display: none; }               /* moves into the hamburger context; keep the CTA visible */
+  .nav-login { display: none; }               /* lives in the hamburger menu instead */
   .nav-actions { gap: 10px; }
   .nav-actions .btn { padding: 8px 15px; font-size: 0.85rem; }
   .nav-toggle { display: flex; }
   .nav-links.open {
-    display: flex; flex-direction: column; position: fixed;
+    /* A column: align-items is the horizontal axis here, so stretch the rows
+       full width instead of inheriting the desktop bar's centring. */
+    display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; position: fixed;
     top: var(--nav-h); left: 0; right: 0; bottom: 0; background: #ffffff;
     padding: 10px 20px 40px; overflow-y: auto; z-index: 199; gap: 0;
     border-top: 1px solid var(--border);
   }
   .nav-links.open .nav-item { border-bottom: 1px solid var(--border); }
+  .nav-links.open .nav-mobile-only { display: block; }
   .nav-links.open .nav-btn { width: 100%; padding: 16px 0; font-size: 1rem; color: var(--text); justify-content: space-between; }
   .nav-links.open .dropdown { position: static; opacity: 1; pointer-events: auto; transform: none; box-shadow: none; background: transparent; border: none; padding: 0 0 10px 20px; }
 
   .hero { padding: 70px 0 60px; }
   .hero-inner h1 { font-size: 2.2rem; }
+  /* Brand wave behind the top of the hero, phones only — same asset and size as
+     About, Contact and Help. The nav here is sticky rather than floating, so the
+     wave is pulled up by the nav's height to sit behind it the way it does there. */
+  .hero-wave {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(-10px - var(--nav-h, 62px));
+    height: 330px;
+    background: url("/about-wave.svg") top center / 220% 100% no-repeat;
+    pointer-events: none;
+    z-index: 1;
+  }
 
   .feature-grid { grid-template-columns: 1fr; }
   .diff-row { grid-template-columns: 1fr; }
   .diff-row-head { display: none; }
   .diff-cell { border-left: none; border-top: 1px solid var(--border); }
 
-  .cta-text h2 { font-size: 1.6rem; }
 
   .footer-inner { grid-template-columns: 1fr; gap: 32px; }
   .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
@@ -1168,7 +1198,12 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
 }
 
 /* ── Right: sticky detail card ── */
-.wnc-aside { position: sticky; top: calc(var(--nav-h) + 24px); }
+/* The card rests vertically centred beside the chips: the aside fills the row
+   and centres it. Stickiness moves to the card itself, so it still stays on
+   screen when the chips column is taller than the viewport. (align-self:center
+   on a sticky aside would start mid-column, then snap to the top on scroll.) */
+.wnc-aside { align-self: stretch; display: flex; flex-direction: column; justify-content: center; }
+.wnc-aside .wnc-card { position: sticky; top: calc(var(--nav-h) + 24px); }
 .wnc-card {
   /* Two-stop near-white purple wash — no single token expresses it. */
   background: linear-gradient(178deg, #fbfafe 0%, #f5f3fa 100%);
@@ -1218,7 +1253,9 @@ h1, h2, h3 { line-height: 1.15; font-weight: 800; }
   .wnc-layout { grid-template-columns: 1fr; gap: 16px; }
   /* Card leads on small screens and pins to the very top: the chips are the
      thing being scrolled, so the detail needs to stay on screen. */
-  .wnc-aside { order: -1; width: auto; top: var(--nav-h); z-index: 5; background: var(--bg); padding: 8px 0 6px; }
+  .wnc-aside { order: -1; width: auto; position: sticky; display: block; align-self: auto; top: var(--nav-h); z-index: 5; background: var(--bg); padding: 8px 0 6px; }
+  /* On phones the whole aside is the sticky strip, so the card goes back in flow. */
+  .wnc-aside .wnc-card { position: static; }
   .wnc-card { padding: 18px 20px 20px; border-radius: 16px; }
   .wnc-group { grid-template-columns: 1fr; gap: 8px; }
   .wnc-rail { padding-top: 0; }

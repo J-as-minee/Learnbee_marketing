@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" preserveAspectRatio="none" aria-hidden="true">
+  <!-- Derived from learnbee_theme_wave.svg: flipped so the waves hang from the top,
+       white backing removed, and stretched to any width. -->
+  <defs>
+    <linearGradient id="lw1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9333EA"/>
+      <stop offset="100%" stop-color="#F0A500"/>
+    </linearGradient>
+    <linearGradient id="lw2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#F0A500"/>
+    </linearGradient>
+    <linearGradient id="lw3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ede9fe"/>
+      <stop offset="100%" stop-color="#fdecc8"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(0 320) scale(1 -1)">
+    <path d="M0 240 C 120 190, 240 280, 360 230 C 480 180, 570 260, 680 220 L 680 320 L 0 320 Z" fill="url(#lw3)" opacity="0.9"/>
+    <path d="M0 210 C 110 250, 230 160, 360 200 C 480 240, 580 165, 680 195 L 680 320 L 0 320 Z" fill="url(#lw2)" opacity="0.4"/>
+    <path d="M0 180 C 100 130, 220 230, 350 185 C 470 145, 560 210, 680 165 L 680 320 L 0 320 Z" fill="url(#lw1)" opacity="0.22"/>
+  </g>
+</svg>

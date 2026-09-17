@@ -20,7 +20,7 @@ function modalInner(f: Feature): string {
     <ul class="fmod-bullets">
       ${f.checks.map((c) => `<li style="--fc:${f.ic}">${c}</li>`).join("")}
     </ul>
-    <a href="/create" class="btn btn-accent fmod-cta">Get Started</a>`;
+    <a href="/#create" data-open-create class="btn btn-accent fmod-cta">Get Started</a>`;
 }
 
 export default function FeaturesSection() {
@@ -100,6 +100,18 @@ export default function FeaturesSection() {
           <div
             id="feat-modal-inner"
             dangerouslySetInnerHTML={{ __html: open !== null ? modalInner(featData[open]) : "" }}
+            onClick={(e) => {
+              /* "Get Started" opens the homepage builder (HomeQuickCreate, via
+                 data-open-create). Close the modal first, and release its scroll
+                 lock synchronously rather than waiting for the effect: React's
+                 root listener runs before HomeQuickCreate's document listener,
+                 so the builder can then scroll into view. */
+              if ((e.target as HTMLElement).closest(".fmod-cta")) {
+                document.documentElement.style.overflow = "";
+                document.body.style.overflow = "";
+                setOpen(null);
+              }
+            }}
           />
         </div>
       </div>

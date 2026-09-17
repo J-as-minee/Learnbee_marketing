@@ -4,9 +4,9 @@ import "../help.css";
 import SiteNav from "@/components/landing/SiteNav";
 import SiteFooter from "@/components/landing/SiteFooter";
 import HelpChat from "@/components/landing/HelpChat";
-import HelpHeroBg from "@/components/landing/HelpHeroBg";
 import HelpWiki from "@/components/landing/HelpWiki";
 import HelpGuides from "@/components/landing/HelpGuides";
+import WaveCta from "@/components/landing/WaveCta";
 
 export const metadata: Metadata = {
   title: "Help Centre — Learnbee",
@@ -16,15 +16,17 @@ export const metadata: Metadata = {
 export default function HelpPage() {
   return (
     <>
-      <SiteNav />
+      <SiteNav overlay />
 
       {/* Hero */}
       <section className="help-hero">
-        <HelpHeroBg />
+        {/* Brand wave from the very top of the page — same asset as About and Contact */}
+        <div className="help-wave" aria-hidden="true" />
         <div className="help-inner">
           <span className="section-label">Help Centre</span>
           <h1>
-            Got a question?{" "}
+            Got a question?
+            <br />
             <span className="accent">We&apos;ve got answers.</span>
           </h1>
           <p className="help-body">
@@ -43,17 +45,10 @@ export default function HelpPage() {
       <HelpWiki />
 
       {/* Still stuck */}
-      <section className="help-contact-band">
-        <div className="container help-contact-inner">
-          <div>
-            <h3 className="help-contact-title">Still need help?</h3>
-            <p className="help-contact-sub">
-              Our team usually replies within a few hours. Email us at{" "}
-              <a href="mailto:admin@learnbee.ai">admin@learnbee.ai</a>.
-            </p>
-          </div>
-        </div>
-      </section>
+      <WaveCta id="help-still-title" title="Still need help?">
+        Our team usually replies within a few hours. Email us at{" "}
+        <a href="mailto:admin@learnbee.ai">admin@learnbee.ai</a>.
+      </WaveCta>
 
       <SiteFooter />
     </>

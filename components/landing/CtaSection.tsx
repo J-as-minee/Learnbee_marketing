@@ -1,17 +1,23 @@
+import WaveCta from "./WaveCta";
+
+/* Homepage closing call to action — the shared wave card. */
 export default function CtaSection() {
   return (
-    <section className="cta-band">
-      <div className="cta-grid" aria-hidden="true"></div>
-      <div className="container cta-band-inner">
-        <div className="cta-text reveal">
-          <h2>Get started with Learnbee</h2>
-          <p>Start from a document, a topic, or a blank page. Your first course can be live today.</p>
-        </div>
-        <div className="cta-actions reveal reveal-d2">
-          <a href="/create" data-open-create className="btn btn-white btn-lg">Get Started for Free</a>
-          <a href="#features" className="btn btn-outline-light btn-lg">See How It Works</a>
-        </div>
-      </div>
-    </section>
+    <WaveCta
+      id="cta-title"
+      title="Create your first course with Learnbee"
+      actions={
+        <>
+          {/* data-open-create: HomeQuickCreate opens the inline builder in place.
+              The href is /#create, never /create, so a cmd-click or a click
+              before hydration still lands on the homepage builder. */}
+          <a href="/#create" data-open-create className="cp-cta">Create for free</a>
+          <a href="#features" className="cp-cta cp-cta--ghost">See how it works</a>
+        </>
+      }
+    >
+      Start with a document, a topic, or a blank page. Turn your ideas and existing content into an
+      engaging course in minutes.
+    </WaveCta>
   );
 }
