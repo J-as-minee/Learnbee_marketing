@@ -214,11 +214,6 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
       window.prompt("Copy this link:", deviceLink());
     }
   }
-  function emailLink() {
-    const body = `Create your first course on Learnbee: ${deviceLink()}`;
-    window.location.href =
-      `mailto:?subject=${encodeURIComponent("Create my course on Learnbee")}&body=${encodeURIComponent(body)}`;
-  }
   function openGate(reason: GateReason) {
     // Never hand a small touch screen to the editor — show the laptop note.
     if (window.matchMedia(SMALL_TOUCH).matches) {
@@ -496,7 +491,6 @@ export default function QuickCreate({ variant = "page" }: { variant?: "page" | "
               <button type="button" className="qc-btn qc-btn-primary" onClick={copyLink}>
                 {copied ? "Link copied" : "Copy link"}
               </button>
-              <button type="button" className="qc-ghost" onClick={emailLink}>Email me the link</button>
             </div>
             <p className="qc-signin">
               <button type="button" onClick={() => setDeviceNote(false)}>Back to my course</button>
